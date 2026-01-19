@@ -1,0 +1,192 @@
+on rightclick on entity:
+	if entity's name is "&1만물상 &5개복치":
+		cancel event
+		open chest with 3 row named "&5&l만물상메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to purple stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to purple stained glass pane
+			add 1 to {_slot}
+		set slot 10 of current inventory of player to shears with custom model data 7 named "&a&l만물상점" with lore "&9&l누르면 만물 상점이 열립니다"
+		set slot 13 of current inventory of player to quartz with custom model data 8 named "&a&l강화석 상점" with lore "&9&l누르면 강화석상점1이 열립니다"
+		set slot 16 of current inventory of player to paper with custom model data 8 named "&a&l코인상점" with lore "&9&l누르면 코인상점이 열립니다"
+
+on inventory click:
+	if inventory name is "&5&l만물상메뉴":
+		if clicked raw slot is smaller than 27:
+			cancel event
+			if clicked slot is 10:
+				play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+				open chest with 3 row named "&5&l만물상점" to player
+				set {_slot} to 0
+				loop 10 times:
+					set slot {_slot} of current inventory of player to purple stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 18
+				loop 27 times:
+					set slot {_slot} of current inventory of player to purple stained glass pane
+					add 1 to {_slot}
+				set slot 9 and 17 of current inventory of player to black stained glass pane
+				set slot 10 of current inventory of player to chest named "&d[&e랜덤상자&d]" with lore "&a구매가격 : 100원" and "&b랜덤으로 보상을 지급!"
+				set slot 11 of current inventory of player to prismarine crystals with custom model data 7 named "&6행운석 &d(1 단계)" with lore "&a구매가격 : 10원" and "&b아이템 강화하는데 쓰입니다." and "&e 5%% 증가"
+				set slot 12 of current inventory of player to shears with custom model data 7 named "&d&l[&b하락방지서&d&l]" with lore "&a구매가격 : 10원" and "&b아이템를 보호하는데 쓰입니다." and "&e강화 실패시 단계보호가 적용됩니다."
+				set slot 13 of current inventory of player to shears with custom model data 8 named "&d&l[&c파괴방지서&d&l]" with lore "&a구매가격 : 10원" and "&b아이템를 보호하는데 쓰입니다." and "&e승단 실패시 파괴보호가 적용됩니다."
+				set slot 14 of current inventory of player to stick named "&d엘릭서" with lore "&a구매가격 : 100원" and "&b체력을 전부 회복시켜 줍니다."
+				set slot 15 of current inventory of player to stick named "&c회복물약&f(대)" with lore "&a구매가격 : 50원" and "&b체력을 10칸 회복시켜 줍니다."
+				set slot 16 of current inventory of player to stick named "&c회복물약&f(소)" with lore "&a구매가격 : 10원" and "&b체력을 5칸 회복시켜 줍니다."
+			if clicked slot is 13:
+				play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+				open chest with 6 row named "&5&l강화석 상점" to player
+				set {_slot} to 0
+				loop 10 times:
+					set slot {_slot} of current inventory of player to purple stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 44
+				loop 54 times:
+					set slot {_slot} of current inventory of player to purple stained glass pane
+					add 1 to {_slot}
+				set slot 9 and 17 and 18 and 26 and 27 and 35 and 36 and 44 of current inventory of player to black stained glass pane
+				set slot 10 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(1 단계)" with lore "&a구매가격 : 100원" and "&b0단계 아이템을 강화하는데 쓰입니다."
+				set slot 11 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(2 단계)" with lore "&a구매가격 : 100원" and "&b1단계 아이템을 강화하는데 쓰입니다."
+				set slot 12 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(3 단계)" with lore "&a구매가격 : 100원" and "&b2단계 아이템을 강화하는데 쓰입니다."
+				set slot 13 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(4 단계)" with lore "&a구매가격 : 120원" and "&b3단계 아이템을 강화하는데 쓰입니다."
+				set slot 14 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(5 단계)" with lore "&a구매가격 : 120원" and "&b4단계 아이템을 강화하는데 쓰입니다."
+				set slot 15 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(6 단계)" with lore "&a구매가격 : 120원" and "&b5단계 아이템을 강화하는데 쓰입니다."
+				set slot 16 of current inventory of player to quartz with custom model data 7 named "&6강화석α &d(7 단계)" with lore "&a구매가격 : 120원" and "&b6단계 아이템을 강화하는데 쓰입니다."
+				set slot 19 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(1 단계)" with lore "&a구매가격 : 150원" and "&b0단계 아이템을 강화하는데 쓰입니다."
+				set slot 20 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(2 단계)" with lore "&a구매가격 : 150원" and "&b1단계 아이템을 강화하는데 쓰입니다."
+				set slot 21 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(3 단계)" with lore "&a구매가격 : 150원" and "&b2단계 아이템을 강화하는데 쓰입니다."
+				set slot 22 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(4 단계)" with lore "&a구매가격 : 180원" and "&b3단계 아이템을 강화하는데 쓰입니다."
+				set slot 23 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(5 단계)" with lore "&a구매가격 : 180원" and "&b4단계 아이템을 강화하는데 쓰입니다."
+				set slot 24 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(6 단계)" with lore "&a구매가격 : 180원" and "&b5단계 아이템을 강화하는데 쓰입니다."
+				set slot 25 of current inventory of player to quartz with custom model data 8 named "&6강화석β &d(7 단계)" with lore "&a구매가격 : 180원" and "&b6단계 아이템을 강화하는데 쓰입니다."
+				set slot 28 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(1 단계)" with lore "&a구매가격 : 200원" and "&b0단계 아이템을 강화하는데 쓰입니다."
+				set slot 29 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(2 단계)" with lore "&a구매가격 : 200원" and "&b1단계 아이템을 강화하는데 쓰입니다."
+				set slot 30 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(3 단계)" with lore "&a구매가격 : 200원" and "&b2단계 아이템을 강화하는데 쓰입니다."
+				set slot 31 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(4 단계)" with lore "&a구매가격 : 250원" and "&b3단계 아이템을 강화하는데 쓰입니다."
+				set slot 32 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(5 단계)" with lore "&a구매가격 : 250원" and "&b4단계 아이템을 강화하는데 쓰입니다."
+				set slot 33 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(6 단계)" with lore "&a구매가격 : 250원" and "&b5단계 아이템을 강화하는데 쓰입니다."
+				set slot 34 of current inventory of player to quartz with custom model data 9 named "&6강화석γ &d(7 단계)" with lore "&a구매가격 : 250원" and "&b6단계 아이템을 강화하는데 쓰입니다."
+				set slot 37 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(1 단계)" with lore "&a구매가격 : 300원" and "&b0단계 아이템을 강화하는데 쓰입니다."
+				set slot 38 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(2 단계)" with lore "&a구매가격 : 300원" and "&b1단계 아이템을 강화하는데 쓰입니다."
+				set slot 39 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(3 단계)" with lore "&a구매가격 : 300원" and "&b2단계 아이템을 강화하는데 쓰입니다."
+				set slot 40 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(4 단계)" with lore "&a구매가격 : 300원" and "&b3단계 아이템을 강화하는데 쓰입니다."
+				set slot 41 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(5 단계)" with lore "&a구매가격 : 300원" and "&b4단계 아이템을 강화하는데 쓰입니다."
+				set slot 42 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(6 단계)" with lore "&a구매가격 : 300원" and "&b5단계 아이템을 강화하는데 쓰입니다."
+				set slot 43 of current inventory of player to quartz with custom model data 10 named "&6강화석δ &d(7 단계)" with lore "&a구매가격 : 300원" and "&b6단계 아이템을 강화하는데 쓰입니다."
+			if clicked slot is 16:
+				play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+				open chest with 5 row named "&5&l코인상점" to player
+				set {_slot} to 0
+				loop 10 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 36
+				loop 45 times:
+					set slot {_slot} of current inventory of player to white stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 18
+				loop 9 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set slot 9 and 17 of current inventory of player to blue stained glass pane
+				set slot 27 and 35 of current inventory of player to white stained glass pane
+on inventory click:
+	if inventory name is "&5&l만물상점" or "&5&l코인상점":
+		if clicked raw slot is smaller than 36:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "구매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is left mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "구매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}*64:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for 64 of {_item}:
+							give player 64 of {_item}
+							send "&e&l%{_lore}*64%&c&l원을 사용했습니다!" to player
+							subtract {_lore}*64 from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+on inventory click:
+	if inventory name is "&5&l강화석 상점":
+		if clicked raw slot is smaller than 54:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 54:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "구매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is left mouse button with shift:
+			if clicked raw slot is smaller than 54:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "구매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}*64:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for 64 of {_item}:
+							give player 64 of {_item}
+							send "&e&l%{_lore}*64%&c&l원을 사용했습니다!" to player
+							subtract {_lore}*64 from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player

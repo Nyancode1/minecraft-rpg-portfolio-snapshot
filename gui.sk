@@ -1,0 +1,772 @@
+command /출변:
+	trigger:
+		set {출입 변수.%player%} to true
+		set {출입 변수1.%player%} to true
+		set {출입 변수2.%player%} to true
+		set {출입 변수3.%player%} to true
+
+on sneak toggle:
+	player is not sneaking:
+		set {shift.%player%} to false
+	else:
+		set {shift.%player%} to true
+
+on swap hand item:
+	if {shift.%player%} is false:
+		cancel event
+		open chest with 3 row named "&9&l내정보" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set slot 10 of current inventory of player to iron chestplate named "&a&l장비 창" with lore "&9&l누르면 장비 창을 엽니다."
+		set slot 12 of current inventory of player to grass block named "&a&l텔레포트" with lore "&9&l누르면 텔레포트 창을 엽니다."
+		set slot 14 of current inventory of player to writable book named "&a&l업적" with lore "&9&l누르면 업적 보관함을 엽니다."
+		set slot 16 of current inventory of player to name tag named "&a&l칭호 보관소" with lore "&9&l누르면 칭호 보관함을 엽니다."
+		# open chest with 3 row named "&9&l메뉴" to player
+		# set {_slot} to 0
+		# loop 9 times:
+			# set slot {_slot} of current inventory of player to blue stained glass pane
+			# add 1 to {_slot}
+		# set {_slot} to 9
+		# loop 17 times:
+			# set slot {_slot} of current inventory of player to black stained glass pane
+			# add 1 to {_slot}
+		# set {_slot} to 18
+		# loop 27 times:
+			# set slot {_slot} of current inventory of player to blue stained glass pane
+			# add 1 to {_slot}
+		# set slot 11 of current inventory of player to grass block named "&a&l스폰" with lore "&9&l누르면 스폰으로 이동합니다"
+		# set slot 13 of current inventory of player to lantern named "&a&l상점" with lore "&9&l누르면 상점으로 이동합니다"
+		# set slot 15 of current inventory of player to anvil named "&a&l강화소" with lore "&9&l누르면 강화소으로 이동합니다"
+on inventory click:
+	if inventory name is "&9&l내정보":
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 27:
+				cancel event
+			
+			#장비 창
+			if clicked slot is 10:
+				open chest with 1 rows named "&b&l장비" to player
+				loop {장비.%uuid of player%::*}:
+					set {_slot} to loop-index parsed as number
+					set slot {_slot} of current inventory of player to loop-value
+				set slot 0 and 2 of current inventory of player to Book named "&2도움말" with lore "&e오른쪽에 방어구를 순서대로 둡니다."
+				set slot 4 and 6 of current inventory of player to Book named "&2도움말" with lore "&e오른쪽에 방어구를 순서대로 둡니다."
+				if slot 1 of player's current inventory is air:
+					set slot 1 of current inventory of player to stick with custom model data 7 named "&2도움말" with lore "&e투구을 둡니다."
+				if slot 3 of player's current inventory is air:
+					set slot 3 of current inventory of player to stick with custom model data 8 named "&2도움말" with lore "&e갑옷을 둡니다."
+				if slot 5 of player's current inventory is air:
+					set slot 5 of current inventory of player to stick with custom model data 9 named "&2도움말" with lore "&e바지을 둡니다."
+				if slot 7 of player's current inventory is air:
+					set slot 7 of current inventory of player to stick with custom model data 10 named "&2도움말" with lore "&e신발을 둡니다."
+				set slot 8 of current inventory of player to black stained glass pane
+			#텔레포트창
+			if clicked slot is 12:
+				open chest with 3 row named "&9&l텔레포트" to player
+				set {_slot} to 0
+				loop 9 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 9
+				loop 17 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 18
+				loop 27 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set slot 11 of current inventory of player to grass block named "&a&l광장" with lore "&9&l누르면 광장으로 이동합니다"
+				set slot 13 of current inventory of player to lantern named "&a&l상점" with lore "&9&l누르면 상점거리으로 이동합니다"
+				set slot 15 of current inventory of player to anvil named "&a&l강화소" with lore "&9&l누르면 강화소 앞으로 이동합니다"
+			
+			if clicked slot is 14:
+				#업적창
+				open chest with 1 row named "&d&l[&9&l업적 보관함&d&l]" to player
+				set slot 0 and 8 of current inventory of player to black stained glass pane
+				#업적1이 참일때 /업적 속 히든리스트1 아이템의 정보가 공개됨
+				if {업적1.%player%} is true:
+					set slot 1 of current inventory of player to writable book named "&d&l[&b&l히든리스트1&d&l]" with lore "&d[&6업적달성&d] &f: &b힘세고 강한아침!" and "&d[&6조건&d] : &b왈도의 대사를 30번 들으세요."
+				else:
+					set slot 1 of current inventory of player to book named "&d&l[&b&l히든리스트1&d&l]" with lore "&4&l잠금"
+				#업적2이 참일때 /업적 속 히든리스트2 아이템의 정보가 공개됨
+				if {업적2.%player%} is true:
+					set slot 2 of current inventory of player to writable book named "&d&l[&b&l히든리스트2&d&l]" with lore "&d[&6업적달성&d] &f: &b난 도박왕이야!" and "&d[&6조건&d] : &b도박을 300번 이상하세요." and "&d[&6총 도박 횟수&d] : &b%{도박히든.%player%}%"
+				else:
+					set slot 2 of current inventory of player to book named "&d&l[&b&l히든리스트2&d&l]" with lore "&4&l잠금"
+				#업적3이 참일때 /업적 속 히든리스트3 아이템의 정보가 공개됨
+				if {업적3.%player%} is true:
+					set slot 3 of current inventory of player to writable book named "&d&l[&b&l히든리스트3&d&l]" with lore "&d[&6업적달성&d] &f: &b어멋! 이런곳이?" and "&d[&6조건&d] : &b블랙마켓 관리인과 대화하세요."
+				else:
+					set slot 3 of current inventory of player to book named "&d&l[&b&l히든리스트3&d&l]" with lore "&4&l잠금"
+				#업적4이 참일때 /업적 속 히든리스트4 아이템의 정보가 공개됨
+				if {업적4.%player%} is true:
+					set slot 4 of current inventory of player to writable book named "&d&l[&b&l히든리스트4&d&l]" with lore "&d[&6업적달성&d] &f: &4연쇄살인마" and "&d[&6조건&d] : &b죽지않고 플레이어를 10번 연속으로 잡으세요." and  "&d[&6최대 킬수&d] : &b%{연속 킬수.%player%}%"
+				else:
+					set slot 4 of current inventory of player to book named "&d&l[&b&l히든리스트4&d&l]" with lore "&4&l잠금"
+				#업적5이 참일때 /업적 속 히든리스트5 아이템의 정보가 공개됨
+				if {업적5.%player%} is true:
+					set slot 5 of current inventory of player to writable book named "&d&l[&b&l히든리스트5&d&l]" with lore "&d[&6업적달성&d] &f: &b이 무슨 끈기란 말인가!" and "&d[&6조건&d] : &b모든 npc의 대사를 들으세요."
+				else:
+					set slot 5 of current inventory of player to book named "&d&l[&b&l히든리스트5&d&l]" with lore "&4&l잠금"
+				#업적6이 참일때 /업적 속 히든리스트6 아이템의 정보가 공개됨
+				if {업적6.%player%} is true:
+					set slot 6 of current inventory of player to writable book named "&d&l[&b&l히든리스트6&d&l]" with lore "&d[&6업적달성&d] &f: &b타고난 재주꾼" and "&d[&6조건&d] : &b장비하나를 &e★★★★★ &b로 만드세요." and "&d[&6총 최대 강화 횟수&d] : &b%{최대강화횟수.%player%}%"
+				else:
+					set slot 6 of current inventory of player to book named "&d&l[&b&l히든리스트6&d&l]" with lore "&4&l잠금"
+				#업적7이 참일때 /업적 속 히든리스트7 아이템의 정보가 공개됨
+				if {업적7.%player%} is true:
+					set slot 7 of current inventory of player to writable book named "&d&l[&b&l히든리스트7&d&l]" with lore "&d[&6업적달성&d] &f: &b제목입력" and "&d[&6조건&d] : &b조건입력"
+				else:
+					set slot 7 of current inventory of player to book named "&d&l[&b&l히든리스트7&d&l]" with lore "&4&l잠금"
+				
+on inventory click:
+	if inventory name is "&9&l내정보":
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 27:
+				cancel event
+			#칭호 창
+			if clicked slot is 16:
+				open chest with 4 row named "&9&l칭호 보관소" to player
+				if player is op:
+					set {업적1.%player%} to true
+					set {업적2.%player%} to true
+					set {업적3.%player%} to true
+					set {업적4.%player%} to true
+					set {업적5.%player%} to true
+				set {_slot} to 0
+				loop 9 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 27
+				loop 9 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set slot 9 and 18 and 15 and 17 and 24 and 25 and 26 of current inventory of player to black stained glass pane
+				if {업적1.%player%} is true:
+					set slot 10 of current inventory of player to book named "&d&l[&b&l칭호1&d&l]" with lore "&e&l왈도업적 &f[&a괴롭히는자&f]" and "&e&l 채팅입력시 &f[&a괴롭히는자&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 10 of current inventory of player to book named "&d&l[&b&l칭호1&d&l]" with lore "&4&l잠금"
+				if {업적2.%player%} is true:
+					set slot 11 of current inventory of player to book named "&d&l[&b&l칭호2&d&l]" with lore "&e&l도박업적 &f[&a도박왕&f]" and "&e&l 채팅입력시 &f[&a도박왕&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 11 of current inventory of player to book named "&d&l[&b&l칭호2&d&l]" with lore "&4&l잠금"
+				if {업적3.%player%} is true:
+					set slot 12 of current inventory of player to book named "&d&l[&b&l칭호3&d&l]" with lore "&e&l마켓업적 &f[&a탐험가&f]" and "&e&l 채팅입력시 &f[&a탐험가&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 12 of current inventory of player to book named "&d&l[&b&l칭호3&d&l]" with lore "&4&l잠금"
+				if {업적4.%player%} is true:
+					set slot 13 of current inventory of player to book named "&d&l[&b&l칭호4&d&l]" with lore "&e&l킬수업적 &f[&a연쇄살인마&f]" and "&e&l 채팅입력시 &f[&a연쇄살인마&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 13 of current inventory of player to book named "&d&l[&b&l칭호4&d&l]" with lore "&4&l잠금"
+				if {업적5.%player%} is true:
+					set slot 14 of current inventory of player to book named "&d&l[&b&l칭호5&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 14 of current inventory of player to book named "&d&l[&b&l칭호5&d&l]" with lore "&4&l잠금"
+				if {업적6.%player%} is true:
+					set slot 19 of current inventory of player to book named "&d&l[&b&l칭호6&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 19 of current inventory of player to book named "&d&l[&b&l칭호6&d&l]" with lore "&4&l잠금"
+				if {업적7.%player%} is true:
+					set slot 20 of current inventory of player to book named "&d&l[&b&l칭호7&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 20 of current inventory of player to book named "&d&l[&b&l칭호7&d&l]" with lore "&4&l잠금"
+				if {업적8.%player%} is true:
+					set slot 21 of current inventory of player to book named "&d&l[&b&l칭호8&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 21 of current inventory of player to book named "&d&l[&b&l칭호8&d&l]" with lore "&4&l잠금"
+				if {업적9.%player%} is true:
+					set slot 22 of current inventory of player to book named "&d&l[&b&l칭호9&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 22 of current inventory of player to book named "&d&l[&b&l칭호9&d&l]" with lore "&4&l잠금"
+				if {업적10.%player%} is true:
+					set slot 23 of current inventory of player to book named "&d&l[&b&l칭호10&d&l]" with lore "&e&l대화업적 &f[&a콜렉터&f]" and "&e&l 채팅입력시 &f[&a콜렉터&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 23 of current inventory of player to book named "&d&l[&b&l칭호10&d&l]" with lore "&4&l잠금"
+				set slot 16 of current inventory of player to barrier named "&b&l칭호해제" with lore "&e&l 장작하고 있는 칭호를 해제합니다."
+				if player is op:
+					set slot 25 of current inventory of player to book named "&b&l관리자 칭호1" with lore "&e&l 채팅입력시 &f<&b&l도우미&f>으로 표기됩니다."
+					set slot 26 of current inventory of player to book named "&b&l관리자 칭호2" with lore "&e&l 채팅입력시 &f[&b&l도우미&f]<&e닉네임&f>으로 표기됩니다."
+				else:
+					set slot 24 of current inventory of player to black stained glass pane
+					set slot 25 of current inventory of player to black stained glass pane
+
+on inventory click:			
+	if inventory name is "&b&l장비":
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 8:
+				cancel event
+	
+	if inventory name is "&9&l칭호 보관소":
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 35:
+				cancel event
+				if clicked raw slot is 10:
+					if {업적1.%player%} is true:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&a괴롭히는자&f]"
+						send "&f[&a괴롭히는자&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+					else:
+						send "&4&l 선택하신 칭호가 없습니다." to player
+				if clicked raw slot is 11:
+					if {업적2.%player%} is true:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&a도박왕&f]"
+						send "&f[&a도박왕&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+					else:
+						send "&4&l 선택하신 칭호가 없습니다." to player
+				if clicked raw slot is 12:
+					if {업적3.%player%} is true:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&a탐험가&f]"
+						send "&f[&a탐험가&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+					else:
+						send "&4&l 선택하신 칭호가 없습니다." to player
+				if clicked raw slot is 13:
+					if {업적4.%player%} is true:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&a연쇠살인마&f]"
+						send "&f[&a연쇄살인마&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+					else:
+						send "&4&l 선택하신 칭호가 없습니다." to player
+				if clicked raw slot is 14:
+					if {업적5.%player%} is true:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&a콜렉터&f]"
+						send "&f[&a콜렉터&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+					else:
+						send "&4&l 선택하신 칭호가 없습니다." to player
+				#관리자 칭호
+				if clicked raw slot is 25:
+					if player is op:
+						set {관리자.%player%} to true
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f<&b&l도우미&f>"
+						send "&f<&4관리자&f>" to player
+						set {닉네임저장::%player%} to player's name
+				if clicked raw slot is 26:
+					if player is op:
+						delete {관리자.%player%}
+						delete {닉네임::%player%}
+						send "&6&l 칭호가 변경되였습니다." to player
+						set {닉네임::%player%} to colored "&f[&b&l도우미&f]"
+						send "&f[&4관리자&f]<&e%player's name%&f>" to player
+						set {닉네임저장::%player%} to player's name
+				if clicked raw slot is 16:
+					delete {닉네임::%player%}
+					delete {관리자.%player%}
+					send "&6&l%player%&e님의 변경 닉네임을 삭제 합니다" to player
+					
+# on inventory close:
+	# if current inventory's name contains "&9&l칭호 보관소":
+		# if player is op:
+			# {업적1.%player%} is false
+			# {업적2.%player%} is false
+			# {업적3.%player%} is false
+			# {업적4.%player%} is false
+			# {업적5.%player%} is false
+			
+on inventory click:
+	if inventory name is "&9&l텔레포트":
+		cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 27:
+				if clicked slot is 11:
+					close player's inventory
+					#스폰-----------------------------------------------------------------------------------
+					set {_loc} to location of player #플레이어의 모든 좌표 저장
+					set {_l::x} to "%round x-coord of {_loc}%" # /spawn 시전한 플레이어의 X 자표 저장
+					set {_l::y} to "%round y-coord of {_loc}%" # /spawn 시전한 플레이어의 Y 자표 저장
+					set {_l::z} to "%round z-coord of {_loc}%" # /spawn 시전한 플레이어의 Z 자표 저장
+					if {출입 변수1.%player%} is true:
+						set {출입 변수1.%player%} to false
+						# 0.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+						# 1초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+						# 1.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+						# 2초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+						# 2.5초
+						set {초 세기.%player%} to 0.9
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+						# 3초
+						set {초 세기.%player%} to 0.4
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2광장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2광장으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수1.%player%} to true
+									stop
+							else:
+								send title "&d[&2광장으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수1.%player%} to true
+								stop
+					if {출입 변수1.%player%} is false: # 위 코드가 실행 된 후에도 출입변수가 false일 때
+						if {초 세기.%player%} <= 0.0: # 위 코드가 실행 된 후에 초 세기가 0 보다 작거나 같을 때
+							set {초 세기.%player%} to 0.0
+							send title "&d[&2광장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+							teleport player to location 362.5, 74, 648.5 # 362.5, 74, 648.5
+							play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+							send "&a&l광장으로 이동!" to player
+							set {출입 변수1.%player%} to true
+							set {초 세기.%player%} to 3.0
+					#상점-----------------------------------------------------------------------------------
+				if clicked slot is 13:
+					close player's inventory
+					set {_loc} to location of player #플레이어의 모든 좌표 저장
+					set {_l::x} to "%round x-coord of {_loc}%" # /spawn 시전한 플레이어의 X 자표 저장
+					set {_l::y} to "%round y-coord of {_loc}%" # /spawn 시전한 플레이어의 Y 자표 저장
+					set {_l::z} to "%round z-coord of {_loc}%" # /spawn 시전한 플레이어의 Z 자표 저장
+					if {출입 변수2.%player%} is true:
+						set {출입 변수2.%player%} to false
+						# 0.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+						# 1초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+						# 1.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+						# 2초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+						# 2.5초
+						set {초 세기.%player%} to 0.9
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+						# 3초
+						set {초 세기.%player%} to 0.4
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2상점으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2상점으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수2.%player%} to true
+									stop
+							else:
+								send title "&d[&2상점으로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수2.%player%} to true
+								stop
+					if {출입 변수2.%player%} is false: # 위 코드가 실행 된 후에도 출입변수가 false일 때
+						if {초 세기.%player%} <= 0.0: # 위 코드가 실행 된 후에 초 세기가 0 보다 작거나 같을 때
+							set {초 세기.%player%} to 0.0
+							send title "&d[&2상점으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+							teleport player to location 308.5, 64, 674.5 # 308.5, 64, 674.5
+							play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+							send "&a&l상점으로 이동!" to player
+							set {출입 변수2.%player%} to true
+							set {초 세기.%player%} to 3.0
+					#강화소-----------------------------------------------------------------------------------
+				if clicked slot is 15:
+					close player's inventory
+					set {_loc} to location of player #플레이어의 모든 좌표 저장
+					set {_l::x} to "%round x-coord of {_loc}%" # /spawn 시전한 플레이어의 X 자표 저장
+					set {_l::y} to "%round y-coord of {_loc}%" # /spawn 시전한 플레이어의 Y 자표 저장
+					set {_l::z} to "%round z-coord of {_loc}%" # /spawn 시전한 플레이어의 Z 자표 저장
+					if {출입 변수3.%player%} is true:
+						set {출입 변수3.%player%} to false
+						# 0.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+						# 1초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+						# 1.5초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+						# 2초
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중.&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+						# 2.5초
+						set {초 세기.%player%} to 0.9
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중..&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+						# 3초
+						set {초 세기.%player%} to 0.4
+						loop 5 time:
+							#현재 플레이어의 자표
+							set {_loc} to location of player #플레이어의 모든 좌표 저장
+							set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+							set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+							set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+							#시전 자표와 현재 자표 비교
+							if {_l::x} is {_lc::x}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+								if {_l::z} is {_lc::z}: # 플레이어의 /spawn 시전 X 위치가 현재 X 위치와 같을 때
+									wait 0.1 seconds
+									send title "&d[&2강화소로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+									subtract 0.1 from {초 세기.%player%}
+								else:
+									send title "&d[&2강화소로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+									set {초 세기.%player%} to 3.0
+									set {출입 변수3.%player%} to true
+									stop
+							else:
+								send title "&d[&2강화소로가는중...&d]" with subtitle "&4캔슬되었습니다." to player for 1 seconds and 1 ticks and 1 ticks
+								set {초 세기.%player%} to 3.0
+								set {출입 변수3.%player%} to true
+								stop
+					if {출입 변수3.%player%} is false: # 위 코드가 실행 된 후에도 출입변수가 false일 때
+						if {초 세기.%player%} <= 0.0: # 위 코드가 실행 된 후에 초 세기가 0 보다 작거나 같을 때
+							set {초 세기.%player%} to 0.0
+							send title "&d[&2강화소로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+							teleport player to location 362.5, 68, 694.5 # 362.5, 68, 694.5
+							play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+							send "&a&l강화소로 이동!" to player
+							set {출입 변수3.%player%} to true
+							set {초 세기.%player%} to 3.0

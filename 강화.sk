@@ -1,0 +1,380 @@
+# npc 클릭	
+variables:
+	{강화횟수.%player%} = 0
+	{결.%player%} = true
+on rightclick on entity:
+	# 무기 대장장이 오른쪽 클릭
+	if entity's name is "&6전설의 대장장이 &e단야사":
+		cancel event
+		open chest with 1 rows named "&6&l전설의 대장장이" to player
+		set {_8} to 8
+		set slot 0 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&2장비 변형" with lore "&e왼쪽 클릭시 장비 변형 창을 엽니다." and "&e일반 장비를 먼저 변형해야만 강화를 할 수 있습니다."
+		add 1 to {_8}
+		set slot 2 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&9무기 강화" with lore "&e왼쪽 클릭시 무기 강화 창을 엽니다."
+		add 1 to {_8}
+		set slot 4 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&9방어구 강화" with lore "&e왼쪽 클릭시 방어구 강화 창을 엽니다."
+		add 1 to {_8}
+		set slot 6 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&c장비 등급업" with lore "&e왼쪽 클릭시 무기 등급업 창을 엽니다."
+		set slot 8 of current inventory of player to book named "&a확률표" with lore "&e왼쪽 클릭시 확률표 창을 엽니다."
+		
+on click:
+	if name of player's tool contains "&d&l[&f파괴방지서&d&l]":
+		cancel event
+	if name of player's tool contains "&d&l[&f하락방지서&d&l]":
+		cancel event
+
+
+# 변형 창
+on inventory click:
+	if inventory name contains "&6&l전설의 대장장이":
+		set {_7} to 7
+		if click type is left mouse button with shift or right mouse button with shift or right mouse button:
+			cancel event
+		else:
+			if clicked raw slot is 0:
+				cancel event
+				open chest with 1 rows named "&2&l장비 변형" to player
+				set {y.%player%.preInvName} to "&2&l장비 변형"
+				set slot 0 of current inventory of player to lime stained glass pane named "&2도움말" with lore "&e초록색 옆에 무기 아이템을 둡니다."
+				set slot 2 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e초록색 옆에 무기 아이템을 둡니다."
+				set slot 4 of current inventory of player to Anvil named "&c장비 변형" with lore "&e왼쪽으로 누르면 장비를 변형시킵니다."
+				set slot 6 of current inventory of player to blue stained glass pane named "&2도움말" with lore "&e파란색 옆에 변형된 아이템이 나옵니다."
+				set slot 8 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e파란색 옆에 무기 아이템을 둡니다."
+
+
+			if clicked raw slot is 2:
+				cancel event
+				open chest with 5 rows named "&9&l무기 강화" to player
+				loop 45 times:
+					if loop-value is not 11 or 14 or 30 or 33:
+						format slot loop-value - 1 of player with blue stained glass pane named " " to be unstealable
+				set {_slot} to 9
+				loop 9 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 27
+				loop 9 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set slot 10 and 13 and 29 and 32 of current inventory of player to air
+				set slot 9 of current inventory of player to lime stained glass pane named "&2도움말" with lore "&e초록색 옆에 강화를 하고자 하는 무기를 둡니다."
+				set slot 11 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e초록색 옆에 강화를 하고자 하는 무기를 둡니다."
+				set slot 12 of current inventory of player to yellow stained glass pane named "&2도움말" with lore "&e노란색 옆에 현재 무기보다 1단계 높은 강화석을 둡니다."
+				set slot 14 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e노란색 옆에 현재 무기보다 1단계 높은 강화석을 둡니다."
+				set slot 28 of current inventory of player to gray stained glass pane named "&2도움말" with lore "&e회색 옆에 행운석을 둡니다." and "&e행운석은 강화 확률을 올려줍니다."
+				set slot 30 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e회색 옆에 행운석을 둡니다."
+				set slot 31 of current inventory of player to white stained glass pane named "&2도움말" with lore "&e흰색 옆에 하락 방지서을 둡니다." and "&e하락 방지서는 단계 하락을 방지해줍니다."
+				set slot 33 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e흰색 옆에 하락 방지서을 둡니다."
+				set slot 16 of current inventory of player to Anvil named "&4무기 강화" with lore "&e왼쪽 클릭시 일정확률로 강화에 성공합니다." and "&l실패시 단계 하락이 될 수 있습니다." 
+				
+			if clicked raw slot is 4:
+				cancel event
+				open chest with 5 rows named "&9&l방어구 강화" to player
+				loop 45 times:
+					if loop-value is not 11 or 14 or 30 or 33:
+						format slot loop-value - 1 of player with blue stained glass pane named " " to be unstealable
+				set {_slot} to 9
+				loop 9 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 27
+				loop 9 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set slot 10 and 13 and 29 and 32 of current inventory of player to air
+				set slot 9 of current inventory of player to lime stained glass pane named "&2도움말" with lore "&e초록색 옆에 강화를 하고자 하는 방어구를 둡니다."
+				set slot 11 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e초록색 옆에 강화를 하고자 하는 방어구를 둡니다."
+				set slot 12 of current inventory of player to yellow stained glass pane named "&2도움말" with lore "&e노란색 옆에 현재 무기보다 1단계 높은 강화석을 둡니다."
+				set slot 14 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e노란색 옆에 현재  방어구보다 1단계 높은 강화석을 둡니다."
+				set slot 28 of current inventory of player to gray stained glass pane named "&2도움말" with lore "&e회색 옆에 행운석을 둡니다." and "&e행운석은 강화 확률을 올려줍니다."
+				set slot 30 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e회색 옆에 행운석을 둡니다."
+				set slot 31 of current inventory of player to white stained glass pane named "&2도움말" with lore "&e흰색 옆에 하락 방지서을 둡니다." and "&e하락 방지서는 단계 하락을 방지해줍니다."
+				set slot 33 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e흰색 옆에 하락 방지서을 둡니다."
+				set slot 16 of current inventory of player to Anvil named "&4무기 강화" with lore "&e왼쪽 클릭시 일정확률로 강화에 성공합니다." and "&l실패시 단계 하락이 될 수 있습니다." 
+
+
+
+
+			if clicked raw slot is 6:
+				cancel event
+				set {등급확인.%player%} to true
+				set {확인.%player%} to 0
+				open chest with 3 rows named "&c&l등급업" to player
+				set {_slot} to 0
+				loop 9 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 18
+				loop 27 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set slot 9 of current inventory of player to lime stained glass pane named "&2도움말" with lore "&e초록색 옆에 등급업을 하는 무기를 둡니다."
+				set slot 11 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e초록색 옆에 등급업을 하는 무기를 둡니다."
+				set slot 13 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e왼쪽에 파괴방지서를 둡니다." and "&e파괴방지서는 아이템의 파괴를 방지합니다."
+				set slot 14 of current inventory of player to Anvil named "&c등급업" with lore "&e왼쪽으로 누르면 무기를 등급업 시킵니다." and "&l실패시 장비가 파괴 될 수 있습니다."
+				set slot 17 of current inventory of player to book with nbt compound from "{CustomModelData:%{_7}%}" named "&2도움말" with lore "&e왼쪽에 등급업 된 아이템이 나옵니다."
+				set slot 23 of current inventory of player to book named "&2가격표" with lore "&e★&f :&a 100원" and "&e★★&f :&a 200원" and "&e★★★&f :&a 300원" and "&e★★★★&f :&a 400원"
+				while {등급확인.%player%} is true:
+					wait 10 ticks
+					set {_장비스탯::*} to lore of slot 10 of current inventory of player
+					set {_장비이름} to name of slot 10 of current inventory of player
+					set {_강화단계2} to {_장비스탯::1}
+					set {_강화공격력} to {_장비스탯::4}
+					if {_강화단계2} is "&e★":
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "%{_장비이름}%" and "&e★&f★" and "&b0단계" and "&e==============" and "%{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 2.5"
+					else if {_강화단계2} is "&e★★":
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "%{_장비이름}%" and "&e★★&f★" and "&b0단계" and "&e==============" and "%{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 4"
+					else if {_강화단계2} is "&e★★★":
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "%{_장비이름}%" and "&e★★★&f★" and "&b0단계" and "&e==============" and "%{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 6"
+					else if {_강화단계2} is "&e★★★★":
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "%{_장비이름}%" and "&e★★★★&f★" and "&b0단계" and "&e==============" and "%{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 9"
+					else if slot 10 of current inventory of player is air:
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "없음"
+					else:
+						set slot 15 of current inventory of player to paper named "&2도움말" with lore "&e성공시 나오는 아이템" and "&c&m 등급업 불가"
+
+			if clicked raw slot is 8:
+				cancel event
+				open chest with 3 rows named "&c&l확률표" to player
+				set {_slot} to 0
+				loop 9 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				set {_slot} to 18
+				loop 27 times:
+					set slot {_slot} of current inventory of player to blue stained glass pane
+					add 1 to {_slot}
+				#나무 1강 100 / -15, 6강 85 /-15 나머지 100 /-15
+				set slot 9  of current inventory of player to book named "&f[&e★&f] &d확률표" with lore "1단 하락 : x 2단 하락 : x" and "1강 : 92%%" and "2강 : 79%%" and "3강 : 76%%" and "4강 : 73%%" and "5강 : 70%%" and "6강 : 52%%"
+				#돌 1강 100 / -5, 6강 77 /-10 나머지 90 /-5
+				set slot 10 of current inventory of player to book named "&f[&e★&f★&f] &d확률표" with lore "1단 하락 : 15%% 2단 하락 : x" and "1강 : 91%%" and "2강 : 77%%" and "3강 : 73%%" and "4강 : 69%%" and "5강 : 65%%" and "6강 : 43%%"
+				#철 1강 87 / 2.4, 6강 77 / 2.4 나머지 79 / 2.4
+				set slot 11 of current inventory of player to book named "&f[&e★★&f★&f] &d확률표" with lore "1단 하락 : 25%% 2단 하락 : 5" and "1강 : 83.6%%" and "2강 : 70.2%%" and "3강 : 62.8%%" and "4강 : 53.4%%" and "5강 : 42%%" and "6강 : 26.6%%"
+				#다이아 1강 81 / 4.8, 6강 75 / 4.8 나머지 77 / 4.8
+				set slot 12  of current inventory of player to book named "&f[&e★★★&f★&f] &d확률표" with lore "1단 하락 : 35%% 2단 하락 : 10%%" and "1강 : 75.2%%" and "2강 : 63.4%%" and "3강 : 53.6%%" and "4강 : 41.8%%" and "5강 : 28%%" and "6강 : 10.2%%"
+				#네더라이트 1강 78 / 7.2, 6강 80 / 7.2 나머지 78 / 7.2
+				set slot 13  of current inventory of player to book named "&f[&e★★★★&f★&f] &d확률표" with lore "1단 하락 : 50%% 2단 하락 : 20%%" and "1강 : 69.8%%" and "2강 : 59.6%%" and "3강 : 47.4%%" and "4강 : 33.2%%" and "5강 : 17%%" and "6강 : 0.8%%"
+				set slot 14  of current inventory of player to black stained glass pane
+				set slot 15  of current inventory of player to book named "&f[&c&l등급업&f] &d확률표" with lore "&f[&e★&f]" and "등급업 : 40%% 파괴 : x" and "&f[&e★★&f]"  and "등급업 : 30%% 파괴 : 5%%" and "&f[&e★★★&f]"  and "등급업 : 25%% 파괴 : 10%%" and "&f[&e★★★★&f]"  and "등급업 : 20%% 파괴 : 15%%"
+				set slot 16  of current inventory of player to black stained glass pane
+				set slot 17  of current inventory of player to soul lantern named "&2돌아가기" with lore "&e 선택창으로 돌아갑니다."
+
+	# 무기 변형 창
+	if inventory name contains "&2&l장비 변형":
+		if click type is right mouse button with shift or right mouse button:
+			cancel event
+		else:
+			if clicked raw slot is 0 or 2 or 3 or 5 or 6 or 8:
+				cancel event
+			else if clicked raw slot is 4:
+				cancel event
+				if slot 1 of current inventory of player is air:
+					message "&e&l단야사&f&l : &a&l어이! 무기를 올려야지!" to player
+				else:
+					set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of player
+					replace all " " and "+" and "공격력" with "" in {_장비스탯::4}  # 공격력 확인
+					set {_강화공격력} to {_장비스탯::4} parsed as number
+					if slot 1 of player's current inventory is wooden sword:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e==============" and "&c + 공격력 0" and "&e==============" and "&2기본 추가 공격력 1"
+						message "&e&l단야사&f&l : &a&l좋아 무기 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else if {_강화공격력} > 0:
+						add 1 to {확인.%player%}
+						if {확인.%player%} is 2:
+							set {확인.%player%} to 0
+							if slot 1 of player's current inventory is sword:
+								set {_w} to slot 1 of current inventory of player
+								delete slot 1 of current inventory of player
+								set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e==============" and "&c + 공격력 0" and "&e==============" and "&2기본 추가 공격력 1"
+								message "&e&l단야사&f&l : &a&l좋아 무기 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+						else:
+							message "&e&l단야사&f&l : &a&l마지막으로 물어보지 강화된 아이템을 다시 변형시키겠나?" to player
+							message "&e&l단야사&f&l : &a&l변형시킨다면 네 검의 모든것이 초기화 된다네." to player
+					else if slot 1 of player's current inventory is leather helmet:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e============" and "&a + 체력 0" and "&9 + 방어력 0" and "&e============"
+						message "&e&l단야사&f&l : &a&l좋아 무기 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else if slot 1 of player's current inventory is helmet:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e============" and "&a + 체력 0" and "&9 + 방어력 0" and "&e============"
+						message "&e&l단야사&f&l : &a&l좋아 장비 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else if slot 1 of player's current inventory is chestplate:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e============" and "&a + 체력 0" and "&9 + 방어력 0" and "&e============"
+						message "&e&l단야사&f&l : &a&l좋아 장비 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else if slot 1 of player's current inventory is leggings:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e============" and "&a + 체력 0" and "&9 + 방어력 0" and "&e============"
+						message "&e&l단야사&f&l : &a&l좋아 장비 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else if slot 1 of player's current inventory is boots:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&f★" and "&b0단계" and "&e============" and "&a + 체력 0" and "&9 + 방어력 0" and "&e============"
+						message "&e&l단야사&f&l : &a&l좋아 장비 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+					else:
+						set {_w} to slot 1 of current inventory of player
+						delete slot 1 of current inventory of player
+						set slot 7 of current inventory of player to {_w} with lore "&c등급업 불가" and "&b0단계" and "&e==============" and "&c + 공격력 0" and "&e==============" and "&2기본 추가 공격력 1"
+						message "&e&l단야사&f&l : &a&l좋아 무기 변형에 성공했다네. 창을 닫기전에 가져시게!" to player
+	# 확률표 창
+	if inventory name contains "&c&l확률표":
+		if click type is left mouse button with shift or right mouse button with shift or right mouse button:
+			cancel event
+		if clicked item is black stained glass pane or blue stained glass pane or book:
+			cancel event
+		if clicked item is soul lantern:
+			cancel event
+			close player's inventory
+			open chest with 1 rows named "&6&l전설의 대장장이" to player
+			set {_8} to 8
+			set slot 0 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&2장비 변형" with lore "&e왼쪽 클릭시 장비 변형 창을 엽니다." and "&e일반 장비를 먼저 변형해야만 강화를 할 수 있습니다."
+			add 1 to {_8}
+			set slot 2 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&9무기 강화" with lore "&e왼쪽 클릭시 무기 강화 창을 엽니다."
+			add 1 to {_8}
+			set slot 4 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&9방어구 강화" with lore "&e왼쪽 클릭시 방어구 강화 창을 엽니다."
+			add 1 to {_8}
+			set slot 6 of current inventory of player to book with nbt compound from "{CustomModelData:%{_8}%}" named "&c장비 등급업" with lore "&e왼쪽 클릭시 무기 등급업 창을 엽니다."
+			set slot 8 of current inventory of player to book named "&a확률표" with lore "&e왼쪽 클릭시 확률표 창을 엽니다."
+
+every 0.1 second:
+	loop all players:
+		if {강화확인1.%loop-player%} is set:
+			delete {강화확인1.%loop-player%}
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+			wait 0.5 second
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+			wait 0.5 second
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+			
+
+on inventory close:
+	if current inventory's name contains "&2&l장비 변형":
+		set {_무기변형1} to slot 1 of current inventory of player
+		set {_무기변형2} to slot 7 of current inventory of player
+		if {_무기변형1} is not air:
+			give 1 of {_무기변형1} to player
+			
+		if {_무기변형2} is not air:
+			give 1 of {_무기변형2} to player
+
+	if current inventory's name contains "&9&l무기 강화":
+		set {_무기강화::1} to slot 10 of current inventory of player
+		set {_무기강화::2} to slot 13 of current inventory of player
+		set {_무기강화::3} to slot 29 of current inventory of player
+		set {_무기강화::4} to slot 32 of current inventory of player
+		set {_강화석} to slot 13 of current inventory of player
+		set {_강화석개수} to amount of {_강화석} in current inventory of player - 1
+		give {_강화석개수} of {_강화석} to player
+		if slot 10 and 13 and 29 and 32 of current inventory of player is not air:
+			loop {_무기강화::*}:
+				give 1 of loop-value to player
+				
+	if current inventory's name contains "&c&l등급업":
+		set {등급확인.%player%} to false
+		set {_무기등급업::1} to slot 10 of current inventory of player
+		set {_무기등급업::2} to slot 12 of current inventory of player
+		set {_무기등급업::3} to slot 16 of current inventory of player
+		if slot 10 and 12 and 16 of current inventory of player is not air:
+			loop {_무기등급업::*}:
+				give 1 of loop-value to player
+
+# 커맨드
+command /강화석 [<integer>]:
+	permission: 어드민
+	trigger:
+		set {_7} to 7
+		set {_8} to 8
+		set {_9} to 9
+		set {_10} to 10
+		set {결.%players%} to true
+		if arg-1 is not set:
+			message "&6 1 : 강화석 &d 나무, 돌 " to player
+			message "&6 2 : 강화석 &d 철" to player
+			message "&6 3 : 강화석 &d 다이아" to player
+			message "&6 4 : 강화석 &d 네더라이트" to player
+		if arg-1 is 1:
+			set {_숫자1} to 0
+			loop 7 times:
+				add 1 to {_숫자1}
+				give 10 of Nether Quartz with nbt compound from "{CustomModelData:%{_7}%}" named "&6강화석α &d(%{_숫자1}% 단계)" with lore "&b%{_숫자1} - 1%단계 아이템을 강화하는데 쓰입니다." and  "&b" to player
+		if arg-1 is 2:
+			set {_숫자1} to 0
+			loop 7 times:
+				add 1 to {_숫자1}
+				give 10 of Nether Quartz with nbt compound from "{CustomModelData:%{_8}%}" named "&6강화석β &d(%{_숫자1}% 단계)" with lore "&b%{_숫자1} - 1%단계 아이템을 강화하는데 쓰입니다." to player
+		if arg-1 is 3:
+			set {_숫자1} to 0
+			loop 7 times:
+				add 1 to {_숫자1}
+				give 10 of Nether Quartz with nbt compound from "{CustomModelData:%{_9}%}" named "&6강화석γ &d(%{_숫자1}% 단계)" with lore "&b%{_숫자1} - 1%단계 아이템을 강화하는데 쓰입니다." to player
+		if arg-1 is 4:
+			set {_숫자1} to 0
+			loop 7 times:
+				add 1 to {_숫자1}
+				give 10 of Nether Quartz with nbt compound from "{CustomModelData:%{_10}%}" named "&6강화석δ &d(%{_숫자1}% 단계)" with lore "&b%{_숫자1} - 1%단계 아이템을 강화하는데 쓰입니다." to player
+			
+		
+command /행운석 [<integer>]:
+	permission: 어드민
+	trigger:
+		set {_7} to 7
+		if arg-1 is not set:
+			message "&6행운석 &d(1 단계) : &b 5퍼센트 증가" to player
+			message "&6행운석 &d(2 단계) : &b 15퍼센트 증가" to player
+		if arg-1 is 1:
+			give 2 of prismarine crystals with nbt compound from "{CustomModelData:%{_7}%}" named "&6행운석 &d(%arg 1% 단계)" with lore "&b아이템 강화하는데 쓰입니다." and "&e 5%% 증가" to player
+		if arg-1 is 2:
+			give 2 of prismarine crystals with nbt compound from "{CustomModelData:%{_7}%}" named "&6행운석 &d(%arg 1% 단계)" with lore "&b아이템 강화하는데 쓰입니다." and "&e 15%% 증가" to player
+
+command /하락방지서:
+	permission: 어드민
+	trigger:
+		set {_7} to 7
+		give 2 of shears with nbt compound from "{CustomModelData:%{_7}%}" named "&d&l[&b하락방지서&d&l]" with lore "&b아이템를 보호하는데 쓰입니다." and "&e강화 실패시 단계보호를 해줍니다." to player
+
+command /파괴방지서:
+	permission: 어드민
+	trigger:
+		set {_8} to 8
+		give 2 of shears with nbt compound from "{CustomModelData:%{_8}%}" named "&d&l[&c파괴방지서&d&l]" with lore "&b아이템를 보호하는데 쓰입니다." and "&e강화 실패시 파괴보호를 해줍니다." to player
+
+
+# 스텟
+every 10 tick:
+	loop all players:
+		# 각 배열 변수에 player 장비의 lore을 대입
+		set {_%loop-player%.lore.6::*} to uncolored lore of loop-player's tool
+	
+		if loop-player's tool is not air:
+			if {_%loop-player%.lore.6::4} contains "공격력":
+				set  {_power} to {_%loop-player%.lore.6::4}
+				set  {_power1} to {_%loop-player%.lore.6::6}
+				replace all " " and "+" and "공격력" with "" in {_power}
+				replace all " " and "기본"  and "추가" and "공격력"   with "" in {_power1}
+				set {tol::%loop-player%::power} to {_power} parsed as number
+				set {tol::%loop-player%::power1} to {_power1} parsed as number
+			else:
+				delete {tol::%loop-player%::*}
+		else:
+			delete {tol::%loop-player%::*}
+	loop all players:
+		set {power.%loop-player%} to {tol::%loop-player%::power}
+		set {power1.%loop-player%} to {tol::%loop-player%::power1}
+
+on damage:
+	if attacker is player:
+		#send "%damage%" to attacker
+		#set {발발.%attacker%} to damage + {power.%attacker%} + {power1.%attacker%}
+		send "%damage%" to attacker
+		if {power.%attacker%} is set:
+			set damage to damage + {power.%attacker%} + {power1.%attacker%} + {데미지.%attacker%}
+			if {대검감소.%victim%} is true:
+				set damage to damage/20
+		message "데미지: %damage%" to attacker
+		delete {대검차징.%attacker%}
+		delete {데미지.%attacker%}

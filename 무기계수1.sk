@@ -1,0 +1,214 @@
+#건틀릿 계수
+every 0.1 second:
+	loop all players:
+		set {건틀릿확인.%loop-player%} to uncolored name of loop-player's tool
+		if {건틀릿확인.%loop-player%} is "[건틀릿]":
+			set {건틀릿.%loop-player%} to name of loop-player's tool
+			if {건틀릿.%loop-player%} is "&d&l[&a&l건틀릿&d&l]":
+				set {건기본티어.%loop-player%} to 1
+				set {건스킬티어.%loop-player%} to 1
+				set {건스킬쿨타임시간.%loop-player%} to 12.0
+				set {건스킬1.%loop-player%} to true
+			if {건틀릿.%loop-player%} is "&d&l[&9&l건틀릿&d&l]":
+				set {건기본티어.%loop-player%} to 2
+				set {건스킬티어.%loop-player%} to 2
+				set {건스킬쿨타임시간.%loop-player%} to 11.5
+				set {건스킬2.%loop-player%} to true
+			if {건틀릿.%loop-player%} is "&d&l[&5&l건틀릿&d&l]":
+				set {건기본티어.%loop-player%} to 2
+				set {건스킬티어.%loop-player%} to 3
+				set {건스킬쿨타임시간.%loop-player%} to 11.0
+				set {건스킬3.%loop-player%} to true
+			if {건틀릿.%loop-player%} is "&d&l[&6&l건틀릿&d&l]":
+				set {건기본티어.%loop-player%} to 3
+				set {건스킬티어.%loop-player%} to 4
+				set {건스킬쿨타임시간.%loop-player%} to 10.0
+				set {건스킬4.%loop-player%} to true
+			if {건틀릿.%loop-player%} is "&d&l[&c&l건틀릿&d&l]":
+				set {건기본티어.%loop-player%} to 4
+				set {건스킬티어.%loop-player%} to 5
+				set {건스킬쿨타임시간.%loop-player%} to 9.0
+				set {건스킬5.%loop-player%} to true
+
+#건틀릿 스킬
+on swap hand item:
+	if name of player's tool contains "%{건틀릿.%player%}%":
+		cancel event
+		if {건틀릿쿨타임.%player%} is {건스킬쿨타임시간.%player%}:
+			if {건스킬1.%player%} is true:
+				remove haste from player
+				apply potion of speed of tier {건스킬티어.%player%} without particles to player for 3 seconds
+				apply potion of haste of tier {건스킬티어.%player%} without particles to player for 3 seconds
+			if {건스킬2.%player%} is true:
+				remove haste from player
+				apply potion of speed of tier {건스킬티어.%player%} without particles to player for 3.5 seconds
+				apply potion of haste of tier {건스킬티어.%player%} without particles to player for 3.5 seconds
+			if {건스킬3.%player%} is true:
+				remove haste from player
+				apply potion of speed of tier {건스킬티어.%player%} without particles to player for 4.5 seconds
+				apply potion of haste of tier {건스킬티어.%player%} without particles to player for 4.5 seconds
+			if {건스킬4.%player%} is true:
+				remove haste from player
+				apply potion of speed of tier {건스킬티어.%player%} without particles to player for 5 seconds
+				apply potion of haste of tier {건스킬티어.%player%} without particles to player for 5 seconds
+			if {건스킬5.%player%} is true:
+				remove haste from player
+				apply potion of speed of tier {건스킬티어.%player%} without particles to player for 6 seconds
+				apply potion of haste of tier {건스킬티어.%player%} without particles to player for 6 seconds
+				
+on swap hand item:
+	if name of player's tool contains "%{건틀릿.%player%}%":
+		if {건틀릿 스킬.%player%} is false:
+			send "쿨타임 : %{건틀릿쿨타임.%player%}%초"
+	if name of player's tool contains "%{건틀릿.%player%}%":
+		if {건틀릿 스킬.%player%} is not set:
+			set {건틀릿 스킬.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {건틀릿 스킬.%loop-player%} is false:
+			subtract 0.1 from {건틀릿쿨타임.%loop-player%}
+			if {건틀릿쿨타임.%loop-player%} <= 0:
+				send "건틀릿 쿨타임이 돌았습니다." to loop-player
+				delete {건틀릿 스킬.%loop-player%}
+				set  {건틀릿쿨타임.%loop-player%} to {건스킬쿨타임시간.%loop-player%}
+
+#단검 계수
+every 0.1 second:
+	loop all players:
+		set {단검확인.%loop-player%} to uncolored name of loop-player's tool
+		if {단검확인.%loop-player%} is "[단검]":
+			set {단검.%loop-player%} to name of loop-player's tool
+			if {단검.%loop-player%} is "&d&l[&a&l단검&d&l]":
+				set {단기본티어.%loop-player%} to 0
+				set {단스킬티어.%loop-player%} to 1
+				set {단스킬쿨타임시간.%loop-player%} to 12.0
+				set {단스킬1.%loop-player%} to true
+			if {단검.%loop-player%} is "&d&l[&9&l단검&d&l]":
+				set {단기본티어.%loop-player%} to 1
+				set {단스킬티어.%loop-player%} to 2
+				set {단스킬쿨타임시간.%loop-player%} to 11.5
+				set {단스킬2.%loop-player%} to true
+			if {단검.%loop-player%} is "&d&l[&5&l단검&d&l]":
+				set {단기본티어.%loop-player%} to 1
+				set {단스킬티어.%loop-player%} to 2
+				set {단스킬쿨타임시간.%loop-player%} to 11.0
+				set {단스킬3.%loop-player%} to true
+			if {단검.%loop-player%} is "&d&l[&6&l단검&d&l]":
+				set {단기본티어.%loop-player%} to 2
+				set {단스킬티어.%loop-player%} to 3
+				set {단스킬쿨타임시간.%loop-player%} to 10.0
+				set {단스킬4.%loop-player%} to true
+			if {단검.%loop-player%} is "&d&l[&c&l단검&d&l]":
+				set {단기본티어.%loop-player%} to 3
+				set {단스킬티어.%loop-player%} to 4
+				set {단스킬쿨타임시간.%loop-player%} to 9.0
+				set {단스킬5.%loop-player%} to true
+
+#단검 스킬
+on swap hand item:
+	if name of player's tool contains "%{단검.%player%}%":
+		cancel event
+		if {단검쿨타임.%player%} is {단스킬쿨타임시간.%player%}:
+			if {단스킬1.%player%} is true:
+				apply potion of speed of tier {단스킬티어.%player%} without particles to player for 3 seconds
+				apply potion of invisibility of tier {단스킬티어.%player%} without particles to player for 3 seconds
+		if {단검쿨타임.%player%} is {단스킬쿨타임시간.%player%}:
+			if {단스킬2.%player%} is true:
+				apply potion of speed of tier {단스킬티어.%player%} without particles to player for 3 seconds
+				apply potion of invisibility of tier {단스킬티어.%player%} without particles to player for 3 seconds
+		if {단검쿨타임.%player%} is {단스킬쿨타임시간.%player%}:
+			if {단스킬3.%player%} is true:
+				apply potion of speed of tier {단스킬티어.%player%} without particles to player for 4 seconds
+				apply potion of invisibility of tier {단스킬티어.%player%} without particles to player for 4 seconds
+		if {단검쿨타임.%player%} is {단스킬쿨타임시간.%player%}:
+			if {단스킬4.%player%} is true:
+				apply potion of speed of tier {단스킬티어.%player%} without particles to player for 4 seconds
+				apply potion of invisibility of tier {단스킬티어.%player%} without particles to player for 4 seconds
+		if {단검쿨타임.%player%} is {단스킬쿨타임시간.%player%}:
+			if {단스킬5.%player%} is true:
+				apply potion of speed of tier {단스킬티어.%player%} without particles to player for 5 seconds
+				apply potion of invisibility of tier {단스킬티어.%player%} without particles to player for 5 seconds
+on swap hand item:
+	if name of player's tool contains {단검.%player%}:
+		if {단검 스킬.%player%} is false:
+			send "쿨타임 : %{단검쿨타임.%player%}%초"
+	if name of player's tool contains {단검.%player%}:
+		if {단검 스킬.%player%} is not set:
+			set {단검 스킬.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {단검 스킬.%loop-player%} is false:
+			subtract 0.1 from {단검쿨타임.%loop-player%}
+			if {단검쿨타임.%loop-player%} <= 0:
+				send "단검 쿨타임이 돌았습니다." to loop-player
+				delete {단검 스킬.%loop-player%}
+				set  {단검쿨타임.%loop-player%} to {단스킬쿨타임시간.%loop-player%}
+
+#낫 계수
+every 0.1 second:
+	loop all players:
+		set {낫확인.%loop-player%} to uncolored name of loop-player's tool
+		if {낫확인.%loop-player%} is "[낫]":
+			set {낫.%loop-player%} to name of loop-player's tool
+			if {낫.%loop-player%} is "&d&l[&a&l낫&d&l]":
+				set {낫기본티어.%loop-player%} to 4
+				set {낫스킬티어.%loop-player%} to 1
+				set {낫스킬쿨타임시간.%loop-player%} to 12.0
+				set {낫스킬1.%loop-player%} to true
+			if {낫.%loop-player%} is "&d&l[&9&l낫&d&l]":
+				set {낫기본티어.%loop-player%} to 4
+				set {낫스킬티어.%loop-player%} to 1
+				set {낫스킬쿨타임시간.%loop-player%} to 11.5
+				set {낫스킬2.%loop-player%} to true
+			if {낫.%loop-player%} is "&d&l[&5&l낫&d&l]":
+				set {낫기본티어.%loop-player%} to 3
+				set {낫스킬티어.%loop-player%} to 2
+				set {낫스킬쿨타임시간.%loop-player%} to 11.0
+				set {낫스킬3.%loop-player%} to true
+			if {낫.%loop-player%} is "&d&l[&6&l낫&d&l]":
+				set {낫기본티어.%loop-player%} to 3
+				set {낫스킬티어.%loop-player%} to 3
+				set {낫스킬쿨타임시간.%loop-player%} to 10.0
+				set {낫스킬4.%loop-player%} to true
+			if {낫.%loop-player%} is "&d&l[&c&l낫&d&l]":
+				set {낫기본티어.%loop-player%} to 2
+				set {낫스킬티어.%loop-player%} to 4
+				set {낫스킬쿨타임시간.%loop-player%} to 9.0
+				set {낫스킬5.%loop-player%} to true
+
+#낫 스킬
+on swap hand item:
+	if name of player's tool contains "%{낫.%player%}%":
+		cancel event
+		if {낫쿨타임.%player%} is {낫스킬쿨타임시간.%player%}:
+			if {낫스킬1.%player%} is true:
+				apply potion of strength of tier {낫스킬티어.%player%} without particles to player for 3 seconds
+		if {낫쿨타임.%player%} is {낫스킬쿨타임시간.%player%}:
+			if {낫스킬2.%player%} is true:
+				apply potion of strength of tier {낫스킬티어.%player%} without particles to player for 4 seconds
+		if {낫쿨타임.%player%} is {낫스킬쿨타임시간.%player%}:
+			if {낫스킬3.%player%} is true:
+				apply potion of strength of tier {낫스킬티어.%player%} without particles to player for 4.5 seconds
+		if {낫쿨타임.%player%} is {낫스킬쿨타임시간.%player%}:
+			if {낫스킬4.%player%} is true:
+				apply potion of strength of tier {낫스킬티어.%player%} without particles to player for 5 seconds
+		if {낫쿨타임.%player%} is {낫스킬쿨타임시간.%player%}:
+			if {낫스킬5.%player%} is true:
+				apply potion of strength of tier {낫스킬티어.%player%} without particles to player for 5 seconds
+on swap hand item:
+	if name of player's tool contains {낫.%player%}:
+		if {낫 스킬.%player%} is false:
+			send "쿨타임 : %{낫쿨타임.%player%}%초"
+	if name of player's tool contains {낫.%player%}:
+		if {낫 스킬.%player%} is not set:
+			set {낫 스킬.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {낫 스킬.%loop-player%} is false:
+			subtract 0.1 from {낫쿨타임.%loop-player%}
+			if {낫쿨타임.%loop-player%} <= 0:
+				send "단검 쿨타임이 돌았습니다." to loop-player
+				delete {낫 스킬.%loop-player%}
+				set  {낫쿨타임.%loop-player%} to {낫스킬쿨타임시간.%loop-player%}
+				
+				

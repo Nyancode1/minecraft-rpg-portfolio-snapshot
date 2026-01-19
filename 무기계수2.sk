@@ -1,0 +1,350 @@
+# on swap hand item:
+	# #대검 차징에 따른 데미지 증가
+	# wait 3 second
+	# if {무기들기5.%player%} is true:
+		# if {대검차징.%player%} >= 30:
+			# set {데미지.%player%} to 8
+			# send "차칭 on" to player
+			# delete {차징풀기.%player%}
+	# if {무기들기4.%player%} is true:
+		# if {차징풀기.%player%} is set:
+			# send "차칭 off" to player
+			# delete {데미지.%player%}
+			# delete {대검차징.%player%}
+	# else:
+		# delete {데미지.%player%}
+		# delete {대검차징.%player%}
+				
+#대검 계수
+every 0.1 second:
+	loop all players:
+		set {대검확인.%loop-player%} to uncolored name of loop-player's tool
+		if {대검확인.%loop-player%} is "[대검]":
+			set {대검.%loop-player%} to name of loop-player's tool
+			if {대검.%loop-player%} is "&d&l[&a&l대검&d&l]":
+				set {대검기본티어.%loop-player%} to 2
+				set {대검기본티어2.%loop-player%} to 4
+				set {대검스킬티어.%loop-player%} to 5
+				set {대검스킬티어2.%loop-player%} to 2
+				set {차징 데미지.%loop-player%} to 8
+				set {대검스킬1.%loop-player%} to true
+			if {대검.%loop-player%} is "&d&l[&9&l대검&d&l]":
+				set {대검기본티어.%loop-player%} to 2
+				set {대검기본티어2.%loop-player%} to 3
+				set {대검스킬티어.%loop-player%} to 5
+				set {대검스킬티어2.%loop-player%} to 3
+				set {차징 데미지.%loop-player%} to 10
+				set {대검스킬2.%loop-player%} to true
+			if {대검.%loop-player%} is "&d&l[&5&l대검&d&l]":
+				set {대검기본티어.%loop-player%} to 1
+				set {대검기본티어2.%loop-player%} to 3
+				set {대검스킬티어.%loop-player%} to 5
+				set {대검스킬티어2.%loop-player%} to 3
+				set {차징 데미지.%loop-player%} to 14
+				set {대검스킬3.%loop-player%} to true
+			if {대검.%loop-player%} is "&d&l[&6&l대검&d&l]":
+				set {대검기본티어.%loop-player%} to 0
+				set {대검기본티어2.%loop-player%} to 2
+				set {대검스킬티어.%loop-player%} to 5
+				set {대검스킬티어2.%loop-player%} to 4
+				set {차징 데미지.%loop-player%} to 18
+				set {대검스킬4.%loop-player%} to true
+			if {대검.%loop-player%} is "&d&l[&c&l대검&d&l]":
+				set {대검기본티어.%loop-player%} to 0
+				set {대검기본티어2.%loop-player%} to 1
+				set {대검스킬티어.%loop-player%} to 5
+				set {대검스킬티어2.%loop-player%} to 0
+				set {차징 데미지.%loop-player%} to 24
+				set {대검스킬5.%loop-player%} to true
+
+
+every 0.1 second: # 보조무기에 둘 때
+	loop all players:
+		if name of loop-player's offhand contains {대검.%loop-player%}:
+			set {대검들기.%loop-player%} to true
+			apply potion of mining fatigue of tier 255 without particles to loop-player for 999 days
+			apply potion of slowness of tier {대검스킬티어.%loop-player%} without particles to loop-player for 999 days
+			apply potion of resistance of tier {대검스킬티어2.%loop-player%} without particles to loop-player for 999 days
+			set {무기들기5.%loop-player%} to true
+			if {대검.%loop-player%} is "&d&l[&c&l대검&d&l]":
+				set {대검감소.%loop-player%} to true
+		else:
+			if {무기들기5.%loop-player%} is true:
+				delete {대검들기.%loop-player%}
+				delete {대검감소.%loop-player%}
+				remove mining fatigue from loop-player
+				remove slowness from loop-player
+				remove resistance from loop-player
+				delete {무기들기5.%loop-player%}	
+every 0.1 second: # 보조무기에 둘 때
+	loop all players:
+		if {대검들기.%loop-player%} is true:
+			add 1 to {대검차징.%loop-player%}
+on swap hand item:
+	#대검 차징에 따른 데미지 증가
+	wait 3 second
+	if {무기들기5.%player%} is true:
+		if {대검차징.%player%} >= 30:
+			set {데미지.%player%} to {차징 데미지.%player%}
+			send "차칭 on" to player
+			delete {차징풀기.%player%}
+	if {무기들기4.%player%} is true:
+		if {차징풀기.%player%} is set:
+			send "차칭 off" to player
+			delete {데미지.%player%}
+			delete {대검차징.%player%}
+		else:
+			send "%{데미지.%player%}%" to player
+			delete {데미지.%player%}
+			delete {대검차징.%player%}
+
+
+
+#장검 계수
+every 0.1 second:
+	loop all players:
+		set {장검확인.%loop-player%} to uncolored name of loop-player's tool
+		if {장검확인.%loop-player%} is "[장검]":
+			set {장검.%loop-player%} to name of loop-player's tool
+			if {장검.%loop-player%} is "&d&l[&a&l장검&d&l]":
+				set {장검기본티어.%loop-player%} to 3
+				set {장검스킬티어.%loop-player%} to 2
+				set {장검스킬쿨타임시간.%loop-player%} to 12.0
+				set {장검스킬1.%loop-player%} to true
+			if {장검.%loop-player%} is "&d&l[&9&l장검&d&l]":
+				set {장검기본티어.%loop-player%} to 3
+				set {장검스킬티어.%loop-player%} to 2
+				set {장검스킬쿨타임시간.%loop-player%} to 11.5
+				set {장검스킬2.%loop-player%} to true
+			if {장검.%loop-player%} is "&d&l[&5&l장검&d&l]":
+				set {장검기본티어.%loop-player%} to 2
+				set {장검스킬티어.%loop-player%} to 3
+				set {장검스킬쿨타임시간.%loop-player%} to 11.0
+				set {장검스킬3.%loop-player%} to true
+			if {장검.%loop-player%} is "&d&l[&6&l장검&d&l]":
+				set {장검기본티어.%loop-player%} to 2
+				set {장검스킬티어.%loop-player%} to 4
+				set {장검스킬쿨타임시간.%loop-player%} to 10.0
+				set {장검스킬4.%loop-player%} to true
+			if {장검.%loop-player%} is "&d&l[&c&l장검&d&l]":
+				set {장검기본티어.%loop-player%} to 1
+				set {장검스킬티어.%loop-player%} to 5
+				set {장검스킬쿨타임시간.%loop-player%} to 9.0
+				set {장검스킬5.%loop-player%} to true
+
+#장검 스킬
+on swap hand item:
+	if name of player's tool contains "%{장검.%player%}%":
+		if {장검쿨타임.%player%} is {장검스킬쿨타임시간.%player%}:
+			if {장검스킬1.%player%} is true:
+				apply potion of glowing of tier 5 to player for 0.5 seconds
+				wait 1 ticks
+				set {패링.%player%} to true
+				wait 0.5 seconds
+				set {패링.%player%} to false
+		if {장검쿨타임.%player%} is {장검스킬쿨타임시간.%player%}:
+			if {장검스킬2.%player%} is true:
+				apply potion of glowing of tier 5 to player for 0.7 seconds
+				wait 1 ticks
+				set {패링.%player%} to true
+				wait 0.7 seconds
+				set {패링.%player%} to false
+		if {장검쿨타임.%player%} is {장검스킬쿨타임시간.%player%}:
+			if {장검스킬3.%player%} is true:
+				apply potion of glowing of tier 5 to player for 0.9 seconds
+				wait 1 ticks
+				set {패링.%player%} to true
+				wait 0.9 seconds
+				set {패링.%player%} to false
+		if {장검쿨타임.%player%} is {장검스킬쿨타임시간.%player%}:
+			if {장검스킬4.%player%} is true:
+				apply potion of glowing of tier 5 to player for 1.2 seconds
+				wait 1 ticks
+				set {패링.%player%} to true
+				wait 1.2 seconds
+				set {패링.%player%} to false
+		if {장검쿨타임.%player%} is {장검스킬쿨타임시간.%player%}:
+			if {장검스킬5.%player%} is true:
+				apply potion of glowing of tier 5 to player for 1.5 seconds
+				wait 1 ticks
+				set {패링.%player%} to true
+				wait 1.5 seconds
+				set {패링.%player%} to false
+on swap hand item:
+	if {패링.%player%} is true:
+		cancel event
+	if name of player's tool contains {장검.%player%}:
+		if {장검 스킬.%player%} is false:
+			send "쿨타임 : %{장검쿨타임.%player%}%초"
+	if name of player's tool contains {장검.%player%}:
+		if {장검 스킬.%player%} is not set:
+			set {장검 스킬.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {장검 스킬.%loop-player%} is false:
+			subtract 0.1 from {장검쿨타임.%loop-player%}
+			if {장검쿨타임.%loop-player%} <= 0:
+				send "장검 쿨타임이 돌았습니다." to loop-player
+				delete {장검 스킬.%loop-player%}
+				set  {장검쿨타임.%loop-player%} to {장검스킬쿨타임시간.%loop-player%}
+on damage:
+	if victim is player:
+		if {패링.%victim%} is true:
+			set {성공.%victim%} to true
+			cancel event
+			apply potion of strength of tier 2 without particles to victim for 1 seconds
+			apply potion of weakness of tier 10 without particles to attacker for 1.8 seconds
+			apply potion of mining fatigue of tier 10 without particles to attacker for 2.5 seconds
+			apply potion of slowness of tier 10 without particles to attacker for 1.3 seconds
+			apply potion of blindness of tier 1 without particles to attacker for 1.3 seconds
+
+
+every 0.1 second:
+	loop all players:
+		set {지팡이확인.%loop-player%} to uncolored name of loop-player's tool
+		if {지팡이확인.%loop-player%} is "[지팡이]":
+			set {지팡이.%loop-player%} to name of loop-player's tool
+			if {지팡이.%loop-player%} is "&d&l[&a&l지팡이&d&l]":
+				set {지팡이기본티어.%loop-player%} to 3
+				set {지팡이스킬쿨타임시간.%loop-player%} to 12.0
+				set {지팡이스킬1.%loop-player%} to true
+			if {지팡이.%loop-player%} is "&d&l[&9&l지팡이&d&l]":
+				set {지팡이기본티어.%loop-player%} to 3
+				set {지팡이스킬쿨타임시간.%loop-player%} to 11.5
+				set {지팡이스킬2.%loop-player%} to true
+			if {지팡이.%loop-player%} is "&d&l[&5&l지팡이&d&l]":
+				set {지팡이기본티어.%loop-player%} to 2
+				set {지팡이스킬쿨타임시간.%loop-player%} to 11.0
+				set {지팡이스킬3.%loop-player%} to true
+			if {지팡이.%loop-player%} is "&d&l[&6&l지팡이&d&l]":
+				set {지팡이기본티어.%loop-player%} to 2
+				set {지팡이스킬쿨타임시간.%loop-player%} to 10.0
+				set {지팡이스킬4.%loop-player%} to true
+			if {지팡이.%loop-player%} is "&d&l[&c&l지팡이&d&l]":
+				set {지팡이기본티어.%loop-player%} to 1
+				set {지팡이스킬쿨타임시간.%loop-player%} to 9.0
+				set {지팡이스킬5.%loop-player%} to true
+on swap hand item:
+	if name of player's tool contains "%{지팡이.%player%}%":
+		if {지팡이쿨타임.%player%} is {지팡이스킬쿨타임시간.%player%}:
+			if {지팡이스킬1.%player%} is true:
+				wait 1 ticks
+				set {힐.%player%} to true
+				wait 3 seconds
+				set {힐.%player%} to false
+			if {지팡이스킬2.%player%} is true:
+				wait 1 ticks
+				set {힐.%player%} to true
+				wait 3 seconds
+				set {힐.%player%} to false
+			if {지팡이스킬3.%player%} is true:
+				wait 1 ticks
+				set {힐.%player%} to true
+				wait 4 seconds
+				set {힐.%player%} to false
+			if {지팡이스킬4.%player%} is true:
+				wait 1 ticks
+				set {힐.%player%} to true
+				wait 4 seconds
+				set {힐.%player%} to false
+			if {지팡이스킬5.%player%} is true:
+				wait 1 ticks
+				set {힐.%player%} to true
+				wait 5 seconds
+				set {힐.%player%} to false
+on swap hand item:
+	wait 2 ticks
+	if {중첩x.%player%} is true:
+		delete {중첩x.%player%}
+		while {힐.%player%} is true:
+			add 1 to all players in radius 4 of player's health
+			wait 10 ticks
+
+on swap hand item:
+	if {힐.%player%} is true:
+		cancel event
+	if name of player's tool contains {지팡이.%player%}:
+		if {지팡이 스킬.%player%} is false:
+			cancel event
+			send "쿨타임 : %{지팡이쿨타임.%player%}%초"
+	if name of player's tool contains {지팡이.%player%}:
+		if {지팡이 스킬.%player%} is not set:
+			set {지팡이 스킬.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {지팡이 스킬.%loop-player%} is false:
+			subtract 0.1 from {지팡이쿨타임.%loop-player%}
+			if {지팡이쿨타임.%loop-player%} <= 0:
+				send "지팡이 쿨타임이 돌았습니다." to loop-player
+				delete {지팡이 스킬.%loop-player%}
+				set  {지팡이쿨타임.%loop-player%} to {지팡이스킬쿨타임시간.%loop-player%}
+
+on death:
+	if {힐.%victim%} is true:
+		delete {힐.%victim%}
+		
+on swap hand item:
+	wait 2 ticks
+	if {패링.%player%} is true:
+		loop 15 times:
+			wait 0.1 seconds
+			if {성공.%player%} is true:
+				delete {성공.%player%}
+				play sound "block_anvil_place" with volume 0.4 and pitch 1.3 at player
+				execute player command "particle minecraft:composter  ^ ^1.5 ^  -0.5 0.5 0.5 0.01 10"
+				exit
+	
+
+on swap hand item:
+	if {건틀릿쿨타임.%player%} is {건스킬쿨타임시간.%player%}:
+		if {건스킬1.%player%} is true:
+			loop 15 times:
+				wait 0.2 seconds
+				execute player command "particle minecraft:dust 0 100 255 1 ^ ^1 ^-0.2 0.5 0.5 0.5 1 50"
+		if {건스킬2.%player%} is true:
+			loop 18 times:
+				wait 0.2 seconds
+				execute player command "particle minecraft:dust 0 100 255 1 ^ ^1 ^-0.2 0.5 0.5 0.5 1 50"
+		if {건스킬3.%player%} is true:
+			loop 23 times:
+				wait 0.2 seconds
+				execute player command "particle minecraft:dust 0 100 255 1 ^ ^1 ^-0.2 0.5 0.5 0.5 1 50"
+		if {건스킬4.%player%} is true:
+			loop 25 times:
+				wait 0.2 seconds
+				execute player command "particle minecraft:dust 0 100 255 1 ^ ^1 ^-0.2 0.5 0.5 0.5 1 50"
+		if {건스킬5.%player%} is true:
+			loop 30 times:
+				wait 0.2 seconds
+				execute player command "particle minecraft:dust 0 100 255 1 ^ ^1 ^-0.2 0.5 0.5 0.5 1 50"
+	
+on swap hand item:
+	wait 2 ticks
+	if {힐.%player%} is true:
+		loop 3 times:
+			wait 0.5 seconds
+			execute player command "particle minecraft:dust 255 255 0 1 ~ ~0.3 ~4.3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~1 ~0.3 ~4 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~2 ~0.3 ~3.7 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~3 ~0.3 ~3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~3.7 ~0.3 ~2 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~4 ~0.3 ~1 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~4.3 ~0.3 ~ 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~4 ~0.3 ~-1 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~3.7 ~0.3 ~-2 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~3 ~0.3 ~-3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~2 ~0.3 ~-3.7 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~1 ~0.3 ~-4 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~ ~0.3 ~-4.3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-1 ~0.3 ~-4 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-2 ~0.3 ~-3.7 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-3 ~0.3 ~-3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-3.7 ~0.3 ~-2 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-4 ~0.3 ~-1 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-4.3 ~0.3 ~ 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-4 ~0.3 ~1 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-3.7 ~0.3 ~2 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-3 ~0.3 ~3 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-2 ~0.3 ~3.7 0.1 0.1 0.1 1 50"
+			execute player command "particle minecraft:dust 255 255 0 1 ~-1 ~0.3 ~4 0.1 0.1 0.1 1 50"
+			wait 0.5 seconds

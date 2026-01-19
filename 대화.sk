@@ -1,0 +1,397 @@
+# &0 : 검은색 &1 어두운 파랑 &2 어두운 초록 &3어두운 아쿠아
+# &4 어두운 빨강 &5 어두운 보라 &6 연주황 &7회색 &8 어두운 회색
+# &9 파랑 &a 초록 &b 아쿠아 &c 빨강 &d 밝은 보라 &e 노랑 &f 흰색
+
+# &k 난독화 &l 볼드 &m 취소선 &n 밑줄 &o 기울임 &r 색 글씨체 초기화
+
+# 이름표 획득 코드
+# 대화 변수 초기화
+command /대초:
+	permission: 어드민
+	trigger:
+		if player is op:
+			send "%{대화중.%player%}%" to player
+			set {대화중.%player%} to false
+		else:
+			send "&c당신은 권한이 없습니다" to player
+		
+# 대화 중복 방지
+variables:
+	{대화중.%player%} = false
+	{왈도특정.%player%} = 0
+
+# 농부
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6초록손 농부 &e메리":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 4
+			if {_랜덤} is 1:
+				send "&e&l메리 &f&l: &a&l안녕~" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l메리 &f&l: &a&l감자 하나 먹어볼래?~" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 2:
+				send "&e&l메리 &f&l: &a&l안녕~" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l메리 &f&l: &a&l여기있는 야채구경하고가~!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 3:
+				send "&e&l메리 &f&l: &a&l어서와~" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l메리 &f&l: &a&l이 싱싱한 야채 사가지 않을래?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 4:
+				send "&e&l메리 &f&l: &a&l어서와" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l메리 &f&l: &a&l작물은 여기로 주면되~" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+# 어부
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6떡밥풀이 어부 &e그리오":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 100
+			#떡밥
+			if {_랜덤} is between 1 and 10:
+				send "&e&l그리오 &f&l: &a&l자네 이 사실을 알고 있나?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				set {_랜덤} to random integer between 1 and 3
+				if {_랜덤} is 1:
+					send "&e&l그리오 &f&l: &a&l어느 구석진 구역" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					wait 0.3 seconds
+					send "&e&l그리오 &f&l: &a&l미지의 상인이 있다지" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {_랜덤} to random integer between 1 and 3
+					if {_랜덤} is 1:
+						wait 0.5 seconds
+						send "&e&l그리오 &f&l: &a&l누군가 나무 밑둥을 보아라라고 했었나?" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						set {대화중.%player%} to false
+				if {_랜덤} is 2:
+					send "&e&l그리오 &f&l: &a&l자네가 소환된 곳 바로 아래 무시무시한것이 들어있다네" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+				if {_랜덤} is 3:
+					send "&e&l그리오 &f&l: &a&l어느 구석진 구역 미지의 상인이 있다지" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+			# 일상 대화
+			if {_랜덤} is between 11 and 40:
+				send "&e&l그리오 &f&l: &a&l어서오게나" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l그리오 &f&l: &a&l자네도 낚시를 좋아하나 보군." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			# 일상 대화
+			if {_랜덤} is between 41 and 70:
+				send "&e&l그리오 &f&l: &a&l어서오게나" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l그리오 &f&l: &a&l자네는 어쩌다 낚시를 하게되었나." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is between 71 and 100:
+				send "&e&l그리오 &f&l: &a&l어서오게나" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l그리오 &f&l: &a&l비가 오는지 온몸이 욱신거리군." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			
+# 광부
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6성공한 광부 &e후버":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 3
+			if {_랜덤} is 1:
+				send "&e&l후버 &f&l: &a&l어이~ 거기!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l후버 &f&l: &a&l자네 인부같은데 어서 광질하러 들어가라고!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 2:
+				send "&e&l후버 &f&l: &a&l어이! 거기!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l후버 &f&l: &a&l자네 인부같은데 어디서 농땡이를 피우는 겐가!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 3:
+				send "&e&l후버 &f&l: &a&l자네!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l후버 &f&l: &a&l오늘 광물은 두둑히 캤나?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+# 요리사
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6고든 램지 &e램쥐썬더":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 3
+			if {_랜덤} is 1:
+				send "&e&l람쥐 &f&l: &a&l야! 이 요리어때?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l람쥐 &f&l: &a&l맛있어 보이지?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 2:
+				send "&e&l람쥐 &f&l: &a&l윽 냄새!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l람쥐 &f&l: &a&l니 요리에서 하수구 냄새나서" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l람쥐 &f&l: &a&l바퀴벌레가 득실거리겠다!" to player
+				set {대화중.%player%} to false
+			if {_랜덤} is 3:
+				send "&e&l람쥐 &f&l: &a&l흠 요리 사러오셨나요?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l람쥐 &f&l: &a&l갓 만든 이 요리 사가세요!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+# 대장장이
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6전설의 대장장이 &e단야사":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 3
+			if {_랜덤} is 1:
+				send "&e&l단야사 &f&l: &a&l안녕하신가!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l단야사 &f&l: &a&l이 전설의 대장장이에게 강화를 맡기러 왔나보군!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 2:
+				send "&e&l단야사 &f&l: &a&l어서오게나!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l단야사 &f&l: &a&l오랜만에 손 좀 풀어보겠구만!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 3:
+				send "&e&l단야사 &f&l: &a&l안녕하신가!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l단야사 &f&l: &a&l이 전설의 대장장이만 믿으라고!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+		
+# 무기상
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6무기의 상인 &e잭스":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 100
+			if {_랜덤} is between 1 and 37:
+				send "&e&l잭스 &f&l: &a&l잘찾아왔군." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l잭스 &f&l: &a&l이 구역에선 내 장비들이 최고라고." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is between 38 and 75:
+				send "&e&l잭스 &f&l: &a&l어디보자." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l잭스 &f&l: &a&l너에겐 이것이 어울릴것 같군." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is between 76 and 100:
+				send "&e&l잭스 &f&l: &a&l거기 너 그거 알고 있나?." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l잭스 &f&l: &a&l나의 장비는 대장장이에게 강화시킬 수 있지." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+#기타상인
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&1만물상 &5개복치":
+			cancel event
+			set {대화중.%player%} to true
+			send "&5&l개복치 &f&l: &d&l어서오게나!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&5&l개복치 &f&l: &d&l당신이 원하는건 다 있다고!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			set {대화중.%player%} to false
+
+# 골드호더
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6골드호더":
+			set {대화중.%player%} to true
+			cancel event
+			send "&e&l골드호더 &f&l: &a&l어이친구!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&e&l골드호더 &f&l: &a&l바깥은 녹색이고 안은 금색인 게 뭐게?" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&e&l골드호더 &f&l: &a&l바로 이 골드호더의 텐트지!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			set {대화중.%player%} to false
+
+# 헌터
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6갈퀴손 헌터 &e바실리":
+			cancel event
+			set {대화중.%player%} to true
+			set {_랜덤} to random integer between 1 and 3
+			if {_랜덤} is 1:
+				send "&e&l바실리 &f&l: &a&l자네가 보여줄 부산물은 무엇인가." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l바실리 &f&l: &a&l이 정도로는 성이 안차는데 말이지." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 2:
+				send "&e&l바실리 &f&l: &a&l때때로 사냥에 대한 자만심을 부리다.." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l바실리 &f&l: &a&l큰 희생을 하기마련이지..." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is 3:
+				send "&e&l바실리 &f&l: &a&l어서오게나.." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l바실리 &f&l: &a&l몬스터 부산물은 가져왔나..." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			
+#수표 환전상
+on rightclick on entity:
+	if {대화중.%player%} is false: 
+		if entity's name is "&6환전상 &e오소리":
+			set {대화중.%player%} to true
+			cancel event
+			send "&e&l오소리 &f&l: &a&l거기!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&e&l오소리 &f&l: &a&l도박을 하려면 나를 거쳐가라고~!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			set {대화중.%player%} to false
+
+
+# 일반도박꾼	
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6랜덤도박 딜러 &e바드":
+			set {대화중.%player%} to true
+			cancel event
+			set {_랜덤} to random integer between 1 and 1
+			if {_랜덤} is 1:
+				send "&e&l바드 &f&l: &a&l돈은 들고왔는가?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l바드 &f&l: &a&l도박으로 한탕해 보자고" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+# 주사위도박꾼	
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6주사위도박 딜러 &e아이작":
+			set {대화중.%player%} to true
+			cancel event
+			set {_랜덤} to random integer between 1 and 30
+			if {_랜덤} is between 1 and 20:
+				send "&e&l아이작 &f&l: &a&l자네는 운을 믿나?" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+			if {_랜덤} is between 21 and 30:
+				send "&e&l아이작 &f&l: &a&l때때로  불행한 일이 좋은사람에게 생길 수 있지." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l아이작 &f&l: &a&l그게 자네가 될 수도." to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				set {대화중.%player%} to false
+
+# 블랙마켓 관리인
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&5블랙마켓 관리인":
+			set {대화중.%player%} to true
+			cancel event
+			send "&5&l블랙마켓 관리인 &f&l: &d&l..." to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&5&l블랙마켓 관리인 &f&l: &d&l외지인이로군.." to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			if {마켓업적.%player%} is false:
+				set {마켓신호.%player%} to false
+			set {대화중.%player%} to false
+
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "[&b집 도우미&f]":
+			set {대화중.%player%} to true
+			cancel event
+			send "&b&l도우미 &f&l: &a&l안녕하세요!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			wait 0.5 seconds
+			send "&b&l도우미 &f&l: &a&l24시 언제든 대기 중 입니다!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+			set {대화중.%player%} to false
+			
+# 시민 왈도
+on rightclick on entity:
+	if {대화중.%player%} is false:
+		if entity's name is "&6강한시민 &e왈도":
+			set {대화중.%player%} to true
+			cancel event
+			if {왈도특정.%player%} is between 0 and 30:
+				send "&e&l왈도 &f&l: &a&l안녕하신가!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l왈도 &f&l: &a&l힘세고 강한 아침" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l왈도 &f&l: &a&l만일 내게 물어보면" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l왈도 &f&l: &a&l나는 왈도" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				add 1 to {왈도특정.%player%}
+				set {대화중.%player%} to false
+			else if {왈도특정.%player%} is between 30 and 31:
+				send "&e&l왈도 &f&l: &a&l안녕하신가!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				send "&e&l왈도 &f&l: &a&l흠! 도대체 몇번을 클릭하는거지!" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+				wait 0.5 seconds
+				if {왈도업적.%player%} is false:
+					set {왈도신호.%player%} to false
+				set {왈도특정.%player%} to 1
+				set {대화중.%player%} to false

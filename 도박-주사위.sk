@@ -1,0 +1,219 @@
+on rightclick on entity:
+	if entity's name is "&6랜덤도박 딜러 &e바드":
+		cancel event
+		open chest with 3 rows named "&2&l랜덤도박" to player
+		set {_slot} to 0
+		loop 11 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 12
+		loop 27 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set slot 2 of current inventory of player to diamond named "&a&l돈" with lore "&f&l재화를 올려주세요"
+		set slot 15 of current inventory of player to anvil named "&e&l도박시작!"
+
+on inventory click:
+	if player's current inventory's name is "&2&l랜덤도박":
+		# 클릭했을 때 캔슬 스크립트
+		if clicked item is blue stained glass pane or diamond or anvil:
+			cancel event
+		if click type is left mouse button or left mouse button with shift:
+			if clicked raw slot is smaller than 27:
+				if clicked slot is 15:
+					set {_xx.%player%} to slot 11 of current inventory of player
+					set {_재화number.%player%} to amount of {_xx.%player%} in current inventory of player
+					set {_재화확인.%player%} to name of {_xx.%player%}
+					replace all "1" and "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "0" and " " and "원" with "" in {_재화확인}
+					if slot 11 of player's current inventory is paper:
+						if {_재화확인.%player%} is "&a재화&e&a":
+							add 1 to {도박히든.%player%} # 도박 횟수 증가 히든리스트
+							remove 1 anvil from player's inventory
+							#재화 정수화 작업 / 추가 할 사항 재화 개수에 따른 값 변환
+							set {_도박돈.%player%} to uncolored name of slot 11 of player's current inventory #11슬롯에 있는 아이템의 색상코드를 삭제한 후 도박돈 변수에 입력한다
+							replace all "재화" and " " and "원" with "" in {_도박돈.%player%} # 도박돈 변수 안에 "?"?안에 있는 내용을 삭제한다
+							set {_도박돈.%player%} to {_도박돈.%player%} parsed as integer # 삭제후 정수만 남은 도박돈 변수를 문자열에서 정수형태로 변환시킨다 
+							set {_도박돈.%player%} to {_도박돈.%player%}*{_재화number.%player%} # 넣은 재화의 개수 만큼 곱셈 시킨다
+							remove {_재화number.%player%} of {_xx.%player%} from current inventory of player
+							close player's inventory
+							play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+							send title "&d[&a●&d]" to player for 1 seconds and 1 ticks and 1 ticks
+							wait 0.4 seconds
+							play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+							send title "&d[&a● ●&d]" to player for 1 seconds and 1 ticks and 1 ticks
+							wait 0.4	seconds
+							play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+							send title "&d[&a● ● ●&d]" to player for 1 seconds and 1 ticks and 1 ticks
+							wait 0.4 seconds
+							# 도박 시작 스크립트
+							set {_random-money.%player%} to random integer between 1 and 100
+							if {_random-money.%player%} is between 1 and 50:
+								play sound "entity_player_attack_crit" with volume 0.6 and pitch 2 at player
+								send title "&c&l실패~" to player for 1 seconds and 1 ticks and 1 ticks
+								send "&c&l돈을 잃었네요~" to player
+							if {_random-money.%player%} is between 51 and 80:
+								play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+								add {_도박돈.%player%} to {돈.%uuid of player%}
+								send title "&d&l[&e&l1배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+								send "&a&l도박을 통해 &e&l%{_도박돈.%player%}%&a&l원을 얻었습니다" to player
+							if {_random-money.%player%} is between 81 and 90:
+								play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+								add {_도박돈.%player%}*1.5 to {돈.%uuid of player%}
+								send title "&d&l[&9&l1.5배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+								send "&a&l도박을 통해 &e&l%({_도박돈.%player%}*1.5)%&a&l원을 얻었습니다" to player
+							if {_random-money.%player%} is between 91 and 95:
+								play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+								add {_도박돈.%player%}*2 to {돈.%uuid of player%}
+								send title "&d&l[&c&l2배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+								send "&a&l도박을 통해 &e&l%({_도박돈.%player%}*2)%&a&l원을 얻었습니다" to player
+							if {_random-money.%player%} is between 96 and 100:
+								play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+								add {_도박돈.%player%}*3 to {돈.%uuid of player%}
+								send title "&d&l[&5&l3배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+								send "&a&l도박을 통해 &e&l%({_도박돈.%player%}*3)%&a&l원을 얻었습니다" to player
+							wait 0.7 seconds
+							open chest with 3 rows named "&2&l랜덤도박" to player
+							# send "종이 : %{아이템1.%player%}%" to player
+							set {_slot} to 0
+							loop 11 times:
+								set slot {_slot} of current inventory of player to blue stained glass pane
+								add 1 to {_slot}
+							set {_slot} to 12
+							loop 27 times:
+								set slot {_slot} of current inventory of player to blue stained glass pane
+								add 1 to {_slot}
+							set slot 2 of current inventory of player to diamond named "&a&l돈" with lore "&f&l재화를 올려주세요"
+							set slot 15 of current inventory of player to anvil named "&e&l도박시작!"
+						else:
+							send "&c&l재화를 넣으세요" to player
+					else:
+						send "&c&l재화를 넣으세요" to player
+						
+on rightclick on entity:
+	if entity's name is "&6주사위도박 딜러 &e아이작":
+		cancel event
+		open chest with 3 rows named "&6&l주사위 도박" to player
+		set {주사위.%player%} to 0
+		set {_slot2} to 0
+		loop 11 times:
+			set slot {_slot2} of current inventory of player to blue stained glass pane
+			add 1 to {_slot2}
+		set {_slot2} to 12
+		loop 27 times:
+			set slot {_slot2} of current inventory of player to blue stained glass pane
+			add 1 to {_slot2}
+		set slot 2 of current inventory of player to diamond block named "&a&l돈"
+		set slot 16 of current inventory of player to emerald block named "&e&l주사위 굴리기"
+		set slot 19 of current inventory of player to red concrete named "&c&l미만"
+		set slot 20 of current inventory of player to gray concrete named "&8&l같음"
+		set slot 21 of current inventory of player to lime concrete named "&a&l초과"
+		
+on inventory click:
+	if player's current inventory's name is "&6&l주사위 도박":
+		if click item is blue stained glass pane or diamond block or lime concrete or gray concrete or red concrete or emerald block:
+			cancel event
+		if click type is left mouse button or left mouse button with shift:
+			if clicked raw slot is smaller than 27:
+				if clicked slot is 19:
+					cancel event
+					set {주사위.%player%} to 1
+					send "&c&l미만" to player
+				if clicked slot is 20:
+					cancel event
+					set {주사위.%player%} to 2
+					send "&8&l같음" to player
+				if clicked slot is 21:
+					cancel event
+					set {주사위.%player%} to 3
+					send "&a&l초과" to player
+				if clicked slot is 16:
+					if {주사위.%player%} is not 0:
+						set {_xx.%player%} to slot 11 of current inventory of player
+						set {_재화number.%player%} to amount of {_xx.%player%} in current inventory of player
+						set {_재화확인.%player%} to name of {_xx.%player%}
+						replace all "1" and "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "0" and " " and "원" with "" in {_재화확인.%player%}
+						if slot 11 of player's current inventory is paper:
+							if {_재화확인.%player%} is "&a재화&e&a":
+								add 1 to {도박히든.%player%} # 도박 횟수 증가 히든리스트
+								remove 1 anvil from player's inventory
+								set {_도박돈2.%player%} to uncolored name of slot 11 of player's current inventory
+								replace all "재화" and " " and "원" with "" in {_도박돈2.%player%}
+								set {_도박돈2.%player%} to {_도박돈2.%player%} parsed as integer
+								set {_도박돈2.%player%} to {_도박돈2.%player%}*{_재화number.%player%} # 넣은 재화의 개수 만큼 곱셈 시킨다
+								remove {_재화number.%player%} of {_xx.%player%} from current inventory of player
+								close player's inventory
+								loop 12 times:
+									set {random_dice.%player%} to random integer between 1 and 6
+									send title "&d[&a%{random_dice.%player%}%&d]" to player for 1 seconds and 0 ticks and 0 ticks
+									play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+									wait 0.1 seconds
+								send "&6&l아이작의 숫자&d[&a%{random_dice.%player%}%&d]" to player
+								wait 0.5 seconds
+								loop 12 times:
+									set {random_dice2.%player%} to random integer between 1 and 6
+									send title "&d[&a%{random_dice2.%player%}%&d]" to player for 1 seconds and 0 ticks and 0 ticks
+									play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+									wait 0.1 seconds
+								send "&e&l당신의 숫자&d[&c%{random_dice2.%player%}%&d]" to player
+								wait 1 seconds
+								if {random_dice.%player%} < {random_dice2.%player%}:
+									if {주사위.%player%} is 1:
+										play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+										add {_도박돈2.%player%}*1.5 to {돈.%uuid of player%}
+										send title "&d&l[&9&l1.5배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+										send "&a&l도박을 통해 &e&l%({_도박돈2.%player%}*1.5)%&a&l원을 얻었습니다" to player
+									else:
+										play sound "entity_player_attack_crit" with volume 0.6 and pitch 2 at player
+										send "&c&l돈을 잃었네요~" to player
+								if {random_dice.%player%} = {random_dice2.%player%}:
+									if {주사위.%player%} is 2:
+										play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+										add {_도박돈2.%player%}*4 to {돈.%uuid of player%}
+										send title "&d&l[&5&l4배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+										send "&a&l도박을 통해 &e&l%({_도박돈2.%player%}*4)%&a&l원을 얻었습니다" to player
+									else:
+										play sound "entity_player_attack_crit" with volume 0.6 and pitch 2 at player
+										send "&c&l돈을 잃었네요~" to player
+								if {random_dice.%player%} > {random_dice2.%player%}:
+									if {주사위.%player%} is 3:
+										play sound "entity_player_levelup" with volume 0.6 and pitch 2 at player
+										add {_도박돈2.%player%}*1.5 to {돈.%uuid of player%}
+										send title "&d&l[&9&l1.5배&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+										send "&a&l도박을 통해 &e&l%({_도박돈2.%player%}*1.5)%&a&l원을 얻었습니다" to player
+									else:
+										play sound "entity_player_attack_crit" with volume 0.6 and pitch 2 at player
+										send "&c&l돈을 잃었네요~" to player
+								wait 1 seconds
+								open chest with 3 rows named "&6&l주사위 도박" to player
+								set {주사위.%player%} to 0
+								set {_slot2} to 0
+								loop 11 times:
+									set slot {_slot2} of current inventory of player to blue stained glass pane
+									add 1 to {_slot2}
+								set {_slot2} to 12
+								loop 27 times:
+									set slot {_slot2} of current inventory of player to blue stained glass pane
+									add 1 to {_slot2}
+								set slot 2 of current inventory of player to diamond block named "&a&l돈"
+								set slot 16 of current inventory of player to emerald block named "&e&l주사위 굴리기"
+								set slot 19 of current inventory of player to red concrete named "&c&l미만"
+								set slot 20 of current inventory of player to gray concrete named "&8&l같음"
+								set slot 21 of current inventory of player to lime concrete named "&a&l초과"
+							else:
+								send "&c&l재화를 넣으세요" to player
+						else:
+							send "&c&l재화를 넣으세요" to player
+					else:
+						send "&c&l숫자를 고르세요" to player
+on inventory close:
+	if current inventory's name contains "&2&l랜덤도박":
+		set {_xx.%player%} to slot 11 of current inventory of player
+		set {_재화number.%player%} to amount of {_xx.%player%} in current inventory of player
+		if {_xx.%player%} is not air:
+			give {_재화number.%player%} of {_xx.%player%} to player
+			
+	if current inventory's name contains "&6&l주사위 도박":
+		set {_xx.%player%} to slot 11 of current inventory of player
+		set {_재화number.%player%} to amount of {_xx.%player%} in current inventory of player
+		if {_xx.%player%} is not air:
+			give {_재화number.%player%} of {_xx.%player%} to player

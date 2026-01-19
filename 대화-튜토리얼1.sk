@@ -1,0 +1,599 @@
+on exit "tuto1":
+	if {튜토완.%player%} is false:
+		send "튜토리얼이 끝나지 않았습니다." to player
+		cancel event
+
+on exit "tuto2":
+	if {튜토완1.%player%} is false:
+		send "튜토리얼이 끝나지 않았습니다." to player
+		cancel event
+
+
+command /tuchat1:
+	trigger:
+		if {튜토대화1.%player%} is not set:
+			set {튜토대화1.%player%} to false
+			set {튜토.%player%} to true
+
+command /tuchat2:
+	trigger:
+		if {튜토대화2.%player%} is not set:
+			set {튜토대화2.%player%} to false
+			set {튜토.%player%} to true
+
+command /tuchat3:
+	trigger:
+		if {튜토대화3.%player%} is not set:
+			set {튜토대화3.%player%} to false
+			set {튜토.%player%} to true
+command /tuchat4:
+	trigger:
+		if {튜토대화4.%player%} is not set:
+			set {튜토대화4.%player%} to false
+			set {튜토.%player%} to true
+command /tuchat5:
+	trigger:
+		set {튜토대화5.%player%} to false
+		set {튜토.%player%} to true
+command /tuchat6:
+	trigger:
+		set {튜토대화6.%player%} to false
+		set {튜토.%player%} to true
+command /tuchat7:
+	trigger:
+		set {튜토대화7.%player%} to false
+		set {튜토.%player%} to true
+command /tuchat8:
+	trigger:
+		set {튜토대화8.%player%} to false
+		set {튜토.%player%} to true
+command /tuchat9:
+	trigger:
+		set {튜토대화9.%player%} to false
+		set {튜토.%player%} to true
+command /tuchat10:
+	trigger:
+		set {튜토대화10.%player%} to false
+		set {튜토.%player%} to true
+
+command /move:
+	trigger:
+		if {이동.%player%} is not set:
+			set {튜토완.%player%} to true
+			set {이동.%player%} to true
+			set {텔포.%player%} to true
+
+command /don'tmove:
+	trigger:
+		if {이동x.%player%} is not set:
+			set {이동x.%player%} to true
+			set {튜토.%player%} to true
+
+command /tu:
+	permission: 어드민
+	trigger:
+		set {튜토완.%player%} to false
+		set {튜토완1.%player%} to false
+		set {튜토대화.%player%} to false
+		set {튜토대화4.%player%} to false
+		delete {튜토대화1.%player%}
+		delete {튜토대화2.%player%}
+		delete {튜토대화3.%player%}
+		delete {튜토대화5.%player%}
+		delete {튜토대화6.%player%}
+		delete {튜토대화7.%player%}
+		delete {튜토대화8.%player%}
+		delete {튜토대화9.%player%}
+		delete {튜토대화10.%player%}
+		delete {닉넴.%player%}
+		delete {이동.%player%}
+		delete {이동x.%player%}
+		delete {move.%player%}
+		delete {장비선택.%player%}
+		set {안가.%player%} to 0
+
+command /tu2:
+	permission: 어드민
+	trigger:
+		set {튜토완.%player%} to true
+		set {튜토완1.%player%} to true
+
+on rightclick on entity:
+	if {튜토대화.%player%} is false:
+		if entity's name is "&6마을촌장 &e땡땡":
+			set {튜토대화.%player%} to true
+			cancel event
+			send "&e&l??? &f&l: &a&l!!!" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1.3 seconds
+			send "&e&l??? &f&l: &a&l자네는 누구인가?" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1.3 seconds
+			send "&e&l??? &f&l: &a&l혹시 외지인인가?" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1.8 seconds
+			send "&e&l??? &f&l: &a&l그렇담 세상이 다시 어지러워 진다는 징조로군.." to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 2 seconds
+			send "&e&l??? &f&l: &a&l일단 이곳은 시자기 마을 소환터라네" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 2 seconds
+			send "&e&l??? &f&l: &a&l흠흠.. 처음 봤으니 서로 소개부터 하는게 어떤가?" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 2 seconds
+			send "&e&l땡땡 &f&l: &a&l이 늙은이는 이 마을의 촌장을 담당하고 있는 땡땡이라 하네" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 2.5 seconds
+			send "&e&l땡땡 &f&l: &a&l자네의 이름은 무엇인가?" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1 seconds
+			message "<ttp:&e이름을 알려준다><cmd:/tuchat1>&6[(%player%)]<reset>   <ttp:&e기억이 나질 않는다고 말한다><cmd:/tuchat2>&6[(기억이 나질 않는다)]<reset>   <ttp:&e알려주지 않는다.><cmd:/tuchat3>&6[(침묵한다)]<reset>" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화1.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {닉넴.%loop-player%} to true
+				set {튜토대화1.%loop-player%} to true
+				set {튜토대화2.%loop-player%} to true
+				set {튜토대화3.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l땡땡 &f&l: &a&l하하 자네는 거리낌이 없군!" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l좋네 자네의 이름을 마을 주민들에게 알려주겠네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l자 이제는 자네를 위한 장소로 이동할 시간이라네 &e%loop-player%" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l이동하겠나?" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e이동한다><cmd:/move>&6[(끄덕)]<reset>   <ttp:&e기억이 나질 않는다고 말한다><cmd:/don'tmove>&6[도리도리)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+		if {튜토대화2.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {닉넴.%loop-player%} to false
+				set {튜토대화1.%loop-player%} to true
+				set {튜토대화2.%loop-player%} to true
+				set {튜토대화3.%loop-player%} to true
+				wait 0.5 seconds
+				send "&e&l땡땡 &f&l: &a&l자네 기억을 잃은 겐가?" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l이런 간혹가다 이곳으로 전이된 외지인들 중 기억을 잃은 자들이 있었다는 기록이 있었다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l하하 그렇지만 그리 큰걱정은 하지 말게나" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l그런 자들 중 도중에 기억을 못찾은 이는 한명도 없었으니" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l자 이제 슬슬 자네를 위한 장소로 이동할 시간이라네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l땡땡 &f&l: &a&l이동하겠나?" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e이동한다><cmd:/move>&6[(끄덕)]<reset>   <ttp:&e기억이 나질 않는다고 말한다><cmd:/don'tmove>&6[도리도리)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+		if {튜토대화3.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {닉넴.%loop-player%} to false
+				set {튜토대화1.%loop-player%} to true
+				set {튜토대화2.%loop-player%} to true
+				set {튜토대화3.%loop-player%} to true
+				wait 0.5 seconds
+				send "&e&l땡땡 &f&l: &a&l아무렴 의심이간다면 숨기는것도 좋지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l땡땡 &f&l: &a&l하지만 점점 숨기다간 나중에 사람들에게 도움을 못 받을수도 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 2.3 seconds
+				send "&e&l땡땡 &f&l: &a&l자네에게 그 전에 어떤일이 있는지는 모르지만" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 2 seconds
+				send "&e&l땡땡 &f&l: &a&l여기는 색다른 곳이라네 새 출발이라 생각하고 여행을 즐겨보게나" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 2.4 seconds
+				send "&e&l땡땡 &f&l: &a&l자 이제는 자네를 위한 장소로 이동할 시간이라네 외지인이여" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.8 seconds
+				send "&e&l땡땡 &f&l: &a&l이동하겠나?" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e이동한다><cmd:/move>&6[(끄덕)]<reset>   <ttp:&e기억이 나질 않는다고 말한다><cmd:/don'tmove>&6[도리도리)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+		if {이동x.%loop-player%} is true:
+			if {튜토.%loop-player%} is set:
+				delete {이동x.%loop-player%}
+				delete {튜토.%loop-player%}
+				add 1 to {안가.%loop-player%}
+				send "&e&l땡땡 &f&l: &a&l흠 알겠네 마음이 진정이 된 후 언제든 이동하게나" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 3 seconds
+				send "&e&l땡땡 &f&l: &a&l이동하겠나?" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e이동한다><cmd:/move>&6[(끄덕)]<reset>   <ttp:&e기억이 나질 않는다고 말한다><cmd:/don'tmove>&6[(도리도리)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+on any move:
+	if {이동.%player%} is true:
+		if {텔포.%player%} is set:
+			delete {텔포.%player%}
+			set {초 세기.%player%} to 3.0
+			set {이동.%player%} to false
+			set {이동x.%player%} to false
+			set {첫대사.%player%} to false
+			#검은 콘크리트
+			teleport player to location 412.5, 64,  629.5
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중.&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			set {초 세기.%player%} to 0.9
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중..&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			set {초 세기.%player%} to 0.4
+			loop 5 time:
+				wait 0.1 seconds
+				send title "&d[&2훈련장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				subtract 0.1 from {초 세기.%player%}
+			if {초 세기.%player%} <= 0.0: # 위 코드가 실행 된 후에 초 세기가 0 보다 작거나 같을 때
+				set {초 세기.%player%} to 0.0
+				send title "&d[&2훈련장으로 가는중...&d]" with subtitle "%{초 세기.%player%}%초" to player for 1 seconds and 1 ticks and 1 ticks
+				teleport player to location 329.5, 70,  597.5
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+				send "&a&l훈련장으로 이동!" to player
+				set {초 세기.%player%} to 3.0
+
+on rightclick on entity:
+	if {튜토대화4.%player%} is false:
+		if entity's name is "&6훈련대장 &e앵앵":
+			set {튜토대화4.%player%} to true
+			cancel event
+			if {닉넴.%player%} is true:
+				send "&e&l앵앵 &f&l: &a&l오! 자네가 촌장님이 말한 %player%이군" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			else:
+				send "&e&l앵앵 &f&l: &a&l오! 자네가 촌장님이 말한 외지인이군" to player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1.3 seconds
+			send "&e&l앵앵 &f&l: &a&l그래 이 마을에는 외지인을 위한 시스템이 마련되어있지" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1.3 seconds
+			send "&e&l앵앵 &f&l: &a&l자 하나하나 알려주겠네" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+			wait 1 seconds
+			message "<ttp:&e장비 시스템에 대해 알려준다><cmd:/tuchat5>&6[(장비 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to player
+			message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to player
+			play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화5.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {튜토대화5.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l그래 장비에 대해 알려주도록하지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.3 seconds
+				send "&e&l앵앵 &f&l: &a&l무기의 종류에는 건틀릿, 단검, 낫, 대검, 장검, 지팡이가 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.3 seconds
+				send "&e&l앵앵 &f&l: &a&l각 무기들의 특징을 간략하게 알려주도록 하지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.3 seconds
+				send "&e&l앵앵 &f&l: &a&l건틀릿은 빠른공격속도로 적을 휘잡을 수 있지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l단검은 특유의 시스템으로 적을 혼란스럽게 가능하다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l낫은 한방한방이 강력한 캐릭터로 데미지 하나에 치중되어 있고" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l대검은 공수전환이 가능한 무기라네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds 
+				send "&e&l앵앵 &f&l: &a&l보조무기에 있을 때는 방어가 되고" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l무기 창에 있을 때는 공격을 할 수 있지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l장검은 상대의 수를 읽고 싸우는 무기지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l상대가 공격하기 직전 무기를 스위칭 한다면 패링이 적용되네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l지방이는 다친 파티원을 회복시켜주는 무기라네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l일정 범위안에 들어가 있어야하지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l또한 방어구란 것이 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l해당 방어구는 자네가 강화를 시킨 방어구를" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l앵앵 &f&l: &a&l적용시킬 수 있는 창이라네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l앵앵 &f&l: &a&l해당 창은 간편창을 이용하거나 /장비 를 치면 나온다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e무기 시스템에 대해 알려준다><cmd:/tuchat5>&6[(무기 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to loop-player
+				message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화6.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {튜토대화6.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l그래 잘 선택했네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l외지인을 위한 시스템 중 가장 좋은 시스템이지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l강화시스템에는 변형, 무기강화, 방어구강화, 등급업이 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l먼저 강화를 하려면 변형창에들어가 무기를 변형시켜야하네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l강화는 7단계까지 할 수 있고 무기와 방어구 강화창을 잘보게" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l7단계까지 강화 한 후에는 등급업을 시킬 수 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l등급업은 5별까지 시킬 수 있고" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l등급업을 하다 파괴 된다면 그 무기는 사용 할 수 없다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l이렇게 강화를 이용하고 싶다면 광장에서 남쪽으로 가게" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e무기 시스템에 대해 알려준다><cmd:/tuchat5>&6[(무기 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to loop-player
+				message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화7.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {튜토대화7.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l그래 전직 시스템에 대해 설명해 주도록 하지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l먼저 전직은 자네의 특정 행동의 효율을 높혀 준다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l전직의 종류는 농부, 광부, 낚시꾼, 헌터로 총 4가지가 있지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l하지만 숨겨져 있는 직업도 있다는군" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l농부는 농사와 관련되 있고 농사와 관련된 행동에 보너스를 받지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l광부는 광질을 할때 보너스를 받는다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l낚시꾼 또한 낚시를 하는 행동에서 보너스를 받지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l사냥꾼은 잡는 일을 중점으로 둘 때에만 하는게 좋을 걸세" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l각 전직은 상점가에 있는 마을 주민들에게 물어보면 된다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e무기 시스템에 대해 알려준다><cmd:/tuchat5>&6[(무기 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to loop-player
+				message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화8.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {튜토대화8.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l그래 이 시스템은 외지인들의 편의를 위해 만들어졌을태지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l쉬프트 f를 누른다면 간편창이 자네 앞에 뜰것이네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l이를 통해 자네의 방어구를 넣거나, 빠른이동, 업적 등" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.4 seconds
+				send "&e&l앵앵 &f&l: &a&l여러가지 행동을 간편하게 할 수 있을걸세" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e무기 시스템에 대해 알려준다><cmd:/tuchat5>&6[(무기 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to loop-player
+				message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화9.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				delete {튜토.%loop-player%}
+				set {튜토대화9.%loop-player%} to true
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l이번에는 자네가 집을 지을 때 유용한 팁을 주도록하지" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l자네가 집을 지을 때 건물보호 아이템을 사용한다면" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l사용한 자리에서 부터 일정범위까지 자네만 파괴가능한" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l구역이 생성이 된다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l또한 사용시 그 자리에 특이한 블럭이 생길걸세" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l그 블럭을 우클릭할 시" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l다른유저의 구역블럭파괴를 허용 또는 비허용으로 바꿀 수 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1.7 seconds
+				send "&e&l앵앵 &f&l: &a&l구역보호아이템을 파는자는 마을 입구에 있다네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				message "<ttp:&e무기 시스템에 대해 알려준다><cmd:/tuchat5>&6[(무기 시스템)]<reset>   <ttp:&e강화 시스템에 대해 알려준다><cmd:/tuchat6>&6[(강화 시스템)]<reset>   <ttp:&e전직 시스템에 대해 알려준다><cmd:/tuchat7>&6[(전직 시스템)]<reset>" to loop-player
+				message "<ttp:&e간편창 시스템에 대해 알려준다><cmd:/tuchat8>&6[(간편창 시스템)]<reset>  <ttp:&e건축보호 시스템에 대해 알려준다><cmd:/tuchat9>&6[(집보호 시스템)]<reset>  <ttp:&e대화를 끝낸다><cmd:/tuchat10>&6[(이제 다 알겠다)]<reset>" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+
+every 0.1 second:
+	loop all players:
+		if {튜토대화10.%loop-player%} is false:
+			if {튜토.%loop-player%} is set:
+				set {튜토대화10.%loop-player%} to true
+				loop 20 times:
+					send "" to loop-player
+				wait 0.5 seconds	
+				send "&e&l앵앵 &f&l: &a&l좋네 이제는 모험을 떠날 시간이라네" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l앵앵 &f&l: &a&l만약 아직 부족한것 같다면 /튜토 를 치게나" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 1 seconds
+				send "&e&l앵앵 &f&l: &a&l자네의 꿈을 펼치러 가보게나" to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				wait 0.5 seconds
+				send "&8&l튜토리얼을 완료하셨습니다. 무기를 골라주시기 바랍니다." to loop-player
+				play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 to loop-player
+				set {튜토아이템.%loop-player%} to true
+				set {튜토완1.%loop-player%} to true
+
+every 0.1 second:
+	loop all players:
+		if {튜토아이템.%loop-player%} is true:
+			delete {튜토아이템.%loop-player%}
+			open chest with 4 row named "&5&l장비선택" to loop-player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of loop-player to purple stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			set {_slot} to 9
+			loop 19 times:
+				set slot {_slot} of current inventory of loop-player to black stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			loop 36 times:
+				set slot {_slot} of current inventory of loop-player to purple stained glass pane
+				add 1 to {_slot}
+			set slot 11 of current inventory of loop-player to wooden sword with custom model data 2 named "&d&l[&a&l건틀릿&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 13 of current inventory of loop-player to wooden sword with custom model data 3 named "&d&l[&a&l단검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 15 of current inventory of loop-player to wooden sword with custom model data 4 named "&d&l[&a&l낫&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 20 of current inventory of loop-player to wooden sword with custom model data 5 named "&d&l[&a&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 22 of current inventory of loop-player to wooden sword with custom model data 6 named "&d&l[&a&l장검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 24 of current inventory of loop-player to wooden sword with custom model data 7 named "&d&l[&a&l지팡이&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+
+on inventory click:
+	if current inventory's name is "&5&l장비선택":
+		set  {_숫자} to 1
+		loop 6 times:
+			add 1 to {_숫자}
+			add {_숫자} to {_커스텀::*}
+		if clicked raw slot is smaller than 36:
+			cancel event
+			if clicked slot is 11:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&a&l건틀릿&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+			if clicked slot is 13:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&a&l단검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+			if clicked slot is 15:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&a&l낫&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+			if clicked slot is 20:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&a&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+			if clicked slot is 22:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&a&l장검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+			if clicked slot is 24:
+				set {장비선택.%player%} to true
+				give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&a&l지팡이&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+				close player's inventory
+
+on inventory close:
+	if current inventory's name contains "&5&l장비선택":
+		if {장비선택.%player%} is not set:
+			open chest with 4 row named "&5&l장비선택" to player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to purple stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			set {_slot} to 9
+			loop 19 times:
+				set slot {_slot} of current inventory of player to black stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			loop 36 times:
+				set slot {_slot} of current inventory of player to purple stained glass pane
+				add 1 to {_slot}
+			set slot 11 of current inventory of player to wooden sword with custom model data 2 named "&d&l[&a&l건틀릿&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 13 of current inventory of player to wooden sword with custom model data 3 named "&d&l[&a&l단검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 15 of current inventory of player to wooden sword with custom model data 4 named "&d&l[&a&l낫&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 20 of current inventory of player to wooden sword with custom model data 5 named "&d&l[&a&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 22 of current inventory of player to wooden sword with custom model data 6 named "&d&l[&a&l장검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 24 of current inventory of player to wooden sword with custom model data 7 named "&d&l[&a&l지팡이&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			
+
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&a&l건틀릿&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&a&l단검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&a&l낫&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&a&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&a&l장검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			# give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&a&l지팡이&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player

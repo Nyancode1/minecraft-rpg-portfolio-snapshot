@@ -1,0 +1,384 @@
+#히든리스트 업적 변수
+variables:
+	{업적1.%player%} = false
+	{업적2.%player%} = false
+	{업적3.%player%} = false
+	{업적4.%player%} = false
+	{업적5.%player%} = false
+	{업적6.%player%} = false
+#대화 업적 변수
+variables:
+	{대화1.%player%} = 0
+	{대화2.%player%} = 0
+	{대화3.%player%} = 0
+	{대화4.%player%} = 0
+	{대화5.%player%} = 0
+	{대화6.%player%} = 0
+	{대화7.%player%} = 0
+	{대화8.%player%} = 0
+	{대화9.%player%} = 0
+	{대화10.%player%} = 0
+	{대화11.%player%} = 0
+	{대화12.%player%} = 0
+	{대화13.%player%} = 0
+	{대화14.%player%} = 0
+	{대화15.%player%} = 0
+	{대화16.%player%} = 0
+	{대화17.%player%} = 0
+	{대화18.%player%} = 0
+	{대화19.%player%} = 0
+	{대화20.%player%} = 0
+	{대화21.%player%} = 0
+	{대화22.%player%} = 0
+	{대화23.%player%} = 0
+	{대화24.%player%} = 0
+	{대화25.%player%} = 0
+	{대화26.%player%} = 0
+	{대화27.%player%} = 0
+	{대화28.%player%} = 0
+	{대화29.%player%} = 0
+	{대화30.%player%} = 0
+variables:
+	{최대 현상금.%player%} = 0
+	{최대강화횟수.%player%} = 0
+	
+#command /ttt:
+#	trigger:
+#		set {연속 킬수.%player%} to 0
+#		send "모든플레이어의 최대현상금을 초기화 시켰습니다." to player
+
+#히든리스트 책을 명령어로 얻게하는 명령어
+command /히든 [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6히든 &b..." to player
+				send "   &b플레이어 이름&7 - &r히든리스트를 지급받을 플레이어 이름을 적습니다." to player
+			if arg-1 is "%player%":
+				if arg-2 is not set:
+					send "사용법 : &7/&6히든 &b플레이어 이름 &4..." to player
+					send "  &4 1&7 - &r히든리스트 1 왈도 업적을 지급받습니다." to player
+					send "  &4 2&7 - &r히든리스트 2 도박 업적을 지급받습니다." to player
+					send "  &4 3&7 - &r히든리스트 3 마켓 업적을 지급받습니다." to player
+					send "  &4 4&7 - &r히든리스트 4 살인마 업적을 지급받습니다." to player
+					send "  &4 5&7 - &r히든리스트 5 업데이트 예정." to player
+					send "  &4 6&7 - &r히든리스트 6 최대 강화 업적을 지급받습니다." to player
+			# 왈도 업적
+			if arg-2 is 1:
+				send "&d히든%arg-2% 활성화"
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {왈도신호.%arg-1%} to false # 플레이어의 히든리스트 책을 안받음으로 셋팅 루프문
+				set {왈도업적.%arg-1%} to false # 플레이어의 히든리스트 책을 안받음으로 셋팅
+			# 도박 업적
+			if arg-2 is 2:
+				send "&d히든%arg-2% 활성화"
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {도박업적.%arg-1%} to false # 플레이어의 히든리스트 책을 안받음으로 셋팅 루프문
+				set {도박히든.%arg-1%} to 201
+			set {업적%arg-2%.%arg-1%} to false # /업적의 기록 활성화
+			# 마켓 업적
+			if arg-2 is 3:
+				send "&d히든%arg-2% 활성화"
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {마켓신호.%arg-1%} to false # 플레이어의 히든리스트 책을 안받음으로 셋팅 루프문
+				set {마켓업적.%arg-1%} to false # 플레이어의 히든리스트 책을 안받음으로 셋팅
+			# 살인마 업적
+			if arg-2 is 4:
+				send "&d히든%arg-2% 활성화"
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {킬수업적.%arg-1%} to false #플레이어의 히든리스트 책을 안받음으로 셋팅 루프문
+				set {연속 킬수.%arg-1%} to 10
+			set {업적%arg-2%.%arg-1%} to false # /업적의 기록 활성화
+			if arg-2 is 5:
+				send "&d업데이트 예정"
+			if arg-2 is 6:
+				send "&d히든%arg-2% 활성화"
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {강화업적1신호.%arg-1%} to false #플레이어의 히든리스트 책을 못얻게 막기
+				set {최대강화횟수.%arg-1%} to 1
+		else:
+			send  "&c당신은 권한이 없습니다."
+
+# 히든리스트 변수를 얻었다로 바꾸는 명령어
+command /히든권o [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6히든권o &b..." to player
+				send "   &b플레이어 이름&7 - &r히든리스트를 업적을 해금시킬 플레이어 이름을 적습니다." to player
+			if arg-1 is "%player%":
+				if arg-2 is not set:
+					send "사용법 : &7/&6히든권o &b플레이어 이름 &4..." to player
+					send "  &4 1&7 - &r히든리스트1 왈도 업적을 해금 시킵니다." to player
+					send "  &4 2&7 - &r히든리스트2 도박 업적을 해금 시킵니다." to player
+					send "  &4 3&7 - &r히든리스트3 마켓 업적을 해금 시킵니다." to player
+					send "  &4 4&7 - &r히든리스트4 살인마 업적을 해금 시킵니다." to player
+					send "  &4 5&7 - &r히든리스트5 업데이트예정." to player
+					send "  &4 6&7 - &r히든리스트6 최대강화 업적을 해금 시킵니다." to player
+			# 왈도 업적
+			if arg-2 is 1: # arg-1 = 플레이어 이름 / arg-2 = 업적번호
+				set {업적%arg-2%.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				set {왈도업적.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기
+				set {왈도신호.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기 루프문
+				send "&d[&b히든리스트%arg-2%&d]업적을 얻으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to true # /업적의 기록 활성화
+			# 도박 업적
+			if arg-2 is 2: # arg-1 = 플레이어 이름 / arg-2 = 업적번호
+				set {업적%arg-2%.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				set {도박업적.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기
+				send "&d[&b히든리스트%arg-2%&d]업적을 얻으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to true # /업적의 기록 활성화
+			# 마켓 업적
+			if arg-2 is 3: # arg-1 = 플레이어 이름 / arg-2 = 업적번호
+				set {업적%arg-2%.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				set {마켓업적.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기
+				set {마켓신호.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기 루프문
+				send "&d[&b히든리스트%arg-2%&d]업적을 얻으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to true # /업적의 기록 활성화
+			# 살인마 업적
+			if arg-2 is 4: # arg-1 = 플레이어 이름 / arg-2 = 업적번호
+				set {업적%arg-2%.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				set {킬수업적.%arg-1%} to true # 플레이어의 히든리스트 책을 못얻게 막기
+				send "&d[&b히든리스트%arg-2%&d]업적을 얻으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to true # /업적의 기록 활성화
+			if arg-2 is 5:
+				send "업데이트 예정" to player
+			if arg-2 is 6:
+				set {업적%arg-2%.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				set {강화업적1신호.%arg-1%} to true # 플레이어의 업적변수를 받음으로 셋팅
+				send "&d[&b히든리스트%arg-2%&d]업적을 얻으셨습니다." to player
+		else:
+			send  "&c당신은 권한이 없습니다."
+
+#히든리스트 변수를 얻지못했다로 바꾸는 명령어
+command /히든권x [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6히든권x &b..." to player
+				send "   &b플레이어 이름&7 - &r히든리스트를 잠금시킬 플레이어 이름을 적습니다." to player
+			if arg-1 is "%player%":
+				if arg-2 is not set:
+					send "사용법 : &7/&6히든권o &b플레이어 이름 &4..." to player
+					send "  &4 1&7 - &r히든리스트1 왈도 업적을 잠금 시킵니다." to player
+					send "  &4 2&7 - &r히든리스트2 도박 업적을 잠금 시킵니다." to player
+					send "  &4 3&7 - &r히든리스트3 마켓 업적을 잠금 시킵니다." to player
+					send "  &4 4&7 - &r히든리스트4 살인마 업적을 잠금 시킵니다." to player
+					send "  &4 5&7 - &r히든리스트5 업데이트예정." to player
+					send "  &4 6&7 - &r히든리스트6 최대강화 업적을 잠금 시킵니다." to player
+			# 왈도 업적
+			if arg-2 is 1:
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {왈도업적.%arg-1%} to false # 플레이어의 히든리스트 책을 얻을 수 있게 만들기
+				set {왈도신호.%arg-1%} to true # 플레이어의 히든리스트 책을 얻을 수 있게 만들기 루프문
+				send "&d[&b히든리스트%arg-2%&d]업적을 잃으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to false # /업적의 기록 비활성화
+			#도박 업적
+			if arg-2 is 2:
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {도박업적.%arg-1%} to false # 플레이어의 히든리스트 책을 얻을 수 있게 만들기
+				send "&d[&b히든리스트%arg-2%&d]업적을 잃으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to false
+			#마켓 업적
+			if arg-2 is 3:
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {마켓업적.%arg-1%} to false # 플레이어의 히든리스트 책을 얻을 수 있게 만들기
+				set {마켓신호.%arg-1%} to true # 플레이어의 히든리스트 책을 얻을 수 있게 만들기 루프
+				send "&d[&b히든리스트%arg-2%&d]업적을 잃으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to false
+			#살인마 업적
+			if arg-2 is 4:
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {킬수 업적.%arg-1%} to false # 플레이어의 히든리스트 책을 얻을 수 있게 만들기
+				send "&d[&b히든리스트%arg-2%&d]업적을 잃으셨습니다." to player
+			set {업적%arg-2%.%arg-1%} to false
+			if arg-2 is 5:
+				send "업데이트 예정" to player
+			# 최대강화업적
+			if arg-2 is 6:
+				set {업적%arg-2%.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				set {강화업적1신호.%arg-1%} to false # 플레이어의 업적변수를 안받음으로 셋팅
+				send "&d[&b히든리스트%arg-2%&d]업적을 잃으셨습니다." to player
+		else:
+			send  "&c당신은 권한이 없습니다."
+
+command /업적변수x:
+	permission: 어드민
+	trigger:
+		if player is op:
+			set {왈도특정.%all players%} to 0
+			send "모든플레이어의 특정반복대화횟수를 초기화 시켰습니다."
+			set {도박히든.%all players%} to 0
+			send "모든플레이어의 도박횟수를 초기화 시켰습니다."
+			set {킬수.%all players%} to 0
+			set {연속 킬수.%all players%} to 0
+			send "모든플레이어의 연속 킬수을 초기화 시켰습니다."
+			set {현상금.%all players%} to 0
+			send "모든플레이어의 현상금을 초기화 시켰습니다."
+			set {최대강화횟수.%all players%} to 0
+			send "모든플레이어의 총 최대강화횟수을 초기화 시켰습니다."
+		else:
+			send  "&c당신은 권한이 없습니다."
+
+#업적책 우클릭 이벤트
+on rightclick with book:
+	#왈도 업적
+	if name of player's tool contains "&d&l[&b&l히든리스트1&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 1이라면
+		broadcast "&e%player%&a님이 &a히든리스트1 &d[&9왈도를 괴롭혀라!&d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트1사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적1.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	#도박 업적
+	if name of player's tool contains "&d&l[&b&l히든리스트2&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 2이라면
+		broadcast "&e%player%&a님이 &d&a히든리스트2 &d[&9난 도박왕이야!&d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트2사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적2.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	#마켓 업적
+	if name of player's tool contains "&d&l[&b&l히든리스트3&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 3이라면
+		broadcast "&e%player%&a님이 &d&a히든리스트3 &d[&9어멋! 이런곳이?&d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트3사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적3.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	#살인마 업적
+	if name of player's tool contains "&d&l[&b&l히든리스트4&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 4이라면
+		broadcast "&e%player%&a님이 &d&a히든리스트4 &d[&4연쇄살인마&d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트4사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player 
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적4.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	#대화업적 (미개발)
+	if name of player's tool contains "&d&l[&b&l히든리스트5&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 5이라면
+		broadcast "&e%player%&a님이 &d&a히든리스트5 &d[&9 내용적기 &d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트5사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적5.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	# 최대강화업적
+	if name of player's tool contains "&d&l[&b&l히든리스트6&d&l]": #만약 플레이어가 들고있는 아이템이 히든리스트 6이라면
+		broadcast "&e%player%&a님이 &d&a히든리스트6 &d[&9 타고난 재주꾼 &d]&a을 달성하였습니다." #해당 업적 달성 메세지 출력
+		log "%now%.%player%히든리스트6사용"
+		play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+		send "히든리스트는 /업적을 통해 확인이 가능합니다." to player
+		set {업적6.%player%} to true #/업적의 기록 활성화
+		remove 1 book from player's tool
+	
+#업적 창 띄우는 명령어
+command /업적:
+	trigger:
+		open chest with 1 row named "&d&l[&9&l업적 보관함&d&l]" to player
+		#업적1이 참일때 /업적 속 히든리스트1 아이템의 정보가 공개됨
+		if {업적1.%player%} is true:
+			set slot 0 of current inventory of player to writable book named "&d&l[&b&l히든리스트1&d&l]" with lore "&d[&6업적달성&d] &f: &b힘세고 강한아침!" and "&d[&6조건&d] : &b왈도의 대사를 30번 들으세요."
+		else:
+			set slot 0 of current inventory of player to book named "&d&l[&b&l히든리스트1&d&l]" with lore "&4&l잠금"
+		#업적2이 참일때 /업적 속 히든리스트2 아이템의 정보가 공개됨
+		if {업적2.%player%} is true:
+			set slot 1 of current inventory of player to writable book named "&d&l[&b&l히든리스트2&d&l]" with lore "&d[&6업적달성&d] &f: &b난 도박왕이야!" and "&d[&6조건&d] : &b도박을 300번 이상하세요." and "&d[&6총 도박 횟수&d] : &b%{도박히든.%player%}%"
+		else:
+			set slot 1 of current inventory of player to book named "&d&l[&b&l히든리스트2&d&l]" with lore "&4&l잠금"
+		#업적3이 참일때 /업적 속 히든리스트3 아이템의 정보가 공개됨
+		if {업적3.%player%} is true:
+			set slot 2 of current inventory of player to writable book named "&d&l[&b&l히든리스트3&d&l]" with lore "&d[&6업적달성&d] &f: &b어멋! 이런곳이?" and "&d[&6조건&d] : &b블랙마켓 관리인과 대화하세요."
+		else:
+			set slot 2 of current inventory of player to book named "&d&l[&b&l히든리스트3&d&l]" with lore "&4&l잠금"
+		#업적4이 참일때 /업적 속 히든리스트4 아이템의 정보가 공개됨
+		if {업적4.%player%} is true:
+			set slot 3 of current inventory of player to writable book named "&d&l[&b&l히든리스트4&d&l]" with lore "&d[&6업적달성&d] &f: &4연쇄살인마" and "&d[&6조건&d] : &b죽지않고 플레이어를 10번 연속으로 잡으세요." and  "&d[&6최대 킬수&d] : &b%{연속 킬수.%player%}%"
+		else:
+			set slot 3 of current inventory of player to book named "&d&l[&b&l히든리스트4&d&l]" with lore "&4&l잠금"
+		#업적5이 참일때 /업적 속 히든리스트5 아이템의 정보가 공개됨
+		if {업적5.%player%} is true:
+			set slot 4 of current inventory of player to writable book named "&d&l[&b&l히든리스트5&d&l]" with lore "&d[&6업적달성&d] &f: &b이 무슨 끈기란 말인가!" and "&d[&6조건&d] : &b모든 npc의 대사를 들으세요."
+		else:
+			set slot 4 of current inventory of player to book named "&d&l[&b&l히든리스트5&d&l]" with lore "&4&l잠금"
+		#업적6이 참일때 /업적 속 히든리스트6 아이템의 정보가 공개됨
+		if {업적6.%player%} is true:
+			set slot 5 of current inventory of player to writable book named "&d&l[&b&l히든리스트6&d&l]" with lore "&d[&6업적달성&d] &f: &b타고난 재주꾼" and "&d[&6조건&d] : &b장비하나를 &e★★★★★ &b로 만드세요." and "&d[&6총 최대 강화 횟수&d] : &b%{최대강화횟수.%player%}%"
+		else:
+			set slot 5 of current inventory of player to book named "&d&l[&b&l히든리스트6&d&l]" with lore "&4&l잠금"
+		#업적7이 참일때 /업적 속 히든리스트7 아이템의 정보가 공개됨
+		if {업적7.%player%} is true:
+			set slot 6 of current inventory of player to writable book named "&d&l[&b&l히든리스트7&d&l]" with lore "&d[&6업적달성&d] &f: &b제목입력" and "&d[&6조건&d] : &b조건입력"
+		else:
+			set slot 6 of current inventory of player to book named "&d&l[&b&l히든리스트7&d&l]" with lore "&4&l잠금"
+
+#왈도 업적 감지
+every 1.5 second:
+	loop all players:
+		if {왈도신호.%loop-player%} is false:
+			loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+				give 1 book named "&d&l[&b&l히든리스트1&d&l]" with lore "&d[&6업적달성&d] &f: &b힘세고 강한아침!" and "&d[&6조건&d] : &b왈도의 대사를 30번 들으세요" and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+				send "&d&l[&b&l히든리스트1&d&l]&d업적책을 얻으셨습니다." to loop-player
+				log "%now%.%loop-player%히든리스트1획득"
+				set {왈도업적.%loop-player%} to true
+				set {왈도신호.%loop-player%} to true
+
+#도박 업적 감지
+every 1.5 second:
+	loop all players:
+		if {도박업적.%loop-player%} is false:
+			loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+				if {도박히든.%loop-player%} >= 200: # 도박 횟수가 200회 이상일 때
+					give 1 book named "&d&l[&b&l히든리스트2&d&l]" with lore "&d[&6업적달성&d] &f: &b난 도박왕이야!" and "&d[&6조건&d] : &b도박을 200번 이상하세요." and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+					send "&d&l[&b&l히든리스트2&d&l]&d업적책을 얻으셨습니다." to loop-player
+					log "%now%.%loop-player%히든리스트2획득"
+					set {도박업적.%loop-player%} to true
+
+#마켓 업적 감지
+every 1.5 second:
+	loop all players:
+		if {마켓신호.%loop-player%} is false:
+			loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+				give 1 book named "&d&l[&b&l히든리스트3&d&l]" with lore "&d[&6업적달성&d] &f: &b어멋! 이런곳이" and "&d[&6조건&d] : &b블랙마켓 관리인과 대화하세요." and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+				send "&d&l[&b&l히든리스트3&d&l]&d업적책을 얻으셨습니다." to loop-player
+				log "%now%.%loop-player%히든리스트3획득" 
+				set {마켓업적.%loop-player%} to true
+				set {마켓신호.%loop-player%} to true
+
+#킬수 업적 감지
+every 1.5 second:
+	loop all players:
+		if {킬수.%loop-player%} >= {연속 킬수.%loop-player%}: #킬수가 연속 킬수보다 높을 때
+			set {연속 킬수.%loop-player%} to {킬수.%loop-player%}
+		if {킬수업적.%loop-player%} is false:
+			loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+				if {연속 킬수.%loop-player%} >= 5: # 연속 킬수가 10회 이상일 때
+					give 1 book named "&d&l[&b&l히든리스트4&d&l]" with lore "&d[&6업적달성&d] &f: &4연쇄살인마" and "&d[&6조건&d] : &b죽지않고 플레이어를 10번 연속으로 잡으세요." and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+					send "&d&l[&b&l히든리스트4&d&l]&d업적책을 얻으셨습니다." to loop-player
+					log "%loop-player%히든리스트4획득"
+					set {킬수업적.%loop-player%} to true 
+#최대 강화 업적 감지
+every 1.5 second:
+	loop all players:
+		if {강화업적1신호.%loop-player%} is false:
+			if {최대강화횟수.%loop-player%} >= 1:
+				loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+					give 1 book named "&d&l[&b&l히든리스트6&d&l]" with lore "&d[&6업적달성&d] &f: &b타고난 재주꾼 " and "&d[&6조건&d] : &b장비하나를 &e★★★★★ &b로 만드세요." and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+					send "&d&l[&b&l히든리스트6&d&l]&d업적책을 얻으셨습니다." to loop-player
+					log "%loop-player%히든리스트6획득"
+					set {강화업적1신호.%loop-player%} to true
+
+every 1.5 second:
+	loop all players:
+		if {강화업적2신호.%loop-player%} is false:
+			loop-player's inventory can hold 1 book: # 인벤토리에 책 한 개가 들어 갈 공간이 있을 때
+				give 1 book named "&d&l[&b&l히든리스트7&d&l]" with lore "&d[&6업적달성&d] &f: &" and "&d[&6조건&d] : &b죽지않고 플레이어를 10번 연속으로 잡으세요." and "&8우클릭 시 히든리스트 업적을 달성한다" and "&4&l*주의사항*" and "&4버릴 시 복구 불가능" to loop-player
+				send "&d&l[&b&l히든리스트6&d&l]&d업적책을 얻으셨습니다." to loop-player
+				log "%loop-player%히든리스트6획득"
+
+#업적창 클릭방지
+on inventory Click:
+	if inventory name is "&d&l[&9&l업적 보관함&d&l]":
+		cancel event 

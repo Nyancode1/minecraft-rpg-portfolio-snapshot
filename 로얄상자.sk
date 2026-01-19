@@ -1,0 +1,84 @@
+command /로얄상자:
+	trigger:
+		if player is op:
+			give 1 chest named "&d&l[&6&l로얄상자&d&l]" with lore "&b랜덤으로 보상을 지급!" to player
+		else:
+			send "&c권한이 없습니다" to player
+			
+on rightclick with chest:
+	if name of player's tool contains "&d&l[&6&l로얄상자&d&l]":
+		cancel event
+		remove 1 chest from player's tool
+		open chest with 3 rows named "&6&l로얄상자" to player
+		set {_slot} to 0
+		loop 27 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set slot 13 of current inventory of player to chest named "&d&l[&6&l로얄상자&d&l]"
+		set slot 16 of current inventory of player to tripwire hook named "&e&l상자열기"
+		
+on inventory click:
+	if player's current inventory's name is "&6&l로얄상자" or "&6&l로얄상자열기":
+		if clicked item is blue stained glass pane or tripwire hook or chest or stick or iron ingot or gold ingot or emerald or diamond or amethyst shard:
+			cancel event
+			if click type is left mouse button or left mouse button with shift:
+				if clicked raw slot is smaller than 27:
+					if clicked slot is 16:
+						cancel event
+						open chest with 3 rows named "&6&l로얄상자열기" to player
+						set {_slot} to 0
+						loop 27 times:
+							set slot {_slot} of current inventory of player to blue stained glass pane
+							add 1 to {_slot}
+						loop 20 times:
+							set {royal} to random integer between 1 and 1000
+							if {royal} is between 1 and 2:
+								set slot 13 of current inventory of player to stick named "&d[&5엄청난 쓰레기!&d]" with lore "&d데미지 &5+300" and "&c쓰레기중 가장 강력한 쓰레기다..."
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+							if {royal} is between 3 and 500:
+								set slot 13 of current inventory of player to iron ingot
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+							if {royal} is between 501 and 800:
+								set slot 13 of current inventory of player to gold ingot
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+							if {royal} is between 801 and 950:
+								set slot 13 of current inventory of player to emerald
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+							if {royal} is between 951 and 998:
+								set slot 13 of current inventory of player to diamond
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+							if {royal} is between 999 and 1000:
+								set slot 13 of current inventory of player to amethyst shard of fortune 1 named "&d&l[&5&l신들의 선택권&d&l]" with lore "&c&l신이 사용하던 물건중 하나를 고를수있다" and "&4&l주의! 들어가서 고르기전까지 창을 닫지 마십시오"
+								play sound "entity_experience_orb_pickup" with volume 0.6 and pitch 2 at player
+								wait 0.1 seconds
+						wait 1 seconds
+						close player's inventory
+						if {royal} is between 1 and 2:
+							give 1 stick named "&d[&5엄청난 쓰레기!&d]" with lore "&d데미지 &5+300" and "&c쓰레기중 가장 강력한 쓰레기다..." to player
+							play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to all players
+							message "&e%player%&f님이 &d[&e랜덤상자&d]&f에서 &d[&5엄청난 쓰레기!&d]&f를 받았습니다!" to all players
+						if {royal} is between 3 and 500:
+							give 1 iron ingot to player
+							play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+							send "&d[&e랜덤상자&d]&f에서 &7[철]&f을 받았습니다!"
+						if {royal} is between 501 and 800:
+							give 1 gold ingot to player
+							play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+							send "&d[&e랜덤상자&d]&f에서 &e[금]&f을 받았습니다!"
+						if {royal} is between 801 and 950:
+							give 1 emerald to player
+							play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+							send "&d[&e랜덤상자&d]&f에서 &2[에메랄드]&f를 받았습니다!"
+						if {royal} is between 951 and 998:
+							give 1 diamond to player
+							play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+							send "&d[&e랜덤상자&d]&f에서 &b[다이아]&f를 받았습니다!"
+						if {royal} is between 999 and 1000:
+							give 1 amethyst shard of fortune 1 named "&d&l[&5&l신들의 선택권&d&l]" with lore "&c&l신이 사용하던 물건중 하나를 고를수있다" and "&4&l주의! 들어가서 고르기전까지 창을 닫지 마십시오" to player
+							play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to all players
+							message "&e%player%&f님이 &d[&e랜덤상자&d]&f에서 &d[&5신들의 선택권&d]&f를 받았습니다!" to all players

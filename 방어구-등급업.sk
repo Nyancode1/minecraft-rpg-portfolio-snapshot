@@ -1,0 +1,265 @@
+on inventory click:
+	#장비 등급업 창
+	if inventory name contains "&c&l등급업":
+		if {결.%player%} is not set:
+			if click type is left mouse button or right mouse button:
+				cancel event
+		if click type is right mouse button with shift or right mouse button:
+			cancel event
+		else:
+			if clicked item is lime stained glass pane or blue stained glass pane or brown stained glass pane or yellow stained glass pane or orange stained glass pane or paper or book:
+				cancel event
+			else if clicked raw slot is 14:
+				cancel event
+				if slot 10 of player's current inventory is helmet:
+					set {방어구.%player%} to true
+				if slot 10 of player's current inventory is chestplate:
+					set {방어구.%player%} to true
+				if slot 10 of player's current inventory is leggings:
+					set {방어구.%player%} to true
+				if slot 10 of player's current inventory is boots:
+					set {방어구.%player%} to true
+				wait 1 ticks
+				if {방어구.%player%} is true:
+					delete {방어구.%player%}
+					set {_아이템} to slot 10 of current inventory of player
+					set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of player
+					replace all "단계" with "" in {_장비스탯::2}
+					replace all " " and "+" and "체력" with "" in {_장비스탯::4}
+					replace all " " and "+" and "방어력" with "" in {_장비스탯::5}
+					set {_강화단계} to {_장비스탯::2} parsed as number
+					set {_강화체력} to {_장비스탯::4} parsed as number
+					set {_강화방어력} to {_장비스탯::5} parsed as number
+					set {_커스텀} to {_장비스탯::1}
+					set {_장비스탯::*} to lore of slot 10 of current inventory of player
+					set {_강화단계2} to {_장비스탯::1}
+					if slot 12 of player's current inventory is shears:
+						set {_파괴방지서} to name of slot 12 of player's current inventory
+						if {_파괴방지서} is "&d&l[&c파괴방지서&d&l]":
+							set {_파괴방지} to true
+						else:
+							set {_파괴방지} to false
+					if slot 12 of current inventory of player is not shears:
+						add 1 to {확인.%player%}
+						if {확인.%player%} is 2:
+							set {확인.%player%} to 0
+							if {_강화단계} is 7:
+								if {_강화단계2} is "&e★★★★★":
+									message "&e&l단야사&f&l : &a&l자네 대단하구만 최고등급이라니" to player
+									exit
+								set {_이름} to name of slot 10 of current inventory of player
+								if {결.%uuid of player%} is set:
+									set {강화확인1.%player%} to true
+									delete {결.%uuid of player%}
+									delete slot 12 of current inventory of player
+									wait 1.5 second
+									set {결.%uuid of player%} to true
+									play sound "block_anvil_place" with volume 0.4 and pitch 0.9 at player
+									delete slot 12 of current inventory of player
+									#나무 등급업 확률
+									if {_강화단계2} is "&e★":
+										if {돈.%uuid of player%} is smaller than 100:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 100 from {돈.%uuid of player%}
+											chance of 40%:
+												set {_w} to slot 10 of current inventory of player
+												set slot 16 of current inventory of player to {_w} with lore "&e★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+												delete slot 10 of current inventory of player
+												message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+												exit
+											else:
+												message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+												exit
+									#돌 등급업 확률
+									if {_강화단계2} is "&e★★":
+										if {돈.%uuid of player%} is smaller than 200:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 200 from {돈.%uuid of player%}
+											chance of 30%:
+												set {_w} to slot 10 of current inventory of player
+												set slot 16 of current inventory of player to {_w} with lore "&e★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+												delete slot 10 of current inventory of player
+												message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+												exit
+											else:
+												chance of 5%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+									#철 등급업 확률
+									if {_강화단계2} is "&e★★★":
+										if {돈.%uuid of player%} is smaller than 300:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 300 from {돈.%uuid of player%}
+											chance of 25%:
+												set {_w} to slot 10 of current inventory of player
+												set slot 16 of current inventory of player to {_w} with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+												delete slot 10 of current inventory of player
+												message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+												exit
+											else:
+												chance of 10%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+									#다이아 등급업 확률
+									if {_강화단계2} is "&e★★★★":
+										if {돈.%uuid of player%} is smaller than 400:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 400 from {돈.%uuid of player%}
+											chance of 20%:
+												set {_w} to slot 10 of current inventory of player
+												set slot 16 of current inventory of player to {_w} with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+												delete slot 10 of current inventory of player
+												message "&e&l단야사&f&l : &a&l이보게나!! 등급업에 성공했다네. " to player
+												exit
+											else:
+												chance of 15%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+						else if {확인.%player%} is 1:
+							message "&e&l단야사&f&l : &a&l마지막으로 물어보지 파괴방지서를 안넣을 겐가?" to player
+					else:
+						if {_강화단계2} is "&e★★★★★":
+							message "&e&l단야사&f&l : &a&l자네 대단하구만 최고등급이라니" to player
+							exit
+						if {결.%uuid of player%} is set:
+							set {강화확인1.%uuid of player%} to true
+							delete {결.%uuid of player%}
+							delete slot 12 of current inventory of player
+							wait 1.5 second
+							set {결.%uuid of player%} to true
+							play sound "block_anvil_place" with volume 0.4 and pitch 0.9 at player
+							#나무 등급업 확률
+							if {_강화단계2} is "&e★":
+								if {돈.%uuid of player%} is smaller than 100:
+									send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+									play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+								else:
+									subtract 100 from {돈.%uuid of player%}
+									chance of 40%:
+										set {_w} to slot 10 of current inventory of player
+										set slot 16 of current inventory of player to {_w} with lore "&e★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+										delete slot 10 of current inventory of player
+										message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+										exit
+									else:
+										message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+										exit
+							#돌 등급업 확률
+							if {_강화단계2} is "&e★★":
+								if {돈.%uuid of player%} is smaller than 200:
+									send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+									play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+								else:
+									subtract 200 from {돈.%uuid of player%}
+									chance of 30%:
+										set {_w} to slot 10 of current inventory of player
+										set slot 16 of current inventory of player to {_w} with lore "&e★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+										delete slot 10 of current inventory of player
+										message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+										exit
+									else:
+										chance of 5%:
+											if {_파괴방지} is true:
+												message "&a&l장비의 파괴를 막았습니다." to player
+												set {_하락방지} to false
+											else:
+												delete slot 10 of current inventory of player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+												message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+												exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+											exit
+							#철 등급업 확률
+							if {_강화단계2} is "&e★★★":
+								if {돈.%uuid of player%} is smaller than 300:
+									send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+									play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+								else:
+									subtract 300 from {돈.%uuid of player%}
+									chance of 25%:
+										set {_w} to slot 10 of current inventory of player
+										set slot 16 of current inventory of player to {_w} with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+										delete slot 10 of current inventory of player
+										message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to player
+										exit
+									else:
+										chance of 10%:
+											if {_파괴방지} is true:
+												message "&a&l장비의 파괴를 막았습니다." to player
+												set {_하락방지} to false
+											else:
+												delete slot 10 of current inventory of player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+												message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+												exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+											exit
+							#다이아 등급업 확률
+							if {_강화단계2} is "&e★★★★":
+								if {돈.%uuid of player%} is smaller than 400:
+									send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+									play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+								else:
+									subtract 400 from {돈.%uuid of player%}
+									chance of 20%:
+										set {_w} to slot 10 of current inventory of player
+										set slot 16 of current inventory of player to {_w} with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&a + 체력 %{_강화체력} + 1%" and "&9 + 방어력 %{_강화방어력} + 1%" and "&e============"
+										delete slot 10 of current inventory of player
+										message "&e&l단야사&f&l : &a&l이보게나!! 등급업에 성공했다네. " to player
+										exit
+									else:
+										chance of 10%:
+											if {_파괴방지} is true:
+												message "&a&l장비의 파괴를 막았습니다." to player
+												set {_하락방지} to false
+											else:
+												delete slot 10 of current inventory of player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												set slot 16 of current inventory of player to prismarine crystals named "[파괴된 장비]" with lore "&f★★★★" and "&b0단계" and "&e============" and "&a + 체력 --" and "&9 + 방어력 --" and "&e============"
+												message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+												exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+											exit

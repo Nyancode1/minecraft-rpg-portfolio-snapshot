@@ -1,0 +1,120 @@
+#펫 넣을 만한거 bee, cat, fox, magma_cube. ocelot, patrot, rabbit
+
+
+command /pet [<string>]:
+	trigger:
+		if arg-1 is "spawn":
+			if {pet.active::%uuid of player%} is not set:
+				if {pet::%uuid of player%} is set:
+					set {pet.active::%uuid of player%} to true
+					spawn {pet::%uuid of player%} at block behind location of player
+					#마지막으로 스폰된 엔티티정보를 {_pet}변수에 넣는다
+					set {_pet} to last spawned entity
+					#마지막으로 스폰된 엔티티의 이름을 변환 시킨다.
+					set display name of last spawned entity to "&e&l%player% &a&l님의 펫"
+					while {pet.active::%uuid of player%} is set:
+						#소환된 엔티티의 거리와 플레이어 간의 거리가 2칸보다 크다면 below는 보다 작으면
+						if distance between player and spawned entity is greater than 2:
+							set path target with speed 1.5 of {_pet} to player's location
+						else:
+							set path target with speed -0.1 of {_pet} to player's location
+						set {_loc} to location of last spawned entity #소환 엔티티의 모든 좌표 저장
+						set {_l::x} to "%round x-coord of {_loc}%" # /spawn 시전한 플레이어의 X 자표 저장
+						set {_l::x} to {_l::x} parsed as integer
+						set {_l::y} to "%round y-coord of {_loc}%" # /spawn 시전한 플레이어의 Y 자표 저장
+						set {_l::y} to {_l::y} parsed as integer
+						set {_l::z} to "%round z-coord of {_loc}%" # /spawn 시전한 플레이어의 Z 자표 저장
+						set {_l::z} to {_l::z} parsed as integer
+						set {_loc} to location of player #플레이어의 모든 좌표 저장
+						set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+						set {_lc::x} to {_lc::x} parsed as integer
+						set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+						set {_lc::y} to {_lc::y} parsed as integer
+						set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+						set {_lc::z} to {_lc::z} parsed as integer
+						#시전 자표와 현재 자표 비교
+						# 플레이어와 펫의 x자표 차이가 7이상 -7이하 일 때
+						if {_l::x} - {_lc::x} > 7:
+							teleport last spawned entity at block behind location of player
+						if {_l::x} - {_lc::x} < -7:
+							teleport last spawned entity at block behind location of player
+						# 플레이어와 펫의 z자표 차이가 7이상 -7이하 일 때
+						if {_l::z} - {_lc::z} > 7:
+							teleport last spawned entity at block behind location of player
+						if {_l::z} - {_lc::z} < -7:
+							teleport last spawned entity at block behind location of player
+						# 플레이어와 펫의 y자표 차이가 7이상 -7이하 일 때
+						if {_l::y} - {_lc::y} > 7:
+							teleport last spawned entity at block behind location of player
+						if {_l::y} - {_lc::y} < -7:
+							teleport last spawned entity at block behind location of player
+						wait 2 ticks
+				else:
+					send "&cㅇㅇ" to player
+			else:
+				send "&cㅇㅇ2" to player
+		else if arg-1 is "delete":
+			delete {pet.active::%uuid of player%}
+			loop all entities in radius 10 around player:
+				if name of loop-entity is "&e&l%player% &a&l님의 펫":
+					kill loop-entity
+		else:
+			send "&cㅇㅇ3" to player
+
+
+
+#set path target with speed 1.7 of {_pet} to player's location
+#건들지마셈
+# #펫이 멀리 떨어져 6칸이 벌려진경우
+# set {_loc} to location of last spawned entity #소환 엔티티의 모든 좌표 저장
+# set {_l::x} to "%round x-coord of {_loc}%" # /spawn 시전한 플레이어의 X 자표 저장
+# set {_l::x} to {_l::x} parsed as integer
+# set {_l::y} to "%round y-coord of {_loc}%" # /spawn 시전한 플레이어의 Y 자표 저장
+# set {_l::y} to {_l::y} parsed as integer
+# set {_l::z} to "%round z-coord of {_loc}%" # /spawn 시전한 플레이어의 Z 자표 저장
+# set {_l::z} to {_l::z} parsed as integer
+# set {_loc} to location of player #플레이어의 모든 좌표 저장
+# set {_lc::x} to "%round x-coord of {_loc}%" # 현재 플레이어의 X 자표 저장
+# set {_lc::x} to {_lc::x} parsed as integer
+# set {_lc::y} to "%round y-coord of {_loc}%" # 현재 플레이어의 Y 자표 저장
+# set {_lc::y} to {_lc::y} parsed as integer
+# set {_lc::z} to "%round z-coord of {_loc}%" # 현재 플레이어의 Z 자표 저장
+# set {_lc::y} to {_lc::y} parsed as integer
+# send "entity(x : %{_l::x}% y : %{_l::y}% z : %{_l::z}%)" to player
+# send "entity(x : %{_lc::x}% y : %{_lc::y}% z : %{_lc::z}%)" to player
+# #시전 자표와 현재 자표 비교
+# # 플레이어와 펫의 x자표 차이가 6이상 -6이하 일 때
+# if {_l::x} - {_lc::x} > 6:
+# teleport last spawned entity at block behind location of player
+# if {_l::x} - {_lc::x} < -6:
+# teleport last spawned entity at block behind location of player
+# # 플레이어와 펫의 z자표 차이가 6이상 -6이하 일 때
+# if {_l::z} - {_lc::z} > 6:
+# teleport last spawned entity at block behind location of player
+# if {_l::z} - {_lc::z} < -6:
+# teleport last spawned entity at block behind location of player
+# # 플레이어와 펫의 y자표 차이가 6이상 -6이하 일 때
+# if {_l::y} - {_lc::y} > 6:
+# teleport last spawned entity at block behind location of player
+# if {_l::y} - {_lc::y} < -6:
+# teleport last spawned entity at block behind location of player
+				
+command /setpet [<entity type>]:
+	trigger:
+		if arg-1 is set:
+			set {pet::%uuid of player%} to arg-1
+
+on entity target:
+	if name of entity contains "&a&l님의 펫":
+		cancel event
+on combust:
+	if name of entity contains "&a&l님의 펫":
+		cancel event
+on damage of entity:
+	if name of victim contains "&a&l님의 펫":
+		cancel event
+on quit:
+	delete {pet.active::%uuid of player%}
+	loop all entities in radius 10 around player:
+		if name of loop-entity is "&e&l%player% &a&l님의 펫":
+			kill loop-entity

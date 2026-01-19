@@ -1,0 +1,76 @@
+variables:
+	{가방.%player%} = false
+
+command /가방권:
+	permission: 어드민
+	trigger:
+		if player is op:
+			give 1 book named "&d[&b가방권&d]" with lore "&a사용시 가방을 쓸수있게된다" to player
+		else:
+			send "&c권한이 없습니다" to player
+			
+on rightclick with book:
+	if name of player's tool contains "&d[&b가방권&d]":
+		if {가방.%player%} is false:
+			set {가방.%player%} to true
+			remove 1 book from player's tool
+		else:
+			send "&c이미 가방이 등록되어 있습니다" to player
+		
+command /가방:
+	trigger:
+		if {가방.%player%} is true:
+			open chest with 1 rows named "&b가방" to player
+			loop {chest.%uuid of player%::*}:
+				set {_slot} to loop-index parsed as number
+				set slot {_slot} of current inventory of player to loop-value
+		else:
+			send "&c가방등록이 안되있습니다"
+				
+on inventory close:
+	if name of top inventory of player is "&b가방":
+		set {_crb} to 0
+		loop 9 times:
+			set {chest.%uuid of player%::%{_crb}%} to slot {_crb} of current inventory of player
+			add 1 to {_crb}
+
+every 1 second:
+	loop all players:
+		if {직업.%loop-player%} is not "초보자":
+			set {무기확인.%loop-player%} to uncolored name of loop-player's tool
+			if {무기확인.%loop-player%} is "[건틀릿]" or "[단검]" or "[낫]" or "[대검]" or "[장검]" or "[지팡이]":
+				set {무기보호.%loop-player%} to loop-player's tool
+		set {_crb} to 0
+		loop 40 time:
+			set {보호.%uuid of loop-player%::%{_crb}%} to slot {_crb} of inventory of loop-player
+			add 1 to {_crb}
+
+on death:
+	if {직업.%victim%} is not "초보자":
+		clear drops
+		set {_crb} to 0
+		set {무기드랍.%victim%} to {무기보호.%victim%}
+		loop 40 time:
+			if  {보호.%uuid of victim%::%{_crb}%} is {무기보호.%victim%}:
+				add 1 to {_crb}
+				delete {무기보호.%victim%}
+			drop {보호.%uuid of victim%::%{_crb}%}
+			delete {보호.%uuid of victim%::%{_crb}%}
+			add 1 to {_crb}
+		set {_crb} to 0
+		loop 9 time:
+			if {장비.%uuid of victim%::%loop-value%} is stick:
+				delete {장비.%uuid of victim%::%loop-value%}
+			drop {장비.%uuid of victim%::%loop-value%}
+			add 1 to {_crb}
+		delete {장비.%uuid of victim%::*}
+on respawn:
+	if {직업.%player%} is not "초보자":
+		set slot 0 of inventory of player to {무기드랍.%player%}
+		delete {무기보호.%player%}
+		delete {무기드랍.%player%}
+on respawn:
+	if {직업.%player%} is "초보자":
+		loop {보호.%uuid of player%::*}:
+			set {_slot} to loop-index parsed as number
+			set slot {_slot} of inventory of player to loop-value

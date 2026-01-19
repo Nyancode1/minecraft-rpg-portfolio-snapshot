@@ -1,0 +1,292 @@
+#데미지 표시
+on damage:
+	if attacker is player:
+		set {_damage} to uncolored line 1 of lore of attacker's tool
+		replace all "데미지" and "+" and " " with "" in {_damage}
+		add {_damage} parsed as integer to damage
+#on swap hand item:
+on inventory click:
+	delete {오픈.%player%}
+on inventory close:
+	set {오픈.%player%} to false
+	
+variables:
+	{건기본티어.%player%} = 1
+	{건스킬티어.%player%} = 1
+	{건스킬.%player%} = 1
+	{건스킬쿨타임시간.%player%} = 1.0
+	{단검포션티어.%player%} = 1
+	{단검스킬포션티어.%player%} = 1
+	{단검스킬시간.%player%} = 1
+	{단검스킬쿨타임시간.%player%} = 1.0
+
+# 건틀릿
+every 0.1 second:
+	loop all players:
+		if {오픈.%loop-player%} is false:
+			if name of loop-player's tool is {건틀릿.%loop-player%}:
+				apply potion of haste of tier {건기본티어.%loop-player%} without particles to loop-player for 999 days
+				set {무기들기1.%loop-player%} to true
+			else:
+				if {무기들기1.%loop-player%} is true:
+					remove haste from loop-player
+					delete {무기들기1.%loop-player%}
+					delete {건스킬1.%loop-player%}
+					delete {건스킬2.%loop-player%}
+					delete {건스킬3.%loop-player%}
+					delete {건스킬4.%loop-player%}
+					delete {건스킬5.%loop-player%}
+
+# 단검
+every 0.1 second:
+	loop all players:
+		if {오픈.%loop-player%} is false:
+			if name of loop-player's tool is {단검.%loop-player%}:
+				delete {차징풀기.%loop-player%}
+				apply potion of haste of tier {단기본티어.%loop-player%} without particles to loop-player for 999 days
+				set {무기들기2.%loop-player%} to true
+			else:
+				if {무기들기2.%loop-player%} is true:
+					remove haste from loop-player
+					delete {무기들기2.%loop-player%}
+					delete {단스킬1.%loop-player%}
+					delete {단스킬2.%loop-player%}
+					delete {단스킬3.%loop-player%}
+					delete {단스킬4.%loop-player%}
+					delete {단스킬5.%loop-player%}
+
+# 낫
+every 0.1 second:
+	loop all players:
+		if {오픈.%loop-player%} is false:
+			if name of loop-player's tool contains {낫.%loop-player%}:
+				delete {차징풀기.%loop-player%}
+				apply potion of mining fatigue of tier {낫기본티어.%loop-player%} without particles to loop-player for 999 days
+				set {무기들기3.%loop-player%} to true
+			else:
+				if {무기들기3.%loop-player%} is true:
+					remove mining fatigue from loop-player
+					delete {무기들기3.%loop-player%}
+					delete {낫스킬1.%loop-player%}
+					delete {낫스킬2.%loop-player%}
+					delete {낫스킬3.%loop-player%}
+					delete {낫스킬4.%loop-player%}
+					delete {낫스킬5.%loop-player%}
+					
+# 대검
+every 0.1 second: # 무기 들 때
+	loop all players:
+		if {오픈.%loop-player%} is false:
+			if name of loop-player's tool contains {대검.%loop-player%}:
+				set {차징풀기.%loop-player%} to true
+				apply potion of slowness of tier {대검기본티어.%loop-player%} without particles to loop-player for 999 days
+				apply potion of mining fatigue of tier {대검기본티어2.%loop-player%} without particles to loop-player for 999 days
+				set {무기들기4.%loop-player%} to true
+				delete {대검감소.%loop-player%}
+			else:
+				if {무기들기4.%loop-player%} is true:
+					set {차징풀기.%loop-player%} to true
+					remove slowness from loop-player
+					remove mining fatigue from loop-player
+					delete {대검감소.%loop-player%}
+					delete {무기들기4.%loop-player%}
+					delete {대검차징.%loop-player%}
+					delete {데미지.%loop-player%}
+
+every 0.1 second:
+	loop all players:
+		if {오픈.%loop-player%} is false:
+			if name of loop-player's tool contains {지팡이.%loop-player%}:
+				apply potion of mining fatigue of tier {지팡이기본티어.%loop-player%} without particles to loop-player for 999 days
+				delete {차징풀기.%loop-player%}
+				set {중첩x.%loop-player%} to true
+				set {무기들기6.%loop-player%} to true
+			else:
+				if {무기들기6.%loop-player%} is true:
+					remove mining fatigue from loop-player
+					delete {무기들기6.%loop-player%}
+					delete {지팡이스킬1.%loop-player%}
+					delete {지팡이스킬2.%loop-player%}
+					delete {지팡이스킬3.%loop-player%}
+					delete {지팡이스킬4.%loop-player%}
+					delete {지팡이스킬5.%loop-player%}
+
+
+on jump:
+	if {대검들기.%player%} is true:
+		cancel event
+				
+every 0.1 second:
+	loop all players:
+		if name of loop-player's offhand contains "&d[&5명검&4<무라마사>&d]":
+			apply potion of speed of tier 20 without particles to loop-player for 999 days
+			apply potion of jump boost of tier 5 without particles to loop-player for 999 days
+			set {무기들기.%loop-player%} to true
+		else:
+			if {무기들기.%loop-player%} is true:
+				remove speed from loop-player
+				remove jump boost from loop-player
+				delete {무기들기.%loop-player%}
+
+on rightclick:
+	if name of player's tool contains "&d엘릭서":
+		if {엘릭서사용.%player%} is false:
+			send "엘릭서 쿨타임 : %{엘릭서쿨타임.%player%}%초"
+	if name of player's tool contains "&d엘릭서":
+		if {엘릭서사용.%player%} is not set:
+			set {엘릭서사용.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {엘릭서사용.%loop-player%} is false:
+			subtract 0.1 from {엘릭서쿨타임.%loop-player%}
+			if {엘릭서쿨타임.%loop-player%} <= 0:
+				send "&d엘릭서&f의 재사용이 가능합니다." to loop-player
+				delete {엘릭서사용.%loop-player%}
+				set  {엘릭서쿨타임.%loop-player%} to 30
+
+on rightclick:
+	if name of player's tool contains "&c회복물약&f(대)":
+		if {즉시물약사용.%player%} is false:
+			send "회복물약(대) 쿨타임 : %{즉시물약쿨타임.%player%}%초"
+	if name of player's tool contains "&c회복물약&f(대)":
+		if {즉시물약사용.%player%} is not set:
+			set {즉시물약사용.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {즉시물약사용.%loop-player%} is false:
+			subtract 0.1 from {즉시물약쿨타임.%loop-player%}
+			if {즉시물약쿨타임.%loop-player%} <= 0:
+				send "&c회복물약&f(대)의 재사용이 가능합니다." to loop-player
+				delete {즉시물약사용.%loop-player%}
+				set  {즉시물약쿨타임.%loop-player%} to 20
+
+
+command /물약:
+	trigger:
+		give stick named "&d엘릭서" to player
+		give stick named "&c회복물약&f(소)" to player
+		give stick named "&c회복물약&f(대)" to player
+on rightclick:
+	if name of player's tool contains "&c회복물약&f(소)":
+		if {물약사용.%player%} is false:
+			send "회복물약(소) 쿨타임 : %{물약쿨타임.%player%}%초"
+	if name of player's tool contains "&c회복물약&f(소)":
+		if {물약사용.%player%} is not set:
+			set {물약사용.%player%} to false
+every 0.1 second:
+	loop all players:
+		if {물약사용.%loop-player%} is false:
+			subtract 0.1 from {물약쿨타임.%loop-player%}
+			if {물약쿨타임.%loop-player%} <= 0:
+				send "&c회복물약&f(소)의 재사용이 가능합니다." to loop-player
+				delete {물약사용.%loop-player%}
+				set  {물약쿨타임.%loop-player%} to 15
+
+on rightclick:
+	if name of player's tool contains "&d엘릭서":
+		if {엘릭서쿨타임.%player%} is 30:
+			apply potion of instant health of tier 3 without particles to player for 0.1 seconds
+			delete player's tool
+
+on rightclick:
+	if name of player's tool contains "&c회복물약&f(대)":
+		if {즉시물약쿨타임.%player%} is 20:
+			apply potion of regeneration of tier 5 without particles to player for 3 seconds
+			delete player's tool
+
+on rightclick:
+	if name of player's tool contains "&c회복물약&f(소)":
+		if {물약쿨타임.%player%} is 15:
+			apply potion of regeneration of tier 4 without particles to player for 3 seconds
+			delete player's tool
+
+
+
+
+			
+command /커스텀무기 [<integer>]:
+	trigger:
+		set  {_숫자} to 1
+		loop 6 times:
+			add 1 to {_숫자}
+			add {_숫자} to {_커스텀::*}
+		set {_숫자1} to 26
+		loop 6 times:
+			add 1 to {_숫자1}
+			add {_숫자1} to {_커스텀1::*}
+		set {_21} to 21
+		set {_22} to 22
+		set {_16} to 27
+		set {_17} to 33
+		if arg-1 is not set:
+			send "1 : 개복치검, 2 : 개복치도끼, 3 : 개복치곡괭이, 4 : 개복치삽, 5 : 개복치괭이"
+			send "6 : 바바검, 7 : 바바도끼, 8 : 바바곡괭이, 9 : 바바삽, 10 : 바바괭이"
+			send "11 : 나무 커스텀, 12 : 돌 커스텀, 13 : 철 커스텀, 14 : 다이아 커스텀, 15 : 네더 커스텀"
+		if arg-1 is 1:
+			give 1 netherite sword with nbt compound from "{HideFlags:%{_16}%}" named "&d[&5개복치검&d]" to player
+		if arg-1 is 2:
+			give 1 netherite axe with nbt compound from "{CustomModelData:%{_21}%}" named "&d[&5개복치도끼&d]" to player
+		if arg-1 is 3:
+			give 1 netherite pickaxe with nbt compound from "{CustomModelData:%{_21}%}" named "&d[&5개복치곡괭이&d]" to player
+		if arg-1 is 4:
+			give 1 netherite shovel with nbt compound from "{CustomModelData:%{_21}%}" named "&d[&5개복치삽&d]" to player
+		if arg-1 is 5:
+			give 1 netherite hoe with nbt compound from "{CustomModelData:%{_21}%}" named "&d[&5개복치괭이&d]" to player
+		#바바시리즈
+		if arg-1 is 6:
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_22}%}" named "&d[&5바바검&d]" to player
+		if arg-1 is 7:
+			give 1 netherite axe with nbt compound from "{CustomModelData:%{_22}%}" named "&d[&5바바도끼&d]" to player
+		if arg-1 is 8:
+			give 1 netherite pickaxe with nbt compound from "{CustomModelData:%{_22}%}" named "&d[&5바바곡괭이&d]" to player
+		if arg-1 is 9:
+			give 1 netherite shovel with nbt compound from "{CustomModelData:%{_22}%}" named "&d[&5바바삽&d]" to player
+		if arg-1 is 10:
+			give 1 netherite hoe with nbt compound from "{CustomModelData:%{_22}%}" named "&d[&5바바괭이&d]" to player
+		#커스텀시리즈
+		#건틀릿
+		if arg-1 is 11:
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&a&l건틀릿&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&a&l단검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&a&l낫&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&a&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&a&l장검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+			give 1 wooden sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&a&l지팡이&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1" to player
+
+		if arg-1 is 12:
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&9&l건틀릿&d&l]" with lore "&e★&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 1.2" to player
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&9&l단검&d&l]" with lore "&e★&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 1.5" to player
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&9&l낫&d&l]" with lore "&e★&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 3.5" to player
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&9&l대검&d&l]" with lore "&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 3" to player
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&9&l장검&d&l]" with lore "&e★&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 2" to player
+			give 1 stone sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&a&l지팡이&d&l]" with lore "&e★&f★" and "&b0단계" and "&e============" and "&c + 공격력 1.5" and "&e============" and "&2기본 추가 공격력 1.7" to player
+
+		if arg-1 is 13:
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&5&l건틀릿&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 1.4" to player
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&5&l단검&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 2" to player
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&5&l낫&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 6" to player
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&5&l대검&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 5" to player
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&5&l장검&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 3" to player
+			give 1 iron sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&5&l지팡이&d&l]" with lore "&e★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 3.7" and "&e============" and "&2기본 추가 공격력 2.4" to player
+
+		if arg-1 is 14:
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&6&l건틀릿&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 1.6" to player
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&6&l단검&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 2.5" to player
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&6&l낫&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 8.5" to player
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&6&l대검&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 7" to player
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&6&l장검&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 4" to player
+			give 1 diamond sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&6&l지팡이&d&l]" with lore "&e★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 7.3" and "&e============" and "&2기본 추가 공격력 3.1" to player
+
+		if arg-1 is 15:
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::1}%}" named "&d&l[&c&l건틀릿&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 2" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::2}%}" named "&d&l[&c&l단검&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 3.5" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::3}%}" named "&d&l[&c&l낫&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 11" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::4}%}" named "&d&l[&c&l대검&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 9" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::5}%}" named "&d&l[&c&l장검&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 6" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀::6}%}" named "&d&l[&c&l지팡이&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 4.5" to player
+		
+		if arg-1 is 16:
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀1::1}%}" named "&d&l[&c&l건틀릿&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 2" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀1::3}%}" named "&d&l[&c&l낫&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 11" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀1::4}%}" named "&d&l[&c&l대검&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 9" to player
+			give 1 netherite sword with nbt compound from "{CustomModelData:%{_커스텀1::6}%}" named "&d&l[&c&l지팡이&d&l]" with lore "&e★★★★&f★" and "&b0단계" and "&e============" and "&c + 공격력 10.9"  and "&e============" and "&2기본 추가 공격력 4.5" to player

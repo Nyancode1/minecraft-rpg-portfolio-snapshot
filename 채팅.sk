@@ -1,0 +1,38 @@
+#command /asda:
+	#trigger:
+		#메세지에 하이퍼 링크와 같은 효과를 부여
+		#<>중에 넣고 싶은 기능만 넣기 가능
+		#message "<ttp:커서를 올릴때 나오는 설명><url:링크><cmd:/존재하는 명령어>적용되는채팅<reset>채팅적기"
+variables:
+	{chat.%player%} = true
+
+#채팅 금지 코드
+on chat:
+	if {chat.%player%} is false:
+		cancel event
+		send "&e%player%&c님은 메세지 기능이 차단되었습니다." to player
+#채팅 금지
+command /chatX [<player>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6chatX &b..." to player
+				send "   &b플레이어 이름 &7- &r해당 플레이어의 채팅을 비활성화 시킵니다." to player
+			if arg-1 is "%arg-1%":
+				set {chat.%arg-1%} to false
+				send "&e%arg-1%&a님의 채팅이 차단되었습니다" to all players
+		else:
+			send "&c당신은 권한이 없습니다" to player
+#채팅 풀기
+command /chatO [<player>]:
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6chatO &b..." to player
+				send "   &b플레이어 이름 &7- &r해당 플레이어의 채팅을 활성화 시킵니다." to player
+			if arg-1 is "%player%":
+				set {chat.%arg-1%} to true
+				send "&e%arg-1%&a님의 채팅이 차단해제 되었습니다" to all players
+		else:
+			send "&c당신은 권한이 없습니다" to player
+			

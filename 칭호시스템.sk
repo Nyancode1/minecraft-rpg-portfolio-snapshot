@@ -1,0 +1,48 @@
+command /name [<string>]:
+	permission: 어드민
+	trigger:
+		set {disguise.%uuid of player%} to true
+		set {disguise.id.%uuid of player%} to arg-1
+		set player's tablist name to arg-1
+		
+command /닉네임 [<text>] [<player>] [<text>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg 1 or arg 2 or arg 3 is not set:
+				send "/닉네임 [설정/삭제] [플레이어] [변경할 닉네임]" to player
+			if arg 1 is "설정":
+				arg 2 is set:
+					arg 3 is set:
+						set {닉네임::%arg 2%} to colored arg 3
+						set {닉네임저장::%arg 2%} to player's name
+						send "&6%arg 2%&e님의 닉네임을 &f%colored arg 3%&e으로 변경 했습니다"
+			if arg 1 is "삭제":
+				arg 2 is set:
+					arg 3 is not set:
+						delete {닉네임::%arg 2%}
+						set {닉네임::%arg 2%} to {닉네임저장::%arg 2%}
+						send "&6%arg 2%&e님의 변경 닉네임을 삭제 합니다"
+
+command /청소:
+	permission: 어드민
+	trigger:
+		loop 20 times:
+			send "" to all players
+
+every 1 seconds:
+	loop all players:
+		set the loop-player's display name to "%{닉네임::%loop-player%}%"
+		set tablist name of loop-player to "%loop-player's name%"
+		set display name of loop-player to "%{닉네임::%loop-player%}%"
+
+on chat:
+	set {_message} to message
+	if player is op:
+		if {관리자.%player%} is true:
+			set message format to "%{닉네임::%player%}% &f%{_message}%"
+		else:
+			if {닉네임::%player%} is set:
+				set message format to "%{닉네임::%player%}%<&e%player's name%&f> &f%{_message}%"
+			else:
+				set message format to "<&e%player's name%&f> %{_message}%"

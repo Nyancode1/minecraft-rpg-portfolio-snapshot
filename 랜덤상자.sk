@@ -1,0 +1,95 @@
+command /상자:
+	permission: 어드민
+	trigger:
+		if player is op:
+			give 1 chest named "&d[&e랜덤상자&d]" with lore "&b랜덤으로 보상을 지급!" to player
+		else:
+			send "&c권한이 없습니다" to player
+command /신:
+	permission: 어드민
+	trigger:
+		if player is op:
+			give 1 amethyst shard of fortune 1 named "&d&l[&5&l신들의 선택권&d&l]" with lore "&c&l신이 사용하던 물건중 하나를 고를수있다" and "&4&l주의! 들어가서 고르기전까지 창을 닫지 마십시오" to player
+		else:
+			send "&c권한이 없습니다" to player
+			
+on rightclick with chest:
+	if name of player's tool contains "&d[&e랜덤상자&d]":
+		cancel event
+		remove 1 chest from player's tool
+		set {random-chest} to random integer between 1 and 1000
+		if {random-chest} is between 1 and 2:
+			give 1 stick named "&d[&5엄청난 쓰레기!&d]" with lore "&d데미지 &5+300" and "&c쓰레기중 가장 강력한 쓰레기다..." to player
+			play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to all players
+			message "&e%player%&f님이 &d[&e랜덤상자&d]&f에서 &d[&5엄청난 쓰레기!&d]&f를 받았습니다!" to all players
+		if {random-chest} is between 3 and 500:
+			give 1 iron ingot to player
+			play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+			send "&d[&e랜덤상자&d]&f에서 &7[철]&f을 받았습니다!"
+		if {random-chest} is between 501 and 800:
+			give 1 gold ingot to player
+			play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+			send "&d[&e랜덤상자&d]&f에서 &e[금]&f을 받았습니다!"
+		if {random-chest} is between 801 and 950:
+			give 1 emerald to player
+			play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+			send "&d[&e랜덤상자&d]&f에서 &2[에메랄드]&f를 받았습니다!"
+		if {random-chest} is between 951 and 998:
+			give 1 diamond to player
+			play sound "block_anvil_place" with volume 0.6 and pitch 2 at player
+			send "&d[&e랜덤상자&d]&f에서 &b[다이아]&f를 받았습니다!"
+		if {random-chest} is between 999 and 1000:
+			give 1 amethyst shard of fortune 1 named "&d&l[&5&l신들의 선택권&d&l]" with lore "&c&l신이 사용하던 물건중 하나를 고를수있다" and "&4&l주의! 들어가서 고르기전까지 창을 닫지 마십시오" to player
+			play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to all players
+			message "&e%player%&f님이 &d[&e랜덤상자&d]&f에서 &d[&5신들의 선택권&d]&f를 받았습니다!" to all players
+			
+on rightclick with amethyst shard:
+	if name of player's tool contains "&d&l[&5&l신들의 선택권&d&l]":
+		open chest with 5 row named "&d&l신의 선택" to player
+		set {_slot} to 0
+		loop 10 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot2} to 35
+		loop 44 times:
+			set slot {_slot2} of current inventory of player to purple stained glass pane
+			add 1 to {_slot2}
+		set slot 18 of current inventory of player to black stained glass pane
+		set slot 27 of current inventory of player to black stained glass pane
+		set slot 17 of current inventory of player to purple stained glass pane
+		set slot 26 of current inventory of player to purple stained glass pane
+		set slot 13 of current inventory of player to paper named "&a수표 &e10000000000" with lore "&5&o누군가 가지고있던 돈으로 알려져있다..."
+		set slot 19 of current inventory of player to netherite helmet
+		set slot 21 of current inventory of player to netherite chestplate named "&d[&5가장 단단한 갑옷&4<가고일의 돌갑옷>&d]" with lore "&d방어력 &5+300" and "&d체력 &5+100" and "&5&o누군가 입있던 갑옷으로 알려져있다..."
+		set slot 23 of current inventory of player to netherite leggings
+		set slot 25 of current inventory of player to netherite boots
+		set slot 28 of current inventory of player to diamond sword with custom model data 7 named "&d[&5명검&4<무라마사>&d]" with lore "&d데미지 &5+300" and "&5&o누군가 사용하던 명검으로 알려져있다..."
+		set slot 29 of current inventory of player to netherite axe
+		set slot 31 of current inventory of player to netherite pickaxe
+		set slot 33 of current inventory of player to netherite shovel
+		set slot 34 of current inventory of player to netherite hoe
+		play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to player
+		remove 1 amethyst shard from player's tool
+
+on inventory click:
+	if inventory name contains "&d&l신의 선택":
+		cancel event
+		set {_7} to 7
+		if clicked item is purple stained glass pane or black stained glass pane:	
+		else:
+			close player's inventory
+			give 1 paper named "&a수표 &e10000000000" with lore "&5&o누군가 가지고있던 돈으로 알려져있다..." to player
+			play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to player
+			send "&5잘 쓰도록..." to player
+		if click type is left mouse button:
+			if clicked raw slot is 21:
+				close player's inventory
+				give 1 netherite chestplate named "&d[&5가장 단단한 갑옷&4<가고일의 돌갑옷>&d]" with lore "&d방어력 &5+300" and "&d체력 &5+100" and "&5&o누군가 입있던 갑옷으로 알려져있다..." to player
+				play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to player
+				send "&5흠..." to player
+		if click type is left mouse button:
+			if clicked raw slot is 28:
+				close player's inventory
+				give 1 diamond sword with nbt compound from "{CustomModelData:%{_7}%}" named "&d[&5명검&4<무라마사>&d]" with lore "&d데미지 &5+300" and "&5&o누군가 사용하던 명검으로 알려져있다..." to player
+				play sound "entity_ender_dragon_ambient" with volume 0.6 and pitch 1 to player
+				send "&5훌륭한 선택이군..." to player

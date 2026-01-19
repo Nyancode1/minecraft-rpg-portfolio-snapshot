@@ -1,0 +1,687 @@
+on rightclick on entity:
+	if entity's name is "&6성공한 광부 &e후버":
+		cancel event
+		open chest with 3 row named "&9&l광부메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set slot 10 of current inventory of player to coal named "&a&l광물상점" with lore "&9&l누르면 광물 상점이 열립니다"
+		set slot 13 of current inventory of player to iron nugget with custom model data 1 named "&a&l정동석깨기" with lore "&9&l누르면 정동석을 깰수있는 창이 열립니다"
+		set slot 16 of current inventory of player to iron pickaxe named "&a&l광부전직" with lore "&9&l누르면 광부전직창이 열립니다"
+		#인벤토리 아이템 생성
+
+on rightclick on entity:
+	if entity's name is "&6초록손 농부 &e메리":
+		cancel event
+		open chest with 3 row named "&a&l농부메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to lime stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to lime stained glass pane
+			add 1 to {_slot}
+		set slot 11 of current inventory of player to wheat named "&a&l농작물상점" with lore "&9&l누르면 농작물 상점이 열립니다"
+		set slot 15 of current inventory of player to iron hoe named "&a&l농부전직" with lore "&9&l누르면 농부전직창이 열립니다"
+		#인벤토리 이름 설정
+		
+on rightclick on entity:
+	if entity's name is "&6떡밥풀이 어부 &e그리오":
+		cancel event
+		open chest with 3 row named "&b&l어부메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to light blue stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to light blue stained glass pane
+			add 1 to {_slot}
+		set slot 11 of current inventory of player to tropical fish named "&a&l물고기상점" with lore "&9&l누르면 물고기 상점이 열립니다"
+		set slot 15 of current inventory of player to fishing rod named "&a&l어부전직" with lore "&9&l누르면 어부전직창이 열립니다"
+		
+on rightclick on entity:
+	if entity's name is "&6갈퀴손 헌터 &e바실리":
+		cancel event
+		open chest with 3 row named "&c&l헌터메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to red stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to red stained glass pane
+			add 1 to {_slot}
+		set slot 11 of current inventory of player to player head named "&c&l헌터상점" with lore "&9&l누르면 헌터 상점이 열립니다"
+		set slot 15 of current inventory of player to iron sword named "&c&l헌터전직" with lore "&9&l누르면 헌터전직창이 열립니다"
+		
+on rightclick on entity:
+	if entity's name is "&6고든 램지 &e램쥐썬더":
+		cancel event
+		open chest with 4 row named "&d&l요리상점" to player
+		set {_slot} to 0
+		loop 10 times:
+			set slot {_slot} of current inventory of player to orange stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 26
+		loop 36 times:
+			set slot {_slot} of current inventory of player to orange stained glass pane
+			add 1 to {_slot}
+		set slot 9 and 17 and 18 and 26 of current inventory of player to black stained glass pane
+		set slot 10 of current inventory of player to cooked mutton with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 11 of current inventory of player to cooked beef with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 12 of current inventory of player to cooked porkchop with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 13 of current inventory of player to cooked chicken with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 14 of current inventory of player to cooked rabbit with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 15 of current inventory of player to cooked salmon with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 16 of current inventory of player to cooked cod with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 19 of current inventory of player to mushroom stew with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 20 of current inventory of player to beetroot soup with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 21 of current inventory of player to honey bottle with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 22 of current inventory of player to cookie with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 23 of current inventory of player to bread with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 24 of current inventory of player to pumpkin pie with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		set slot 25 of current inventory of player to cake with lore "&a가격 : 20원" and "&c판매가격 : 10원"
+		
+on inventory click:
+	if inventory name is "&9&l광부메뉴":
+		if clicked raw slot is smaller than 54:
+			cancel event
+		if clicked slot is 10:
+			open chest with 6 row named "&9&l광물상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 45
+			loop 54 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set slot 9 and 17 and 18 and 26 and 27 and 35 and 36 and 44 of current inventory of player to black stained glass pane
+			set slot 10 of current inventory of player to coal with lore "&c판매가격 : 2원"
+			set slot 11 of current inventory of player to copper ingot with lore "&c판매가격 : 5원"
+			set slot 12 of current inventory of player to iron ingot with lore "&c판매가격 : 6원"
+			set slot 13 of current inventory of player to gold ingot with lore "&c판매가격 : 6원"
+			set slot 14 of current inventory of player to emerald with lore "&c판매가격 : 10원"
+			set slot 15 of current inventory of player to diamond with lore "&c판매가격 : 8원"
+			set slot 16 of current inventory of player to netherite ingot with lore "&c판매가격 : 140원"
+			set slot 19 of current inventory of player to raw copper with lore "&c판매가격 : 1원"
+			set slot 20 of current inventory of player to raw iron with lore "&c판매가격 : 2원"
+			set slot 21 of current inventory of player to raw gold with lore "&c판매가격 : 2원"
+			set slot 22 of current inventory of player to lapis lazuli with lore "&c판매가격 : 2원"
+			set slot 23 of current inventory of player to redstone with lore "&c판매가격 : 2원"
+			set slot 24 of current inventory of player to quartz with lore "&c판매가격 : 1원"
+			set slot 25 of current inventory of player to netherite scrap with lore "&c판매가격 : 20원"
+			set slot 28 of current inventory of player to iron nugget with custom model data 1 named "&b정동석" with lore "&c판매가격 : 14원"
+			set slot 29 of current inventory of player to iron nugget with custom model data 2 named "&7석회석" with lore "&c판매가격 : 10원"
+			set slot 30 of current inventory of player to iron nugget with custom model data 3 named "&f대리석" with lore "&c판매가격 : 10원"
+			set slot 31 of current inventory of player to iron nugget with custom model data 4 named "&2옥" with lore "&c판매가격 : 12원"
+			set slot 32 of current inventory of player to iron nugget with custom model data 5 named "&b오팔" with lore "&c판매가격 : 12원"
+			set slot 33 of current inventory of player to iron nugget with custom model data 6 named "&6토파즈" with lore "&c판매가격 : 14원"
+			set slot 34 of current inventory of player to iron nugget with custom model data 7 named "&e방해석" with lore "&c판매가격 : 14원"
+			set slot 37 of current inventory of player to iron nugget with custom model data 8 named "&b아쿠아마린" with lore "&c판매가격 : 14원"
+			set slot 38 of current inventory of player to iron nugget with custom model data 9 named "&5자수정" with lore "&c판매가격 : 30원"
+			set slot 39 of current inventory of player to iron nugget with custom model data 10 named "&4루비" with lore "&c판매가격 : 36원"
+			set slot 40 of current inventory of player to iron nugget with custom model data 11 named "&9사파이어" with lore "&c판매가격 : 38원"
+			set slot 41 of current inventory of player to iron nugget with custom model data 12 named "&6재고아이트" with lore "&c판매가격 : 50원"
+			set slot 42 of current inventory of player to iron nugget with custom model data 13 named "&1요정석" with lore "&c판매가격 : 80원"
+			set slot 43 of current inventory of player to iron nugget with custom model data 14 named "&d별조각" with lore "&c판매가격 : 100원"
+		if clicked slot is 13:
+			open chest with 3 row named "&9&l정동석깨기" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 13
+			loop 27 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to lime stained glass pane named "&a&l여기에다 정동석을 놔둬주세요!" with lore "&a&l놔둔만큼 정동석을 깹니다!"
+			set slot 12 of current inventory of player to book with custom model data 7
+			set slot 15 of current inventory of player to blast furnace named "&a&l정동석깨기!"
+		if clicked slot is 16:
+			open chest with 3 row named "&9&l광부전직" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 17
+			loop 27 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to wooden pickaxe named "&a&l광부1차" with lore "&9&l전직 조건 조약돌 300개"
+			set slot 13 of current inventory of player to iron pickaxe named "&a&l광부2차" with lore "&9&l???"
+			if {직업.%player%} is "광부1차" or "광부2차":
+				set slot 13 of current inventory of player to iron pickaxe named "&a&l광부2차" with lore "&9&l정동석 150개 깨기"
+			set slot 16 of current inventory of player to diamond pickaxe named "&a&l광부3차" with lore "&9&l???"
+			if {직업.%player%} is "광부2차":
+				set slot 16 of current inventory of player to diamond pickaxe named "&a&l광부2차" with lore "&9&l별조각 10개"
+			
+on inventory click:
+	if inventory name is "&a&l농부메뉴":
+		if clicked raw slot is smaller than 54:
+			cancel event
+		if clicked slot is 11:
+			open chest with 6 row named "&a&l농작물상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to lime stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 45
+			loop 54 times:
+				set slot {_slot} of current inventory of player to lime stained glass pane
+				add 1 to {_slot}
+			set slot 9 and 17 and 18 and 26 and 27 and 35 and 36 and 44 of current inventory of player to black stained glass pane
+			set slot 10 of current inventory of player to wheat named "&f일반 밀" with lore "&c판매가격 : 3원"
+			set slot 19 of current inventory of player to wheat with custom model data 7 named "&7중급 밀" with lore "&c판매가격 : 4원"
+			set slot 28 of current inventory of player to wheat with custom model data 8 named "&6상급 밀" with lore "&c판매가격 : 6원"
+			set slot 37 of current inventory of player to wheat with custom model data 9 named "&5최상급 밀" with lore "&c판매가격 : 9원"
+			set slot 11 of current inventory of player to beetroot named "&f일반 비트" with lore "&c판매가격 : 3원"
+			set slot 20 of current inventory of player to beetroot with custom model data 7 named "&7중급 비트" with lore "&c판매가격 : 4원"
+			set slot 29 of current inventory of player to beetroot with custom model data 8 named "&6상급 비트" with lore "&c판매가격 : 6원"
+			set slot 38 of current inventory of player to beetroot with custom model data 9 named "&5최상급 비트" with lore "&c판매가격 : 9원"
+			set slot 12 of current inventory of player to potato named "&f일반 감자" with lore "&c판매가격 : 1원"
+			set slot 21 of current inventory of player to potato with custom model data 7 named "&7중급 감자" with lore "&c판매가격 : 2원"
+			set slot 30 of current inventory of player to potato with custom model data 8 named "&6상급 감자" with lore "&c판매가격 : 4원"
+			set slot 39 of current inventory of player to potato with custom model data 9 named "&5최상급 감자" with lore "&c판매가격 : 6원"
+			set slot 13 of current inventory of player to carrot named "&f일반 당근" with lore "&c판매가격 : 1원"
+			set slot 22 of current inventory of player to carrot with custom model data 7 named "&7중급 당근" with lore "&c판매가격 : 2원"
+			set slot 31 of current inventory of player to carrot with custom model data 8 named "&6상급 당근" with lore "&c판매가격 : 4원"
+			set slot 40 of current inventory of player to carrot with custom model data 9 named "&5최상급 당근" with lore "&c판매가격 : 6원"
+			set slot 14 of current inventory of player to wheat seeds with lore "&c판매가격 : 1원"
+			set slot 15 of current inventory of player to beetroot seeds with lore "&c판매가격 : 1원"
+			set slot 16 of current inventory of player to pumpkin seeds with lore "&c판매가격 : 1원"
+			set slot 23 of current inventory of player to melon seeds with lore "&c판매가격 : 1원"
+			set slot 24 of current inventory of player to cocoa beans with lore "&c판매가격 : 3원"
+			set slot 25 of current inventory of player to nether wart with lore "&c판매가격 : 2원"
+			set slot 32 of current inventory of player to melon with lore "&c판매가격 : 10원"
+			set slot 33 of current inventory of player to pumpkin with lore "&c판매가격 : 6원"
+			set slot 34 of current inventory of player to melon slice with lore "&c판매가격 : 1원"
+			set slot 41 of current inventory of player to baked potato with lore "&c판매가격 : 2원"
+			set slot 42 of current inventory of player to poisonous potato with lore "&c판매가격 : 70원"
+			set slot 43 of current inventory of player to sugar cane with lore "&c판매가격 : 2원"
+		if clicked slot is 15:
+			open chest with 3 row named "&a&l농부전직" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to lime stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 17
+			loop 27 times:
+				set slot {_slot} of current inventory of player to lime stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to wooden hoe named "&a&l농부1차" with lore "&9&l전직 조건 흙 200개"
+			set slot 13 of current inventory of player to iron hoe named "&a&l농부2차" with lore "&9&l???"
+			if {직업.%player%} is "농부1차":
+				set slot 13 of current inventory of player to iron hoe named "&a&l농부2차" with lore "&9&l작물 캔 횟수 2000개"
+			set slot 16 of current inventory of player to diamond hoe named "&a&l농부3차"
+			
+on inventory click:
+	if inventory name is "&b&l어부메뉴":
+		if clicked raw slot is smaller than 27:
+			cancel event
+		if clicked slot is 11:
+			open chest with 4 row named "&b&l물고기상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to light blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			loop 36 times:
+				set slot {_slot} of current inventory of player to light blue stained glass pane
+				add 1 to {_slot}
+			set slot 9 and 17 and 18 and 26 of current inventory of player to black stained glass pane
+			set slot 10 of current inventory of player to cod bucket with lore "&c판매가격 : 70원"
+			set slot 11 of current inventory of player to cod with lore "&c판매가격 : 10원"
+			set slot 12 of current inventory of player to pufferfish bucket with lore "&c판매가격 : 1500원"
+			set slot 13 of current inventory of player to pufferfish with lore "&c판매가격 : 30원"
+			set slot 14 of current inventory of player to tropical fish bucket with lore "&c판매가격 : 1500원"
+			set slot 15 of current inventory of player to tropical fish with lore "&c판매가격 : 200원"
+			set slot 16 of current inventory of player to salmon bucket with lore "&c판매가격 : 150원"
+			set slot 19 of current inventory of player to salmon with lore "&c판매가격 : 15원"
+			set slot 20 of current inventory of player to ink sac with lore "&c판매가격 : 9원"
+			set slot 21 of current inventory of player to kelp with lore "&c판매가격 : 1원"
+			set slot 22 of current inventory of player to dried kelp with lore "&c판매가격 : 3원"
+			set slot 23 of current inventory of player to sea pickle with lore "&c판매가격 : 7원"
+			set slot 24 of current inventory of player to scute with lore "&c판매가격 : 100원"
+			set slot 25 of current inventory of player to nautilus shell with lore "&c판매가격 : 200원"
+		if clicked slot is 15:
+			open chest with 3 row named "&b&l어부전직" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to light blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 17
+			loop 27 times:
+				set slot {_slot} of current inventory of player to light blue stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to fishing rod named "&a&l광부1차"
+			set slot 13 of current inventory of player to fishing rod of fortune 1 named "&a&l광부2차"
+			set slot 16 of current inventory of player to fishing rod of fortune 2 named "&a&l광부3차"
+			
+on inventory click:
+	if inventory name is "&c&l헌터메뉴":
+		if clicked raw slot is smaller than 27:
+			cancel event
+		if clicked slot is 11:
+			open chest with 4 row named "&c&l헌터상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to red stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 26
+			loop 36 times:
+				set slot {_slot} of current inventory of player to red stained glass pane
+				add 1 to {_slot}
+			set slot 9 and 17 and 18 and 26 of current inventory of player to black stained glass pane
+			set slot 10 of current inventory of player to rotten flesh with lore "&c판매가격 : 5원"
+			set slot 11 of current inventory of player to bone with lore "&c판매가격 : 4원"
+			set slot 12 of current inventory of player to spider eye with lore "&c판매가격 : 4원"
+			set slot 13 of current inventory of player to gunpowder with lore "&c판매가격 : 5원"
+			set slot 14 of current inventory of player to phantom membrane with lore "&c판매가격 : 15원"
+			set slot 15 of current inventory of player to slime ball with lore "&c판매가격 : 5원"
+			set slot 16 of current inventory of player to ender pearl with lore "&c판매가격 : 7원"
+			set slot 19 of current inventory of player to blaze rod with lore "&c판매가격 : 4원"
+			set slot 20 of current inventory of player to magma cream with lore "&c판매가격 : 5원"
+			set slot 21 of current inventory of player to ghast tear with lore "&c판매가격 : 20원"
+			set slot 22 of current inventory of player to ender eye with lore "&c판매가격 : 9원"
+			set slot 23 of current inventory of player to fermented spider eye with lore "&c판매가격 : 6원"
+			set slot 24 of current inventory of player to leather with lore "&c판매가격 : 3원"
+			set slot 25 of current inventory of player to player head with lore "&c판매가격 : 100원"
+		if clicked slot is 15:
+			open chest with 3 row named "&c&l헌터전직" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 10 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 17
+			loop 27 times:
+				set slot {_slot} of current inventory of player to blue stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to wooden sword named "&c&l헌터1차"
+			set slot 13 of current inventory of player to iron sword named "&c&l헌터2차"
+			set slot 16 of current inventory of player to diamond sword named "&c&l헌터3차"
+			
+on inventory click:
+	if inventory name is "&9&l광물상점":
+		if clicked raw slot is smaller than 54:
+			cancel event				
+		if click type is right mouse button:
+			if clicked raw slot is smaller than 54:
+				if clicked item is blue stained glass pane or black stained glass pane or lime stained glass pane or red stained glass pane or light blue stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore} to {돈.%uuid of player%}
+						send "&e&l%{_lore}%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+						if {직업.%player%} is "광부1차":
+							add 1 to {돈.%uuid of player%}
+							send "&a&l광부보너스 &e&l+1&a&l원"
+						if {직업.%player%} is "광부2차":
+							add 2 to {돈.%uuid of player%}
+							send "&a&l광부보너스 &e&l+2&a&l원"
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 54:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add {_lore}*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%{_lore}*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+						if {직업.%player%} is "광부1차":
+							add {_itemnumber} to {돈.%uuid of player%}
+							send "&a&l광부보너스 &e&l+%{_itemnumber}%&a&l원"
+						if {직업.%player%} is "광부2차":
+							add 2*{_itemnumber} to {돈.%uuid of player%}
+							send "&a&l광부보너스 &e&l+%2*{_itemnumber}%&a&l원"
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+on inventory click:
+	if inventory name is "&a&l농작물상점":
+		if clicked raw slot is smaller than 54:
+			cancel event				
+		if click type is right mouse button:
+			if clicked raw slot is smaller than 54:
+				if clicked item is black stained glass pane or lime stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore} to {돈.%uuid of player%}
+						send "&e&l%{_lore}%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+						if {직업.%player%} is "농부1차":
+							add {_itemnumber} to {돈.%uuid of player%}
+							send "&a&l농부보너스 &e&l+1&a&l원"
+						if {직업.%player%} is "농부2차":
+							add 2*{_itemnumber} to {돈.%uuid of player%}
+							send "&a&l농부보너스 &e&l+2&a&l원"
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 54:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add {_lore}*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%{_lore}*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+						if {직업.%player%} is "농부1차":
+							add {_itemnumber} to {돈.%uuid of player%}
+							send "&a&l농부보너스 &e&l%{_itemnumber}%&a&l원"
+						if {직업.%player%} is "농부2차":
+							add 2*{_itemnumber} to {돈.%uuid of player%}
+							send "&a&l농부보너스 &e&l%(2*{_itemnumber})%&a&l원"
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+on inventory click:
+	if inventory name is "&b&l물고기상점":
+		if clicked raw slot is smaller than 36:
+			cancel event				
+		if click type is right mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is blue stained glass pane or black stained glass pane or lime stained glass pane or red stained glass pane or light blue stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore} to {돈.%uuid of player%}
+						send "&e&l%{_lore}%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add {_lore}*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%{_lore}*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+on inventory click:
+	if inventory name is "&c&l헌터상점":
+		if clicked raw slot is smaller than 36:
+			cancel event				
+		if click type is right mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is blue stained glass pane or black stained glass pane or lime stained glass pane or red stained glass pane or light blue stained glass pane:
+					cancel event
+				if clicked slot is 25:
+					if player has 1 of player head:
+						delete nbt of player head
+						remove 1 of player head from player's inventory
+						add 100 to {돈.%uuid of player%}
+						send "&e&l100&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore} to {돈.%uuid of player%}
+						send "&e&l%{_lore}%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is purple stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add {_lore}*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%{_lore}*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+#요리
+on inventory click:
+	if inventory name is "&d&l요리상점":
+		if clicked raw slot is smaller than 36:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is right mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore}*0.2 to {돈.%uuid of player%}
+						send "&e&l%({_lore}*0.2)%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is left mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}*64:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for 64 of {_item}:
+							give player 64 of {_item}
+							send "&e&l%{_lore}*64%&c&l원을 사용했습니다!" to player
+							subtract {_lore}*64 from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add ({_lore}*0.2)*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%({_lore}*0.2)*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+
+on inventory click:
+	if player's current inventory's name is "&9&l정동석깨기":
+		if clicked raw slot is smaller than 27:
+			if clicked item is lime stained glass pane or blue stained glass pane or book or blast furnace:
+				cancel event
+			if clicked slot is 15:
+				set {_x} to slot 11 of current inventory of player
+				set {_정동석number} to amount of {_x} in current inventory of player
+				set {_정동석확인} to name of {_x}
+				if slot 11 of player's current inventory is iron nugget:
+					if {_정동석확인} is "&b정동석":
+						remove {_정동석number} of {_x} from current inventory of player
+						close player's inventory
+						loop {_정동석number} times:
+							set {_random-stone} to random integer between 1 and 100
+							play sound "block_anvil_place" with volume 0.3 and pitch 1 at player
+							if {_random-stone} is between 1 and 7:
+								drop 1 iron nugget with custom model data 2 named "&7석회석"
+								send "&b정동석&f에서 &7석회석&f을 받았습니다!" to player
+							if {_random-stone} is between 8 and 15:
+								drop 1 iron nugget with custom model data 3 named "&f대리석"
+								send "&b정동석&f에서 &f대리석&f을 받았습니다!" to player
+							if {_random-stone} is between 16 and 23:
+								drop 1 iron nugget with custom model data 4 named "&2옥"
+								send "&b정동석&f에서 &2옥&f을 받았습니다!" to player
+							if {_random-stone} is between 24 and 31:	
+								drop 1 iron nugget with custom model data 5 named "&b오팔"
+								send "&b정동석&f에서 &b오팔&f을 받았습니다!" to player
+							if {_random-stone} is between 32 and 39:
+								drop 1 iron nugget with custom model data 6 named "&6토파즈"
+								send "&b정동석&f에서 &6토파즈&f를 받았습니다!" to player
+							if {_random-stone} is between 40 and 46:
+								drop 1 iron nugget with custom model data 7 named "&e방해석"
+								send "&b정동석&f에서 &e방해석&f을 받았습니다!" to player
+							if {_random-stone} is between 47 and 53:
+								drop 1 iron nugget with custom model data 8 named "&b아쿠아마린"
+								send "&b정동석&f에서 &b아쿠아마린&f을 받았습니다!" to player
+							if {_random-stone} is between 54 and 60:
+								drop 1 iron nugget with custom model data 9 named "&5자수정"
+								send "&b정동석&f에서 &5자수정&f을 받았습니다!" to player
+							if {_random-stone} is between 61 and 77:
+								drop 1 iron nugget with custom model data 10 named "&4루비"
+								send "&b정동석&f에서 &4루비&f를 받았습니다!" to player
+							if {_random-stone} is between 78 and 84:
+								drop 1 iron nugget with custom model data 11 named "&9사파이어"
+								send "&b정동석&f에서 &9사파이어&f를 받았습니다!" to player
+							if {_random-stone} is between 85 and 91:
+								drop 1 iron nugget with custom model data 12 named "&6재고아이트"
+								send "&b정동석&f에서 &6재고아이트&f를 받았습니다!" to player
+							if {_random-stone} is between 92 and 96:
+								drop 1 iron nugget with custom model data 13 named "&1요정석"
+								send "&b정동석&f에서 &1요정석&f을 받았습니다!" to player
+							if {_random-stone} is between 97 and 100:
+								drop 1 iron nugget with custom model data 14 named "&d별조각"
+								send "&b정동석&f에서 &d별조각&f을 받았습니다!" to player
+							if {직업.%player%} is "광부1차":
+								add 1 to {정동석깨기.%player%}
+							wait 0.2 seconds
+					else:
+						send "&c정동석을 넣으세요!" to player
+				else:
+					send "&c정동석을 넣으세요!" to player
+
+on inventory close:
+	if current inventory's name contains "&9&l정동석깨기":
+		set {_x} to slot 11 of current inventory of player
+		set {_정동석number} to amount of {_x} in current inventory of player
+		if {_x} is not air:
+			give {_정동석number} of {_x} to player

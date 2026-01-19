@@ -1,0 +1,288 @@
+on rightclick on entity:
+	if entity's name is "&6무기의 상인 &e잭스":
+		cancel event
+		open chest with 3 row named "&8&l무기상메뉴" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to gray stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to gray stained glass pane
+			add 1 to {_slot}
+		set slot 11 of current inventory of player to wooden sword with custom model data 5 named "&a&l무기상점" with lore "&9&l누르면 무기 상점이 열립니다"
+		set slot 15 of current inventory of player to stick named "&a&l파괴된 장비" with lore "&9&l누르면 파괴된 장비 판매상점이 열립니다"
+		#인벤토리 이름 설정
+on inventory click:
+	if inventory name is "&8&l무기상메뉴":
+		if clicked raw slot is smaller than 27:
+			cancel event
+		if clicked slot is 11:
+			open chest with 3 row named "&8&l장비 상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 9 times:
+				set slot {_slot} of current inventory of player to gray stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 9
+			loop 17 times:
+				set slot {_slot} of current inventory of player to black stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 18
+			loop 27 times:
+				set slot {_slot} of current inventory of player to gray stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to wooden sword with custom model data 2 named "&d&l[&a&l건틀릿&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 11 of current inventory of player to wooden sword with custom model data 3 named "&d&l[&a&l단검&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 12 of current inventory of player to wooden sword with custom model data 4 named "&d&l[&a&l낫&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 13 of current inventory of player to wooden sword with custom model data 5 named "&d&l[&a&l대검&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 14 of current inventory of player to wooden sword with custom model data 6 named "&d&l[&a&l장검&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 15 of current inventory of player to wooden sword with custom model data 7 named "&d&l[&a&l지팡이&d&l]" with lore "&a가격 : 10000" and "&f★" and "&b0단계" and "&e============" and "&c + 공격력 0" and "&e============" and "&2기본 추가 공격력 1"
+			set slot 16 of current inventory of player to chest named "&d[&e무기스킨상자&d]" with lore "&a가격 : 25000" and "&9&l우클릭시 무기스킨이 랜덤으로 나옵니다."
+		if clicked slot is 15:
+			open chest with 3 row named "&8&l파괴된 장비 상점" to player
+			play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+			set {_slot} to 0
+			loop 9 times:
+				set slot {_slot} of current inventory of player to gray stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 9
+			loop 17 times:
+				set slot {_slot} of current inventory of player to black stained glass pane
+				add 1 to {_slot}
+			set {_slot} to 18
+			loop 27 times:
+				set slot {_slot} of current inventory of player to gray stained glass pane
+				add 1 to {_slot}
+			set slot 10 of current inventory of player to stick
+			set slot 13 of current inventory of player to stick
+			set slot 16 of current inventory of player to stick
+on inventory click:
+	if inventory name is "&8&l장비 상점":
+		if clicked raw slot is smaller than 27:
+			cancel event				
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 27:
+				if clicked item is gray stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+
+on rightclick on entity:
+	if entity's name is "&e골드호더":
+		cancel event
+		#인벤토리 이름 설정
+		open chest with 4 row named "&9&l골드상점" to player
+		
+command /운영장비:
+	permission: 어드민
+	trigger:
+		if player is op:
+			open chest with 1 rows named "&b운영장비" to player
+			loop {운영::*}:
+				set {_slot} to loop-index parsed as number
+				set slot {_slot} of current inventory of player to loop-value
+
+command /건차빼기 [<player>]:
+	permission: 어드민
+	trigger:
+		set {건차.%uuid of arg-1%} to 0
+		set {건차대형.%uuid of arg-1%} to 0
+		send "%{건차.%uuid of arg-1%}% %{건차대형.%uuid of arg-1%}%" to player
+
+on inventory close:
+	if name of top inventory of player is "&b운영장비":
+		set {_crb} to 0
+		loop 9 times:
+			set {운영::%{_crb}%} to slot {_crb} of current inventory of player
+			add 1 to {_crb}
+			
+every 1 second:
+	loop all players:
+		set {ddd} to {운영::0}
+		set {dddd} to {운영::1}
+		set {ddddd} to {운영::2}
+		set {q} to {운영::5}
+		set {qq} to {운영::6}
+		set {qqq} to {운영::7}
+		set {qqqq} to {운영::8}
+
+on rightclick on entity:
+	if entity's name is "[&b집 도우미&f]":
+		cancel event
+		open chest with 3 row named "&a&l건축" to player
+		set {_slot} to 0
+		loop 9 times:
+			set slot {_slot} of current inventory of player to lime stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 9
+		loop 17 times:
+			set slot {_slot} of current inventory of player to black stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 18
+		loop 27 times:
+			set slot {_slot} of current inventory of player to lime stained glass pane
+			add 1 to {_slot}
+		set slot 11 of current inventory of player to book named "&a&l집 짓기" with lore "&9&l누르면 집 짓기창이 열립니다"
+		set slot 15 of current inventory of player to book named "&a&l호출" with lore "&9&l누르면 운영자 호출창이 열립니다"
+
+
+on inventory click:
+	if inventory name is "&a&l건축":
+		if clicked raw slot is smaller than 27:
+			cancel event
+			if clicked slot is 11:
+				open chest with 1 row named "&a&l집 짓기" to player
+				play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+				set {_slot} to 0
+				loop 10 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set slot 1 of current inventory of player to brick named "&a&l기본 건축" with lore "&a가격 : 3000" and "&8범위 9X9" and "&9&l기본 건축을 위한보호 구역을" and "&9&l형성시키는 아이템입니다." and "&4&l*주의사항*" and "&8&l최대 2개까지 구매가능하며"  and "&8&l설치하시고 싶으신 구역을" and "&8&l신중히 고르신 후 우클릭을 눌러 주세요"
+				set slot 3 of current inventory of player to brick named "&a&l대형 건축" with lore "&a가격 : 30000" and "&8범위 17X17" and "&9&l대형 건축을 위한 보호 구역을" and "&9&l형성시키는 아이템입니다." and "&4&l*주의사항*" and "&8&l최대 1개까지 구매가능하며"  and "&8&l설치하시고 싶으신 구역을" and "&8&l신중히 고르신 후 우클릭을 눌러 주세요"
+				set slot 5 of current inventory of player to tripwire hook named "&a&l도어락" with lore "&a가격 : 500" and "&9&l철문에 비밀번호를 걸어" and "&9&l집에 보안을 거는 아이템입니다." and "&4&l*주의사항*" and "&8&l잠금 철문을 도배 시"  and "&8&l제제를 받을 수 있습니다." and "&8&l자신의 구역에만 설치해 주세요"
+				set slot 7 of current inventory of player to book named "&a&l범위 증축" with lore "&a가격 : 3000" and "&9&l보호 구역을 늘리기 위해" and "&9&l사용하는 아이템입니다." and "&8&l아이템을 들고 우클릭 시" and "&8&l도우미가 호출되며" and "&8&l자신의 보호구역을 알려주시면 늘려드립니다."  and "&8&l늘어나는 횟수는 5회 제한입니다."
+			
+			if clicked slot is 15:
+				open chest with 1 row named "&a&l호출" to player
+				play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+				set {_slot} to 0
+				loop 10 times:
+					set slot {_slot} of current inventory of player to black stained glass pane
+					add 1 to {_slot}
+				set slot 1 of current inventory of player to book named "&a&l빠른 민원" with lore "&a가격 : 3000" and "&9&l구매시 바로 도우미에게 알람이 갑니다" and "&9&l도우미가 도착했다면 민원을 말씀해주세요"
+				set slot 4 of current inventory of player to book named "&a&l빠른 버그신고" with lore "&a가격 : 3000" and "&9&l구매시 바로 도우미에게 알람이 갑니다" and "&9&l도우미가 도착했다면 발생한 버그를 말씀해주세요"
+				set slot 7 of current inventory of player to book named "&a&l빠른 유저신고" with lore "&a가격 : 3000" and "&9&l구매시 바로 도우미에게 알람이 갑니다" and "&9&l도우미가 도착했다면 범죄 유저를 말씀해주세요"
+
+	if inventory name is "&a&l도어락":
+		if clicked raw slot is smaller than 8:
+			cancel event
+	if inventory name is "&a&l집 증축":
+		if clicked raw slot is smaller than 8:
+			cancel event
+on inventory click:
+	if inventory name is "&a&l집 짓기":
+		if clicked raw slot is smaller than 9:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 9:
+				if clicked item is black stained glass pane:
+					cancel event
+				else:
+					if clicked slot is 1:
+						if {건차.%uuid of player%} is not 2:
+							set {_lore} to uncolored line 1 of lore of clicked slot
+							replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+							set {_lore} to {_lore} parsed as integer
+							if {돈.%uuid of player%} is smaller than {_lore}:
+								send "&c돈이 부족합니다" to player
+								play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+							else:
+								set {_item} to clicked item
+								delete line 1 of lore of {_item}
+								if player has enough space for {_item}:
+									give {ddd} to player
+									add 1 to {건차.%uuid of player%}
+									send "&a&l건설허가권을 구매했습니다!" to player
+									subtract {_lore} from {돈.%uuid of player%}
+									play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+								else:
+									send "&c인벤토리에 충분한 공간이 없습니다!" to player
+						else:
+							send "&c이미 2번구매를 하셨습니다!" to player
+							
+					if clicked slot is 3:
+						if {건차대형.%uuid of player%} is not 1:
+							set {_lore} to uncolored line 1 of lore of clicked slot
+							replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+							set {_lore} to {_lore} parsed as integer
+							if {돈.%uuid of player%} is smaller than {_lore}:
+								send "&c돈이 부족합니다" to player
+								play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+							else:
+								set {_item} to clicked item
+								delete line 1 of lore of {_item}
+								if player has enough space for {_item}:
+									give {dddd} to player
+									add 1 to {건차대형.%uuid of player%}
+									send "&a&l건설허가권을 구매했습니다!" to player
+									subtract {_lore} from {돈.%uuid of player%}
+									play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+								else:
+									send "&c인벤토리에 충분한 공간이 없습니다!" to player
+						else:
+							send "&c이미 구매를 하셨습니다!" to player
+					if clicked slot is 5:
+						set {_lore} to uncolored line 1 of lore of clicked slot
+						replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+						set {_lore} to {_lore} parsed as integer
+						if {돈.%uuid of player%} is smaller than {_lore}:
+							send "&c돈이 부족합니다" to player
+							play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+						else:
+							set {_item} to clicked item
+							delete line 1 of lore of {_item}
+							if player has enough space for {_item}:
+								give {ddddd} to player
+								send "&a&l건설허가권을 구매했습니다!" to player
+								subtract {_lore} from {돈.%uuid of player%}
+								play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+							else:
+								send "&c인벤토리에 충분한 공간이 없습니다!" to player
+on inventory click:
+	if inventory name is "&a&l호출":
+		if clicked raw slot is smaller than 9:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 9:
+				if clicked item is black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked slot
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete line 1 of lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&a&l건설허가권을 구매했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+on rightclick with book:
+	if name of player's tool contains "&a&l빠른 민원":
+		cancel event
+		remove 1 book from player's tool
+		send "&a&l호출! 사유 민원" to player name of GAEBOCKCHEE
+on rightclick with book:
+	if name of player's tool contains "&a&l빠른 버그신고":
+		cancel event
+		remove 1 book from player's tool
+on rightclick with book:
+	if name of player's tool contains "&a&l빠른 유저신고":
+		cancel event
+		remove 1 book from player's tool

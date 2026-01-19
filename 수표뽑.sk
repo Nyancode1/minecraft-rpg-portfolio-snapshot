@@ -1,0 +1,108 @@
+# 수표 뽑기 스크립트
+command /환전 [<integer>]:
+	permission: 유저
+	trigger:
+		set {_7} to 7
+		if arg-1 is not set:
+			send "&c금액을 입력하세요" to player
+		else:
+			if arg-1 is smaller than 100:
+				send "&e100&a원 미만은 재화를 발급할 수 없습니다" to player
+			else:
+				# /수표 [숫자]값이 소지금 보다 클 때
+				if arg-1 is bigger than {돈.%uuid of player%}:
+					send "&c소지금보다 많은 금액의 재화는 발급할 수 없습니다" to player
+				else:
+					# /수표 [숫자]값만큼 플레이어 소지금에서 감소시킨 해당 값만큼의 수표 발급
+					give 1 paper with nbt compound from "{CustomModelData:%{_7}%}" named "&a재화 &e%arg-1%&a원" with lore "&a우클릭시 &d[&e%arg-1%&d]&a원이 지급됩니다" to player
+					subtract arg-1 from {돈.%uuid of player%}
+					send "&a재화 &e%arg-1%&a원 발급!" to player
+
+# 수표 사용 스크립트
+on rightclick with paper:
+	if name of player's tool contains "&a재화":
+		set {_금액} to uncolored name of player's tool
+		replace all "재화" and " " and "원" with "" in {_금액}
+		set {_금액} to {_금액} parsed as integer
+		add {_금액} to {돈.%uuid of player%}
+		remove 1 paper from player's tool
+		send "&a재화를 사용해 &e%{_금액}%&a원을 받았습니다" to player
+
+# 환전상 npc 스크립트
+on rightclick on entity:
+	if entity's name is "&6환전상 &e오소리":
+		cancel event
+		open chest with 3 rows named "&6&l재화교환 메뉴" to player #인벤토리 이름 설정
+		set {도박수표.%player%} to 500
+		#인벤토리 아이템 생성
+		set {_slot} to 0
+		loop 27 times:
+			set slot {_slot} of current inventory of player to lime stained glass pane
+			add 1 to {_slot}
+		set slot 12 of current inventory of player to paper with custom model data 7 named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다"
+		set slot 16 of current inventory of player to diamond named "&a&l재화뽑기!"
+		set slot 20 of current inventory of player to orange concrete named "&c&l100원 감소"
+		set slot 22 of current inventory of player to green concrete named "&a&l100원 추가"
+		set slot 19 of current inventory of player to red concrete named "&c&l500원 감소"
+		set slot 23 of current inventory of player to lime concrete named "&a&l500원 추가"
+
+on inventory click:
+	if player's current inventory's name is "&6&l재화교환 메뉴": #인벤토리 이름
+		# 특정 키와 아이템 클릭시 이벤트 캔슬
+		set {_7} to 7
+		if clicked item is lime stained glass pane or paper or diamond or orange concrete or green concrete or red concrete or lime concrete:
+			cancel event
+		if click type is left mouse button or left mouse button with shift:
+			cancel event
+			# 1000원 올리기
+			if {도박수표.%player%} is bigger than {돈.%uuid of player%}-99:
+				if clicked slot is 22:
+					send "&c&l소지금보다 많은 금액의 재화는 발급할 수 없습니다" to player
+			else:
+				# 22번 슬롯에 있는 초록 콘크리트 블럭 클릭 시 도박수표에 1000원 추가
+				if clicked slot is 22:
+					add 100 to {도박수표.%player%}
+					set slot 12 of current inventory of player to paper with custom model data 7 named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다"
+					send "&a&l+100" to player
+			# 5000원 올리기
+			if {도박수표.%player%} is bigger than {돈.%uuid of player%}-499:
+				if clicked slot is 23:
+					send "&c&l소지금보다 많은 금액의 재화는 발급할 수 없습니다" to player
+			else:
+				# 23번 슬롯에 있는 라임 콘크리트 블럭 클릭 시 도박수표에 1000원 추가
+				if clicked slot is 23:
+					add 500 to {도박수표.%player%}
+					set slot 12 of current inventory of player to paper with custom model data 7 named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다"
+					send "&a&l+500" to player
+			# 1000원 내리기
+			if {도박수표.%player%} is smaller than 100:
+				if clicked slot is 20:
+					send "&e&l0&c&l원 이하로 내릴수 없습니다" to player
+			else:
+				# 20번 슬롯에 있는 오렌지 콘크리트 블럭 클릭 시 도박수표에 1000원 감소
+				if clicked slot is 20:
+					subtract 100 from {도박수표.%player%}
+					set slot 12 of current inventory of player to paper with custom model data 7 named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다"
+					send "&c&l-100" to player
+			# 5000원 내리기
+			if {도박수표.%player%} is smaller than 500:
+				if clicked slot is 19:
+					send "&e&l0&c&l원 이하로 내릴수 없습니다" to player
+			else:
+				# 19번 슬롯에 있는 빨강 콘크리트 블럭 클릭 시 도박수표에 5000원 감소
+				if clicked slot is 19:
+					subtract 500 from {도박수표.%player%}
+					set slot 12 of current inventory of player to paper with custom model data 7 named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다"
+					send "&c&l-500" to player
+			# 수표 뽑기
+			if clicked slot is 16:
+				subtract {도박수표.%player%} from {돈.%uuid of player%}
+				if {도박수표.%player%} > 0: # 도박수표에 설정된 값이 0이라면 수표 교환거부
+					if {돈.%uuid of player%} >= 0: # 가지고 있는 돈의 값을 도박수표의 값으로 뺐을 때 음수가 된다면 수표 교환거부
+						give 1 paper with nbt compound from "{CustomModelData:%{_7}%}" named "&a재화 &e%{도박수표.%player%}%&a원" with lore "&a우클릭시 &d[&e%{도박수표.%player%}%&d]&a원이 지급됩니다" to player
+						send "&a재화 &e%{도박수표.%player%}%&a원 발급!" to player
+					else:
+						add {도박수표.%player%} to {돈.%uuid of player%} # 수표 교환거부 당했을 때 돈 복구
+						send "&c&l돈이 부족합니다."
+				else:
+					send "&e&l오소리 &f&l: &a&l0원 재화를 왜 파냐!" to player

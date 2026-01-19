@@ -1,0 +1,98 @@
+variables:
+	{제로 킬.%player%} = false
+	{킬수.%player%} = 0
+command /현상금추가 [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			add arg-2 to {현상금.%arg-1%}
+			play sound "block_bell_use" with volume 0.6 and pitch 1 to all players
+			send "&e&l%arg-1%&c&l님의 현상금이 &4&l%arg-2%&c&l추가되었습니다!" to all players
+		else:
+			send "&c당신은 권한이 없습니다" to player
+
+command /현상금보기 [<player>]:
+	permission: 유저
+	trigger:
+		send "&e&l%arg-1%&a&l님의 현상금은 &e&l%{현상금.%arg-1%}%&a&l원" to player
+
+command /현상금걸기 [<player>] [<integer>]:
+	permission: 유저
+	trigger:
+		if arg-1 is not set:
+			send "사용법 : &7/&6현상금걸기 &b..." to player
+			send "   &b플레이어 이름&7 - &r현상금을 걸 플레이어 이름을 적습니다." to player
+		if arg-1 is "%player%":
+			if arg-2 is not set:
+				send "사용법 : &7/&6현상금걸기 &b플레이어 이름 &4..." to player
+				send "   &4금액&7 - &r해당 플레이어에게 걸 금액을 지불합니다.(지불한 금액의 0.5배의 금액이 현상금으로 걸립니다.)" to player
+		if arg-1 is "%player%":
+			if arg-2 is set:
+				if arg-2 is smaller than 1000:
+					send "&e&l1000&a&l원 미만은 걸수없습니다" to player
+				else:
+					if arg-2 is bigger than {돈.%uuid of player%}:
+						send "&c소지금보다 많은 금액의 현상금은 걸수없습니다" to player
+					else:
+						add arg-2*0.5 to {현상금.%arg-1%}
+						subtract arg-2 from {돈.%uuid of player%}
+						play sound "block_bell_use" with volume 0.6 and pitch 1 to all players
+						send "&e&l%arg-1%&c&l님의 현상금이 &4&l%arg-2*0.5%&c&l추가되었습니다!" to all players
+
+on death of player:
+	if attacker is player:
+		set {_realmoney} to {돈.%uuid of victim%}*0.3
+		set {_realmoney} to round {_realmoney}
+		if {_realmoney} >= 3000:
+			add {_realmoney} to {돈.%uuid of attacker%}
+			add 1500 to {현상금.%attacker%}
+			subtract {_realmoney} from {돈.%uuid of victim%}
+			send "&4&l3000&c&l원 이상 뺏음 현상금 &4&l1500&c&l원 추가" to attacker
+		else if {_realmoney} >= 2000:
+			add {_realmoney} to {돈.%uuid of attacker%}
+			add 1000 to {현상금.%attacker%}
+			subtract {_realmoney} from {돈.%uuid of victim%}
+			send "&4&l2000&c&l원 이상 뺏음 현상금 &4&l1000&c&l원 추가" to attacker
+		else if {_realmoney} >= 500:
+			add {_realmoney} to {돈.%uuid of attacker%}
+			add 200 to {현상금.%attacker%}
+			subtract {_realmoney} from {돈.%uuid of victim%}
+			send "&4&l500&c&l원 이상 뺏음 현상금 &4&l200&c&l원 추가" to attacker
+		else if {_realmoney} <= 500:
+			add 200 to {현상금.%attacker%}
+			send "&c&l더이상 뺏을 돈이 없습니다" to attacker
+		if {현상금.%victim%} >= 500:
+			set {_ph} to victim
+			give attacker player head with nbt compound from "{SkullOwner:%{_ph}%}"
+			add {현상금.%victim%} to {돈.%uuid of attacker%}
+			send "&e&l%victim%&c&l님을 죽여 현상금&e&l%{현상금.%victim%}%&c&l을 획득했습니다" to attacker
+			play sound "entity_player_levelup" with volume 1 and pitch 1 at attacker
+			set {현상금.%victim%} to 0
+		else if {현상금.%victim%} >= 1:
+			add {돈.%uuid of attacker%} to {현상금.%victim%}
+			send "&e&l%victim%&c&l님을 죽여 현상금&e&l%{현상금.%victim%}%&c&l을 획득했습니다" to attacker
+			set {현상금.%victim%} to 0
+		else:
+			send "&c&l현상금도 없는 자를 죽이다니..." to attacker
+			play sound "entity_player_levelup" with volume 1 and pitch 1 at attacker
+
+# on death of player:
+	# if attacker is player:
+		# add {현상금.%victim%} to {돈.%uuid of attacker%}
+		# add 1000 to {현상금.%attacker%}
+		# if {현상금.%victim%} is not 0:
+			# set {_ph} to victim
+			# give attacker player head with nbt compound from "{SkullOwner:%{_ph}%}"
+			# send "&e&l%victim%&c&l님을 죽여 현상금&e&l%{현상금.%victim%}%&c&l을 획득했습니다" to attacker
+			# play sound "entity_player_levelup" with volume 1 and pitch 1 at attacker
+			# set {현상금.%victim%} to 0
+		# else:
+			# send "&c&l현상금도 없는 자를 죽이다니..." to attacker
+			# play sound "entity_player_levelup" with volume 1 and pitch 1 at attacker
+
+on death of player:
+	if attacker is player:
+		add 1 to {킬수.%victim%}
+		set {킬수.%attacker%} to 0
+		if {킬수.%attacker%} >= {연속 킬수.%attacker%}:
+			set {연속 킬수.%attacker%} to {킬수.%attacker%}

@@ -1,0 +1,431 @@
+variables:
+	{직업선택.%player%} = false
+command /직초:
+	permission: 어드민
+	trigger:
+		set {직업.%player%} to "초보자"
+		set {직업선택.%player%} to false
+		delete {작물캐기.%player%}
+		delete {정동석깨기.%player%}
+		delete {별조각.%player%}
+command /광2:
+	trigger:
+		set {직업.%player%} to "광부2차"
+		set {별조각.%player%} to 0
+		delete {정동석깨기.%player%}
+command /직업:
+	permission: 어드민
+	trigger:
+		send "당신의 직업은 %{직업.%player%}%입니다"
+on inventory click:
+	if inventory name is "&a&l농부전직":
+		cancel event
+		if clicked slot is 10:
+			set {_dirtnumber} to amount of dirt in inventory of player
+			if {직업선택.%player%} is false:
+				if {_dirtnumber} >= 200:
+					set {직업.%player%} to "농부1차"
+					set {직업선택.%player%} to true
+					set {작물캐기.%player%} to 0
+					close player's inventory
+					remove 200 of dirt from player's inventory
+					send "&e&l%player%&a&l님이 농부1차로 전직하셨습니다!" to all players
+					play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+				else:
+					if {대화중.%player%} is false:
+						set {대화중.%player%} to true
+						send "&e&l메리 &f&l: &a&l당신!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l농부의 기본이 안되어있구만!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l흙 200개를 구해와!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						send "&e&l%{_dirtnumber}%/200"
+						set {대화중.%player%} to false
+			else:
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l메리 &f&l: &a&l당신은 이미 전직했어!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+		if clicked slot is 13:
+			if {직업.%player%} is "농부1차":
+				if {작물캐기.%player%} >= 2000:
+					set {직업.%player%} to "농부2차"
+					set {직업선택.%player%} to true
+					close player's inventory
+					send "&e&l%player%&a&l님이 농부2차로 전직하셨습니다!" to all players
+					play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+				else:
+					if {대화중.%player%} is false:
+						set {대화중.%player%} to true
+						send "&e&l메리 &f&l: &a&l당신!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l아직 더좋은 농부가 되기에는 일렀구만!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l작물 2000번을 캐와!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						send "&e&l%{작물캐기.%player%}%/2000"
+						set {대화중.%player%} to false
+			else if {직업.%player%} is "초보자":
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l메리 &f&l: &a&l먼저 1차로 전직하고 와!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+			else:
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l메리 &f&l: &a&l당신은 이미 전직했어!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+				
+on inventory click:
+	if inventory name is "&9&l광부전직":
+		cancel event
+		if clicked slot is 10:
+			set {_stonenumber} to amount of cobblestone in inventory of player
+			if {직업선택.%player%} is false:
+				if {_stonenumber} >= 300:
+					set {직업.%player%} to "광부1차"
+					set {직업선택.%player%} to true
+					set {정동석깨기.%player%} to 0
+					close player's inventory
+					remove 300 of cobblestone from player's inventory
+					send "&e&l%player%&a&l님이 광부로 전직하셨습니다!" to all players
+					play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+				else:
+					if {대화중.%player%} is false:
+						set {대화중.%player%} to true
+						send "&e&l후버 &f&l: &a&l자네!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l후버 &f&l: &a&l광부의 기본이 안되어있구만!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l후버 &f&l: &a&l조약돌 300개를 구해오게!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						send "&e&l%{_stonenumber}%/300"
+						set {대화중.%player%} to false
+			else:
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l자네는 이미 전직했다네!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+		if clicked slot is 13:
+			if {직업.%player%} is "광부1차":
+				if {정동석깨기.%player%} >= 150:
+					set {직업.%player%} to "광부2차"
+					set {직업선택.%player%} to true
+					close player's inventory
+					delete {정동석깨기.%player%}
+					set {별조각.%player%} to 0
+					send "&e&l%player%&a&l님이 광부2차로 전직하셨습니다!" to all players
+					play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+				else:
+					if {대화중.%player%} is false:
+						set {대화중.%player%} to true
+						send "&e&l후버 &f&l: &a&l자네!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l후버 &f&l: &a&l아직 더 잘할려면 멀었구만!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l정동석을 150개 깨고 오라고!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						send "&e&l%{정동석깨기.%player%}%/150"
+						set {대화중.%player%} to false
+			else if {직업.%player%} is "초보자":
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l먼저 1차로 전직하고 오라고!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+			else:
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l자네는 이미 전직했다네!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+		if clicked slot is 16:
+			if {직업.%player%} is "광부2차":
+				set {별조각.%player%} to amount of iron nugget with nbt compound from "{CustomModelData:14}" named "&d별조각" in inventory of player
+				if {별조각.%player%} >= 10:
+					set {직업.%player%} to "광부3차"
+					set {직업선택.%player%} to true
+					remove 10 of iron nugget with nbt compound from "{CustomModelData:14}" named "&d별조각" from player's inventory
+					close player's inventory
+					delete {별조각.%player%}
+					send "&e&l%player%&a&l님이 광부3차로 전직하셨습니다!" to all players
+					play sound "ui_toast_challenge_complete" with volume 0.4 and pitch 1.5 at player
+				else:
+					if {대화중.%player%} is false:
+						set {대화중.%player%} to true
+						send "&e&l후버 &f&l: &a&l자네!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l후버 &f&l: &a&l진정한 광부가 될려면 아직이야!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						wait 0.5 seconds
+						send "&e&l메리 &f&l: &a&l별조각을 10개 가지고 오라고!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+						send "&e&l%{별조각.%player%}%/10"
+						set {대화중.%player%} to false
+			else if {직업.%player%} is "초보자":
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l먼저 1차로 전직하고 오라고!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+			else if {직업.%player%} is "광부1차":
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l먼저 2차로 전직하고 오라고!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+			else:
+				if {대화중.%player%} is false:
+					set {대화중.%player%} to true
+					send "&e&l후버 &f&l: &a&l자네는 이미 전직했다네!" to player
+					play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+					set {대화중.%player%} to false
+				
+every 1 seconds:
+	loop all players:
+		if {직업.%loop-player%} is "농부1차":
+			set {농작물확률1.%loop-player%} to 5
+			set {농작물확률2.%loop-player%} to 15
+			set {농작물확률3.%loop-player%} to 30
+		else if {직업.%loop-player%} is "농부2차":
+			set {농작물확률1.%loop-player%} to 8
+			set {농작물확률2.%loop-player%} to 20
+			set {농작물확률3.%loop-player%} to 35
+		else if {직업.%loop-player%} is "농부3차":
+			set {농작물확률1.%loop-player%} to 11
+			set {농작물확률2.%loop-player%} to 25
+			set {농작물확률3.%loop-player%} to 40
+		else:
+			set {농작물확률1.%loop-player%} to 2
+			set {농작물확률2.%loop-player%} to 7
+			set {농작물확률3.%loop-player%} to 12
+
+every 1 seconds:
+	loop all players:
+		if {직업.%loop-player%} is "광부1차":
+			set {정동석확률1.%loop-player%} to 7
+		if {직업.%loop-player%} is "광부2차":
+			set {정동석확률1.%loop-player%} to 9
+		if {직업.%loop-player%} is "광부3차":
+			set {정동석확률1.%loop-player%} to 10
+		else:
+			set {정동석확률1.%loop-player%} to 4
+			
+on block break ripe wheat plant:
+	clear drops
+	chance of 7%:
+		drop 0 wheat seeds
+		exit
+	else:
+		chance of 18%:
+			drop 3 wheat seeds
+			exit
+		else:
+			chance of 31%:
+				drop 1 wheat seeds
+				exit
+			else:
+				drop 2 wheat seeds
+				exit
+				
+on block break ripe wheat plant:
+	clear drops
+	chance of {농작물확률1.%player%}%:
+		drop 1 wheat with custom model data 9 named "&5최상급 밀"
+		exit
+	else:
+		chance of {농작물확률2.%player%}%:
+			drop 1 wheat with custom model data 8 named "&6상급 밀"
+			exit
+		else:
+			chance of {농작물확률3.%player%}%:
+				drop 1 wheat with custom model data 7 named "&7중급 밀"
+				exit
+			else:
+				drop 1 wheat named "&f일반 밀"
+				exit
+				
+on block break ripe beetroot plant:
+	clear drops
+	chance of 7%:
+		drop 0 beetroot seeds
+		exit
+	else:
+		chance of 18%:
+			drop 3 beetroot seeds
+			exit
+		else:
+			chance of 31%:
+				drop 1 beetroot seeds
+				exit
+			else:
+				drop 2 beetroot seeds
+				exit
+				
+on block break ripe beetroot plant:
+	clear drops
+	chance of {농작물확률1.%player%}%:
+		drop 1 beetroot with custom model data 9 named "&5최상급 비트"
+		exit
+	else:
+		chance of {농작물확률2.%player%}%:
+			drop 1 beetroot with custom model data 8 named "&6상급 비트"
+			exit
+		else:
+			chance of {농작물확률3.%player%}%:
+				drop 1 beetroot with custom model data 7 named "&7중급 비트"
+				exit
+			else:
+				drop 1 beetroot named "&f일반 비트"
+				exit
+				
+on block break ripe potato plant:
+	clear drops
+	set {random-wheat} to random integer between 1 and 4
+	chance of 2%:
+		drop 1 poisonous potato
+		exit
+	chance of {농작물확률1.%player%}%:
+		if {random-wheat} is 1:
+			drop 1 potato with custom model data 9 named "&5최상급 감자"
+			exit
+		if {random-wheat} is 2:
+			drop 2 potato with custom model data 9 named "&5최상급 감자"
+			exit
+		if {random-wheat} is 3:
+			drop 3 potato with custom model data 9 named "&5최상급 감자"
+			exit
+		if {random-wheat} is 4:
+			drop 4 potato with custom model data 9 named "&5최상급 감자"
+			exit
+	else:
+		chance of {농작물확률2.%player%}%:
+			if {random-wheat} is 1:
+				drop 1 potato with custom model data 8 named "&6상급 감자"
+				exit
+			if {random-wheat} is 2:
+				drop 2 potato with custom model data 8 named "&6상급 감자"
+				exit
+			if {random-wheat} is 3:
+				drop 3 potato with custom model data 8 named "&6상급 감자"
+				exit
+			if {random-wheat} is 4:
+				drop 4 potato with custom model data 8 named "&6상급 감자"
+				exit
+		else:
+			chance of {농작물확률3.%player%}%:
+				if {random-wheat} is 1:
+					drop 1 potato with custom model data 7 named "&7중급 감자"
+					exit
+				if {random-wheat} is 2:
+					drop 2 potato with custom model data 7 named "&7중급 감자"
+					exit
+				if {random-wheat} is 3:
+					drop 3 potato with custom model data 7 named "&7중급 감자"
+					exit
+				if {random-wheat} is 4:
+					drop 4 potato with custom model data 7 named "&7중급 감자"
+					exit
+			else:
+				if {random-wheat} is 1:
+					drop 1 potato named "&f일반 감자"
+					exit
+				if {random-wheat} is 2:
+					drop 2 potato named "&f일반 감자"
+					exit
+				if {random-wheat} is 3:
+					drop 3 potato named "&f일반 감자"
+					exit
+				if {random-wheat} is 4:
+					drop 4 potato named "&f일반 감자"
+					exit
+
+on block break potato plant:
+	clear drops
+	chance of 50%:
+		drop 1 potato named "&f일반 감자"
+	
+on block break ripe carrot plant:
+	clear drops
+	set {random-wheat} to random integer between 1 and 4
+	chance of {농작물확률1.%player%}%:
+		if {random-wheat} is 1:
+			drop 1 carrot with custom model data 9 named "&5최상급 당근"
+			exit
+		if {random-wheat} is 2:
+			drop 2 carrot with custom model data 9 named "&5최상급 당근"
+			exit
+		if {random-wheat} is 3:
+			drop 3 carrot with custom model data 9 named "&5최상급 당근"
+			exit
+		if {random-wheat} is 4:
+			drop 4 carrot with custom model data 9 named "&5최상급 당근"
+			exit
+	else:
+		chance of {농작물확률2.%player%}%:
+			if {random-wheat} is 1:
+				drop 1 carrot with custom model data 8 named "&6상급 당근"
+				exit
+			if {random-wheat} is 2:
+				drop 2 carrot with custom model data 8 named "&6상급 당근"
+				exit
+			if {random-wheat} is 3:
+				drop 3 carrot with custom model data 8 named "&6상급 당근"
+				exit
+			if {random-wheat} is 4:
+				drop 4 carrot with custom model data 8 named "&6상급 당근"
+				exit
+		else:
+			chance of {농작물확률3.%player%}%:
+				if {random-wheat} is 1:
+					drop 1 carrot with custom model data 7 named "&7중급 당근"
+					exit
+				if {random-wheat} is 2:
+					drop 2 carrot with custom model data 7 named "&7중급 당근"
+					exit
+				if {random-wheat} is 3:
+					drop 3 carrot with custom model data 7 named "&7중급 당근"
+					exit
+				if {random-wheat} is 4:
+					drop 4 carrot with custom model data 7 named "&7중급 당근"
+					exit
+			else:
+				if {random-wheat} is 1:
+					drop 1 carrot named "&f일반 당근"
+					exit
+				if {random-wheat} is 2:
+					drop 2 carrot named "&f일반 당근"
+					exit
+				if {random-wheat} is 3:
+					drop 3 carrot named "&f일반 당근"
+					exit
+				if {random-wheat} is 4:
+					drop 4 carrot named "&f일반 당근"
+					exit
+					
+on block break carrot plant:
+	clear drops
+	chance of 50%:
+		drop 1 carrot named "&f일반 당근"
+		
+on block break stone or deepslate or coal ore or deepslate coal ore or iron ore or deepslate iron ore or copper ore or deepslate copper ore or gold ore or deepslate gold ore or redstone ore or deepslate redstone ore or emerald ore or deepslate emerald ore or lapis ore or deepslate lapis ore or diamond ore or deepslate diamond ore:
+	chance of {정동석확률1.%player%}%:
+		drop 1 iron nugget with custom model data 1 named "&b정동석"
+	
+on block break ripe wheat plant or ripe beetroot plant or ripe carrot plant or ripe potato plant or melon or pumpkin or ripe cocoa plant or ripe nether wart plant:
+	if {직업.%player%} is "농부1차":
+		add 1 to {작물캐기.%player%}

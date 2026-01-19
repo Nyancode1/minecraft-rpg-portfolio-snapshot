@@ -1,0 +1,402 @@
+on inventory click:
+	#장비 등급업 창
+	if inventory name contains "&c&l등급업":
+		if {결.%uuid of player%} is not set:
+			if click type is left mouse button or right mouse button:
+				cancel event
+		if click type is right mouse button with shift or right mouse button:
+			cancel event
+		else:
+			if clicked item is lime stained glass pane or blue stained glass pane or brown stained glass pane or yellow stained glass pane or orange stained glass pane or paper or book:
+				cancel event
+			else if clicked raw slot is 14:
+				cancel event
+				if slot 10 of player's current inventory is sword:
+					set {_아이템} to slot 10 of current inventory of player
+					set {이름.%player%} to name of slot 10 of current inventory of player
+					set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of player
+					replace all "단계" with "" in {_장비스탯::2} # 강화 단계확인
+					replace all " " and "+" and "공격력" with "" in {_장비스탯::4} # 공격력 확인
+					replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} #기본 추가 공격력 확인
+					set {_강화단계} to {_장비스탯::2} parsed as number
+					set {_강화공격력} to {_장비스탯::4} parsed as number
+					set {_기본공격력} to {_장비스탯::6} parsed as number
+					set {_장비스탯::*} to lore of slot 10 of current inventory of player
+					set {_강화단계2} to {_장비스탯::1}
+					if slot 12 of player's current inventory is shears:
+						set {_파괴방지서} to name of slot 12 of player's current inventory
+						if {_파괴방지서} is "&d&l[&c파괴방지서&d&l]":
+							set {_파괴방지} to true
+						else:
+							set {_파괴방지} to false
+					if {_아이템} is air:
+						message "&e&l단야사&f&l : &a&l어이! 무기를 올려야지!" to player
+					else:
+						if slot 12 of current inventory of player is not shears:
+							add 1 to {확인.%player%}
+							if {확인.%player%} is 2:
+								set {확인.%player%} to 0
+								if {_강화단계} is 7:
+									if slot 10 of player's current inventory is sword:
+										if {_강화단계2} is "&e★★★★★":
+											message "&e&l단야사&f&l : &a&l자네 대단하구만 최고등급이라니" to player
+											exit
+										if {결.%uuid of player%} is set:
+											set {강화확인1.%player%} to true
+											delete {결.%uuid of player%}
+											delete slot 12 of current inventory of player
+											wait 1.5 second
+											set {결.%uuid of player%} to true
+											play sound "block_anvil_place" with volume 0.4 and pitch 0.9 at player
+											delete slot 12 of current inventory of player
+											#나무 등급업 확률
+											if {_강화단계2} is "&e★":
+												if {돈.%uuid of player%} is smaller than 100:
+													send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+													play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+												else:
+													subtract 100 from {돈.%uuid of player%}
+													chance of 40%:
+														set {나무등급업.%player%} to true
+														exit
+													else:
+														message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+														exit
+											#돌 등급업 확률
+											if {_강화단계2} is "&e★★":
+												if {돈.%uuid of player%} is smaller than 200:
+													send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+													play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+												else:
+													subtract 200 from {돈.%uuid of player%}
+													chance of 30%:
+														set {돌등급업.%player%} to true
+														exit
+													else:
+														chance of 5%:
+															if {_파괴방지} is true:
+																message "&a&l장비의 파괴를 막았습니다." to player
+																set {_하락방지} to false
+															else:
+																delete slot 10 of current inventory of player
+																play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+																set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+																message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+																exit
+														else:
+															message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+															exit
+											#철 등급업 확률
+											if {_강화단계2} is "&e★★★":
+												if {돈.%uuid of player%} is smaller than 300:
+													send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+													play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+												else:
+													subtract 300 from {돈.%uuid of player%}
+													chance of 25%:
+														set {철등급업.%player%} to true
+														exit
+													else:
+														chance of 10%:
+															if {_파괴방지} is true:
+																message "&a&l장비의 파괴를 막았습니다." to player
+																set {_하락방지} to false
+															else:
+																delete slot 10 of current inventory of player
+																play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+																set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+																message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+																exit
+														else:
+															message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+															exit
+											#다이아 등급업 확률
+											if {_강화단계2} is "&e★★★★":
+												if {돈.%uuid of player%} is smaller than 400:
+													send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+													play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+												else:
+													subtract 400 from {돈.%uuid of player%}
+													chance of 20%:
+														set {다이아등급업.%player%} to true
+														exit
+													else:
+														chance of 15%:
+															if {_파괴방지} is true:
+																message "&a&l장비의 파괴를 막았습니다." to player
+																set {_하락방지} to false
+															else:
+																delete slot 10 of current inventory of player
+																play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+																set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+																message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+																exit
+														else:
+															message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+															exit
+							else if {확인.%player%} is 1:
+								message "&e&l단야사&f&l : &a&l마지막으로 물어보지 파괴방지서를 안넣을 겐가?" to player
+						else:
+							if slot 10 of player's current inventory is sword:
+								if {_강화단계2} is "&e★★★★★":
+									message "&e&l단야사&f&l : &a&l자네 대단하구만 최고등급이라니" to player
+									exit
+								if {결.%uuid of player%} is set:
+									set {강화확인1.%uuid of player%} to true
+									delete {결.%uuid of player%}
+									delete slot 12 of current inventory of player
+									wait 1.5 second
+									set {결.%uuid of player%} to true
+									play sound "block_anvil_place" with volume 0.4 and pitch 0.9 at player
+									#나무 등급업 확률
+									if {_강화단계2} is "&e★":
+										if {돈.%uuid of player%} is smaller than 100:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 100 from {돈.%uuid of player%}
+											chance of 40%:
+												set {나무등급업.%player%} to true
+												exit
+											else:
+												message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+												exit
+									#돌 등급업 확률
+									if {_강화단계2} is "&e★★":
+										if {돈.%uuid of player%} is smaller than 200:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 200 from {돈.%uuid of player%}
+											chance of 30%:
+												set {돌등급업.%player%} to true
+												exit
+											else:
+												chance of 5%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+									#철 등급업 확률
+									if {_강화단계2} is "&e★★★":
+										if {돈.%uuid of player%} is smaller than 300:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 300 from {돈.%uuid of player%}
+											chance of 25%:
+												set {철등급업.%player%} to true
+												exit
+											else:
+												chance of 10%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+									#다이아 등급업 확률
+									if {_강화단계2} is "&e★★★★":
+										if {돈.%uuid of player%} is smaller than 400:
+											send "&e&l단야사&f&l : &a&l자네 공짜로 해줄 순 없다네" to player
+											play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+										else:
+											subtract 400 from {돈.%uuid of player%}
+											chance of 20%:
+												set {다이아등급업.%player%} to true
+												exit
+											else:
+												chance of 10%:
+													if {_파괴방지} is true:
+														message "&a&l장비의 파괴를 막았습니다." to player
+														set {_하락방지} to false
+													else:
+														delete slot 10 of current inventory of player
+														play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+														set slot 16 of current inventory of player to stick named "[파괴된 장비]" with lore "&f★★★★" and "&b0단계" and "&e==============" and "&c + 공격력 --" and "&e==============" and "&2기본 추가 공격력 --"
+														message "&e&l단야사&f&l : &a&l어이쿠! 자네 괜찮은가?" to player
+														exit
+												else:
+													message "&e&l단야사&f&l : &a&l으음, 등급업에 실패했군. 오늘은 영 손이 안풀리는구만" to player
+													exit
+
+# 나무 무기 등급업
+every 1 second:
+	loop all players:
+		if {나무등급업.%loop-player%} is set:
+			set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of  loop-player
+			replace all " " and "+" and "공격력" with "" in {_장비스탯::4} # 공격력 확인
+			replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} #기본 추가 공격력 확인
+			set {_강화공격력} to {_장비스탯::4} parsed as number
+			set {_기본공격력} to {_장비스탯::6} parsed as number
+			replace all "&a" with "&9" in {이름.%loop-player%}
+			send "%{이름.%loop-player%}%" to loop-player
+			message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to loop-player
+			set {_w} to nbt of slot 10 of current inventory of loop-player
+			delete slot 10 of current inventory of loop-player
+			if {이름.%loop-player%} is "&d&l[&9&l건틀릿&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.2%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else if {이름.%loop-player%} is "&d&l[&9&l단검&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.5%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else if {이름.%loop-player%} is "&d&l[&9&l낫&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2.5%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else if {이름.%loop-player%} is "&d&l[&9&l대검&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else if {이름.%loop-player%} is "&d&l[&9&l장검&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 1%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else if {이름.%loop-player%} is "&d&l[&9&l지팡이&d&l]":
+				set slot 16 of current inventory of loop-player to stone sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.7%"
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+			else:
+				delete {이름.%loop-player%}
+				delete {나무등급업.%loop-player%}
+				wait 0.8 second
+				message "&e&l단야사&f&l : &a&l어라..? 자네 일반 무기였나 " to loop-player
+				wait 0.8 second
+				message "&e&l단야사&f&l : &a&l미안하지만 특수한 기운이 담긴 무기만을 등급업을 시킬 수 있네" to loop-player
+				wait 0.8 second
+				message "&e&l단야사&f&l : &a&l하지만 이 무기는 무엇인가 변했군 일단 다시 돌려주겠네." to loop-player
+				#set 
+				set slot 16 of current inventory of loop-player to wooden sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&c&o등급업불가?" and "&b&k7&b단계" and "&e==============" and "&c + 공&k격&c력 %{_강화공격력}%" and "&e==============" and "&2기본 &k추가 &2공격&k력&2 &k%{_기본공격력}%"
+
+# 돌 무기 등급업
+every 1 second:
+	loop all players:
+		if {돌등급업.%loop-player%} is set:
+			set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of  loop-player
+			replace all " " and "+" and "공격력" with "" in {_장비스탯::4} # 공격력 확인
+			replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} #기본 추가 공격력 확인
+			set {_강화공격력} to {_장비스탯::4} parsed as number
+			set {_기본공격력} to {_장비스탯::6} parsed as number
+			replace all "&9" with "&5" in {이름.%loop-player%}
+			send "%{이름.%loop-player%}%" to loop-player
+			message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to loop-player
+			set {_w} to nbt of slot 10 of current inventory of loop-player
+			delete slot 10 of current inventory of loop-player
+			if {이름.%loop-player%} is "&d&l[&5&l건틀릿&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.2%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&5&l단검&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.5%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&5&l낫&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2.5%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&5&l대검&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&5&l장검&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 1%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&5&l지팡이&d&l]":
+				set slot 16 of current inventory of loop-player to iron sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.2%"
+				delete {이름.%loop-player%}
+				delete {돌등급업.%loop-player%}
+
+# 철 무기 등급업
+every 1 second:
+	loop all players:	
+		if {철등급업.%loop-player%} is set:
+			set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of  loop-player
+			replace all " " and "+" and "공격력" with "" in {_장비스탯::4} # 공격력 확인
+			replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} #기본 추가 공격력 확인
+			set {_강화공격력} to {_장비스탯::4} parsed as number
+			set {_기본공격력} to {_장비스탯::6} parsed as number
+			replace all "&5" with "&6" in {이름.%loop-player%}
+			send "%{이름.%loop-player%}%" to loop-player
+			message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to loop-player
+			set {_w} to nbt of slot 10 of current inventory of loop-player
+			delete slot 10 of current inventory of loop-player
+			if {이름.%loop-player%} is "&d&l[&6&l건틀릿&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.2%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&6&l단검&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.5%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&6&l낫&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2.5%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&6&l대검&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&6&l장검&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 1%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&6&l지팡이&d&l]":
+				set slot 16 of current inventory of loop-player to diamond sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.7%"
+				delete {이름.%loop-player%}
+				delete {철등급업.%loop-player%}
+
+# 다이아 무기 등급업
+every 1 second:
+	loop all players:
+		if {다이아등급업.%loop-player%} is set:
+			set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of  loop-player
+			replace all " " and "+" and "공격력" with "" in {_장비스탯::4} # 공격력 확인
+			replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} #기본 추가 공격력 확인
+			set {_강화공격력} to {_장비스탯::4} parsed as number
+			set {_기본공격력} to {_장비스탯::6} parsed as number
+			replace all "&6" with "&c" in {이름.%loop-player%}
+			send "%{이름.%loop-player%}%" to loop-player
+			message "&e&l단야사&f&l : &a&l이보게나! 등급업에 성공했다네. " to loop-player
+			set {_w} to nbt of slot 10 of current inventory of loop-player
+			delete slot 10 of current inventory of loop-player
+			if {이름.%loop-player%} is "&d&l[&c&l건틀릿&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 0.4%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&c&l단검&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 1%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&c&l낫&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2.5%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&c&l대검&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&c&l장검&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 2%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}
+			if {이름.%loop-player%} is "&d&l[&c&l지팡이&d&l]":
+				set slot 16 of current inventory of loop-player to netherite sword with nbt compound from "%{_w}%" named "%{이름.%loop-player%}%" with lore "&e★★★★&f★" and "&b0단계" and "&e==============" and "&c + 공격력 %{_강화공격력}%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력} + 1.4%"
+				delete {이름.%loop-player%}
+				delete {다이아등급업.%loop-player%}

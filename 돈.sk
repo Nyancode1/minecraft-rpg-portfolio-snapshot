@@ -1,0 +1,54 @@
+variables:
+	{직업.%player%} = false
+	{회수작업.%player%} = 0
+	{회수.%player%} = true
+
+
+on first join:
+		set {돈.%uuid of player%} to 3000
+		
+command /돈주기 [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			add arg-2 to {돈.%uuid of arg-1%}
+			send "&e%arg-1%&a님에게 &e%arg-2%&a원을 입금했습니다" to player
+			send "&e%player%&a님이 &e%arg-2%&a원을 입금했습니다" to arg-1
+		else:
+			send "&c당신은 권한이 없습니다" to player
+
+command /돈회수 [<player>] [<integer>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6돈회수 &b..." to player
+				send "   &b플레이어 이름&7 - &돈을 제거 할 플레이어 이름을 적습니다." to player
+			if arg-1 is "%player%":
+				if arg-2 is not set:
+					send "사용법 : &7/&6돈회수 &b플레이어 이름 &4..." to player
+					send "   &4금액&7 - &r해당 플레이어의 제거 할 금액을 설정합니다." to player
+			if arg-1 is "%player%":
+				if arg-2 is bigger than {돈.%uuid of player%}:
+					send "&c돈이 부족합니다" to player
+				else:
+					subtract arg-2 from {돈.%uuid of arg-1%}
+					send "&e%arg-1%&a님한테서 &e%arg-2%&a원을 회수했습니다" to player
+					send "&e%player%&c님이 &e%arg-2%&c원을 회수해갔습니다" to arg-1
+		else:
+			send "&c당신은 권한이 없습니다" to player
+
+command /모든돈회수 [<player>]:
+	permission: 어드민
+	trigger:
+		if player is op:
+			if arg-1 is not set:
+				send "사용법 : &7/&6돈주기 &b..." to player
+				send "   &b플레이어 이름&7 - &돈을 추가 할 플레이어 이름을 적습니다." to player
+			if arg-1 is set:
+				send "&e%arg-1%&a님한테서 &e%{돈.%uuid of arg-1%}%&a원을 회수했습니다" to player
+				send "&e%player%&c님이 &e%{돈.%uuid of arg-1%}%&c원을 회수해갔습니다" to arg-1
+				set {돈.%uuid of arg-1%} to 0
+				send "&e%arg-1%&a님한테서 현상금&e%{현상금.%arg-1%}%&a원을 회수했습니다" to player
+				send "&e%player%&c님이 현상금&e%{현상금.%arg-1%}%&c원을 회수해갔습니다" to arg-1
+				set {현상금.%arg-1%} to 0

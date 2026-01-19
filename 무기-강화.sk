@@ -1,0 +1,484 @@
+on inventory click:
+	# 무기 강화 창
+	if inventory name contains "&9&l무기 강화":
+		if {결.%uuid of player%} is not set:
+			if click type is left mouse button or right mouse button:
+				cancel event
+		if click type is right mouse button with shift or right mouse button:
+			cancel event
+		else:
+			if clicked raw slot <= 8:
+				cancel event
+			else if clicked item is blue stained glass pane or black stained glass pane or book:
+				cancel event
+			else if clicked raw slot is 9 or 11 or 12 or 14 or 15 or 28 or 30 or 31 or 33:
+				cancel event
+			else if clicked raw slot is 16:
+				cancel event
+				# 해당 변수에 slot 10에 있는 아이템의 lore을 색깔 빼고 입력
+				set {_아이템} to slot 10 of current inventory of player
+				set {_장비스탯::*} to uncolored lore of slot 10 of current inventory of player
+				replace all "단계" with "" in {_장비스탯::2}  # 강화 단계확인
+				replace all " " and "+" and "공격력" with "" in {_장비스탯::4}  # 공격력 확인
+				replace all " " and "기본" and "추가" and "공격력" with "" in {_장비스탯::6} # 기본 추가 공격력 확인
+				set {_강화단계} to {_장비스탯::2} parsed as number
+				set {_강화공격력} to {_장비스탯::4} parsed as number
+				set {_기본공격력} to {_장비스탯::6} parsed as number
+				set {_커스텀} to {_장비스탯::1}
+				set {_장비스탯::*} to lore of slot 10 of current inventory of player
+				set {_강화단계2} to {_장비스탯::1}
+				if slot 32 of player's current inventory is shears:
+					set {_하락방지서} to name of slot 32 of player's current inventory
+					if {_하락방지서} is "&d&l[&b하락방지서&d&l]":
+						set {_하락방지} to true
+					else:
+						set {_파괴방지} to false
+				
+				# 강화석 정보를 변수에 대입
+				set {_돌이름} to uncolored name of slot 13 of current inventory of player
+				replace all " " and "단계" and "(" and ")" and "1" and "2" and "3" and "4" and "5" and "6" and "7" with "" in {_돌이름}
+				set {_돌} to slot 13 of current inventory of player
+				set {_강화석스탯::*} to uncolored lore of slot 13 of current inventory of player
+				replace all " " and "단계" and "아이템을" and "강화하는데" and "쓰입니다." with "" in {_강화석스탯::1}
+				set {_강화석스탯} to {_강화석스탯::1} parsed as number
+				
+				# 행운석 정보를 변수에 대입
+				set {_행운석스탯::*} to uncolored lore of slot 29 of current inventory of player
+				replace all " " and "%%" and "증가" with "" in {_행운석스탯::2}
+				set {_행운석} to {_행운석스탯::2} parsed as number
+				send "%{_행운석}%" to player
+				
+				
+				if {_아이템} is air:
+					message "&e&l단야사&f&l : &a&l어이! 무기를 올려야지!" to player
+
+				else if {_강화단계} is not set:
+					message "&e&l단야사&f&l : &a&l먼저 아이템을 강화할 수 있도록 변형을 해야해!" to player
+					exit
+				
+				else if {_강화단계2} is not set:
+					message "&e&l단야사&f&l : &a&l먼저 아이템을 강화할 수 있도록 변형을 해야해!" to player
+					exit
+				
+				else if {_강화단계} >= 7:
+					message "&e&l단야사&f&l : &a&l자네! 이미 최대로 강화했다네!" to player
+					exit
+					
+				else if {_강화단계2} is "&e★★★★★" :
+					message "&e&l단야사&f&l : &a&l자네! 이미 모든걸 강화했다네!" to player
+					exit
+
+				else if {_강화단계} is not {_강화석스탯}:
+					message "&e&l단야사&f&l : &a&l자네! 강화석은 무기보다 한단계 높은 강화석을 써야한다는 사실을 모르는가?" to player
+					#message "%{_강화단계}%, %{_강화석스탯::1}%"
+					exit
+				
+				else if {_커스텀} contains "★":
+					if {결.%uuid of player%} is set:
+						delete {결.%uuid of player%}
+						send "%{결.%uuid of player%}%" to player
+						set {강화확인.%player%} to true
+						set {강화확인1.%player%} to true
+						wait 1.5 seconds
+						set {결.%uuid of player%} to true
+						if slot 10 of current inventory of player is air:
+							message "&e&l단야사&f&l : &a&l자네! 무기를 도중에 빼면 안된다네!" to player
+							exit
+						set {_아이템2} to slot 10 of current inventory of player
+						if {_아이템} is {_아이템2}:
+							#나무 확률
+							if {_강화단계2} is "&f★":
+								if {_돌이름} is "강화석α":
+									if {_강화단계} is 6:
+										set {_강화확률} to (85 - ((15 + {_강화단계}) + {_강화단계}*2)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.3%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											
+											exit
+									else if {_강화단계} is 1:
+										set {_강화확률} to (100 - ((5 + {_강화단계}) + {_강화단계}*2)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.2%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+									else:
+										set {_강화확률} to (100 - ((15 + {_강화단계}) + {_강화단계}*2)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.2%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+								else:
+									give 1 of {_돌} to player
+									message "&e&l단야사&f&l : &a&l무기에 맞는 강화석을 가져오게!" to player
+										
+							#돌 확률
+							if {_강화단계2} is "&e★&f★":
+								if {_돌이름} is "강화석α":
+									if {_강화단계} is 6:
+										set {_강화확률} to (72 - ((10 + {_강화단계}) + {_강화단계}*3)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.4%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+										else:
+											chance of 15%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★&f★" and "&b%{_강화단계} - 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} - 0.3%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+									else if {_강화단계} is 1:
+										set {_강화확률} to (100 - ((5 + {_강화단계}) + {_강화단계}*3)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.3%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+									else:
+										set {_강화확률} to (90 - ((10 + {_강화단계}) + {_강화단계}*3)) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.3%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											chance of 15%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★&f★" and "&b%{_강화단계} - 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} - 0.3%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+								else:
+									give 1 of {_돌} to player
+									message "&e&l단야사&f&l : &a&l무기에 맞는 강화석을 가져오게!" to player
+
+							#철 확률
+							if {_강화단계2} is "&e★★&f★":
+								if {_돌이름} is "강화석β":
+									if {_강화단계} is 6:
+										set {_강화확률} to (77 - (2.4 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.6%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+										else:
+											chance of 25%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★&f★" and "&b%{_강화단계} - 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} - 0.5%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+									else if {_강화단계} is 1:
+										set {_강화확률} to (87 - (2.4 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.5%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+									else:
+										set {_강화확률} to (79 - (2.4 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★&f★" and "&b%{_강화단계} + 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} + 0.5%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											chance of 25%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★&f★" and "&b%{_강화단계} - 1%단계" and "&e============" and "&c + 공격력 %{_강화공격력} - 0.5%" and "&e============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+								else:
+									give 1 of {_돌} to player
+									message "&e&l단야사&f&l : &a&l무기에 맞는 강화석을 가져오게!" to player
+
+							#다이아 확률
+							if {_강화단계2} is "&e★★★&f★":
+								if {_돌이름} is "강화석γ":
+									if {_강화단계} is 6:
+										set {_강화확률} to (75 - (4.8 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.6%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											exit
+										else:
+											chance of 35%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+													message "마지막 : %{_강화확률}%" to player
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} - 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 0.6%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+													message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+													play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+													message "마지막 : %{_강화확률}%" to player
+												exit
+											else:
+												chance of 10%:
+													if {_하락방지} is true:
+														delete slot 32 of current inventory of player
+														message "&a&l장비의 2단계하락을 막았습니다." to player
+														message "마지막 : %{_강화확률}%" to player
+														exit
+													else:
+														set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} - 2%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 1.2%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+														message "&c&l장비가 2단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												message "마지막 : %{_강화확률}%" to player
+												exit
+									else if {_강화단계} is 1:
+										set {_강화확률} to (81 - (4.8 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.5%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+									else:
+										set {_강화확률} to (77 - (4.8 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.5%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											chance of 35%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} - 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 0.5%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												exit
+											else:
+												chance of 10%:
+													if {_하락방지} is true:
+														delete slot 32 of current inventory of player
+														message "&a&l장비의 2단계하락을 막았습니다." to player
+														play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+														set {_하락방지} to false
+														exit
+													else:
+														set slot 10 of current inventory of player to {_아이템} with lore "&e★★★&f★" and "&b%{_강화단계} - 2%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 1.2%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+														message "&c&l장비가 2단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												exit
+								else:
+									give 1 of {_돌} to player
+									message "&e&l단야사&f&l : &a&l무기에 맞는 강화석을 가져오게!" to player
+
+							#네더라이트 확률
+							if {_강화단계2} is "&e★★★★&f★":
+								if {_돌이름} is "강화석δ":
+									if {_강화단계} is 6:
+										set {_강화확률} to (80 - (7.2 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 1%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											message "마지막 : %{_강화확률}%" to player
+											set {강화업적1신호.%player%} to false
+											add 1 to {최대강화횟수.%player%}
+											exit
+										else:
+											chance of 50%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													message "마지막 : %{_강화확률}%" to player
+													set {_하락방지} to false
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} - 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 0.7%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												message "마지막 : %{_강화확률}%" to player
+												exit
+											else:
+												chance of 20%:
+													if {_하락방지} is true:
+														delete slot 32 of current inventory of player
+														message "&a&l장비의 2단계하락을 막았습니다." to player
+														play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+														message "마지막 : %{_강화확률}%" to player
+														set {_하락방지} to false
+														exit
+													else:
+														set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} - 2%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 1.4%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+														message "&c&l장비가 2단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												message "마지막 : %{_강화확률}%" to player
+												exit
+									else if {_강화단계} is 1:
+										set {_강화확률} to (78 - (7.2 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.7%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+											play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+											exit
+									else:
+										set {_강화확률} to (78 - (7.2 + {_강화단계}) * {_강화단계}) + {_행운석}
+										chance of {_강화확률}%:
+											set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.7%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+											message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+											play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+											exit
+										else:
+											chance of 50%:
+												if {_하락방지} is true:
+													delete slot 32 of current inventory of player
+													message "&a&l장비의 1단계하락을 막았습니다." to player
+													play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+													set {_하락방지} to false
+													exit
+												else:
+													set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} - 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 0.7%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+													message "&c&l장비가 1단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												exit
+											else:
+												chance of 20%:
+													if {_하락방지} is true:
+														delete slot 32 of current inventory of player
+														message "&a&l장비의 2단계하락을 막았습니다." to player
+														play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+														set {_하락방지} to false
+														exit
+													else:
+														set slot 10 of current inventory of player to {_아이템} with lore "&e★★★★&f★" and "&b%{_강화단계} - 2%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} - 1.4%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+														message "&c&l장비가 2단하락하였습니다" to player
+												message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+												play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+												exit
+								else:
+									give 1 of {_돌} to player
+									message "&e&l단야사&f&l : &a&l무기에 맞는 강화석을 가져오게!" to player
+						else:
+							message "&e&l단야사&f&l : &a&l자네! 무기가 다르지 않은가!" to player
+							exit
+				
+				#커스텀 무기 제외 강화
+				else:
+					if {결.%uuid of player%} is set:
+						delete {결.%uuid of player%}
+						send "%{결.%uuid of player%}%" to player
+						set {강화확인.%player%} to true
+						set {강화확인1.%player%} to true
+						wait 1.5 seconds
+						set {결.%uuid of player%} to true
+						set {_강화확률} to (100 - (7.2 + {_강화단계}) * {_강화단계}) + {_행운석}
+						chance of {_강화확률}%:
+							set slot 10 of current inventory of player to {_아이템} with lore "&c등급업 불가" and "&b%{_강화단계} + 1%단계" and "&e==============" and "&c + 공격력 %{_강화공격력} + 0.5%" and "&e==============" and "&2기본 추가 공격력 %{_기본공격력}%"
+							message "&e&l단야사&f&l : &a&l이보게나! 강화에 성공했다네. " to player
+							play sound "entity.player.levelup" with volume 0.4 and pitch 1 at player
+							exit
+						else:
+							message "&e&l단야사&f&l : &a&l으음, 강화에 실패했군. 오늘은 영 손이 안풀리는군" to player
+							play sound "item_shield_break" with volume 0.4 and pitch 1 at player
+							exit
+
+every 0.1 second:
+	loop all players:
+		if {강화확인1.%loop-player%} is set:
+			delete {강화확인1.%loop-player%}
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+			wait 0.5 second
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+			wait 0.5 second
+			play sound "block_anvil_place" with volume 0.4 and pitch 1 at loop-player
+
+every 0.1 second:
+	loop all players:
+		if {강화확인.%loop-player%} is set:
+			set {_강화석} to slot 13 of current inventory of loop-player
+			set {_강화석개수} to amount of {_강화석} in current inventory of loop-player - 1
+			set {_행운석} to slot 29 of current inventory of loop-player
+			set {_행운석개수} to amount of {_행운석} in current inventory of loop-player - 1
+			delete slot 29 of current inventory of loop-player
+			delete slot 13 of current inventory of  loop-player
+			set slot 13 of current inventory of  loop-player to {_강화석개수} of {_강화석}
+			set slot 29 of current inventory of  loop-player to {_행운석개수} of {_행운석}
+			delete {강화확인.%loop-player%}

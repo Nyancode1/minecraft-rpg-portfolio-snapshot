@@ -1,0 +1,239 @@
+on rightclick on entity:
+	if entity's name is "&5블랙마켓 관리인":
+		cancel event
+		open chest with 3 rows named "&5&l블랙마켓 매표소" to player
+		set {_slot} to 0
+		loop 27 times:
+			set slot {_slot} of current inventory of player to purple stained glass pane
+			add 1 to {_slot}
+		set slot 13 of current inventory of player to echo shard named "&5&l블랙마켓 입장권" with lore "&a가격 : 1000000원"
+
+on rightclick on entity:
+	if entity's name is "펫":
+		cancel event
+		open chest with 3 rows named "&5&l블랙마켓 매표소" to player
+		set {_slot} to 0
+		loop 27 times:
+			set slot {_slot} of current inventory of player to purple stained glass pane
+			add 1 to {_slot}
+		set slot 13 of current inventory of player to echo shard named "&5&l블랙마켓 입장권" with lore "&a가격 : 1000000원"
+
+on rightclick on entity:
+	if entity's name is "형판":
+		cancel event
+		open chest with 5 row named "&9&l형판상점" to player
+		play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+		set {_slot} to 0
+		loop 10 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 36
+		loop 45 times:
+			set slot {_slot} of current inventory of player to blue stained glass pane
+			add 1 to {_slot}
+		set slot 9 and 17 and 18 and 26 and 27 and 35 of current inventory of player to black stained glass pane
+		set slot 10 of current inventory of player to sentry armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 11 of current inventory of player to vex armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 12 of current inventory of player to wild armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 13 of current inventory of player to coast armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 14 of current inventory of player to dune armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 15 of current inventory of player to wayfinder armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 16 of current inventory of player to raiser armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 19 of current inventory of player to ward armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 20 of current inventory of player to snout armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 21 of current inventory of player to spire armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 22 of current inventory of player to silence armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 23 of current inventory of player to eye armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 24 of current inventory of player to shaper armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 25 of current inventory of player to host armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 28 of current inventory of player to tide armor trim smithing template with lore "&a가격 : 1000원"
+		set slot 29 of current inventory of player to rib armor trim smithing template with lore "&a가격 : 1000원"
+		
+on rightclick on entity:
+	if entity's name is "씨앗":
+		cancel event
+		open chest with 4 row named "&d&l식물상점" to player
+		play sound "block_wooden_door_open" with volume 1 and pitch 1.5 to the player
+		set {_slot} to 0
+		loop 10 times:
+			set slot {_slot} of current inventory of player to pink stained glass pane
+			add 1 to {_slot}
+		set {_slot} to 26
+		loop 36 times:
+			set slot {_slot} of current inventory of player to pink stained glass pane
+			add 1 to {_slot}
+		set slot 9 and 17 and 18 and 26 of current inventory of player to black stained glass pane
+		set slot 10 of current inventory of player to torchflower with lore "&c판매가격 : 300원"
+		set slot 11 of current inventory of player to pitcher plant with lore "&c판매가격 : 300원"
+		set slot 12 of current inventory of player to sniffer egg with lore "&c판매가격 : 1000원" and "&a가격 : 10000원"
+		set slot 13 of current inventory of player to spore blossom with lore "&c판매가격 : 500원"
+		set slot 14 of current inventory of player to glow berries with lore "&c판매가격 : 10원"
+		set slot 15 of current inventory of player to glow lichen with lore "&c판매가격 : 10원"
+		set slot 16 of current inventory of player to hanging roots with lore "&c판매가격 : 20원"
+		set slot 19 of current inventory of player to torchflower seeds with lore "&c판매가격 : 200원"
+		set slot 20 of current inventory of player to pitcher pod with lore "&c판매가격 : 200원"
+		set slot 21 of current inventory of player to crimson fungus with lore "&c판매가격 : 15원"
+		set slot 22 of current inventory of player to warped fungus with lore "&c판매가격 : 15원"
+		set slot 23 of current inventory of player to weeping vines with lore "&c판매가격 : 15원"
+		set slot 24 of current inventory of player to twisting vines with lore "&c판매가격 : 15원"
+		set slot 25 of current inventory of player to chorus fruit with lore "&c판매가격 : 20원"
+		
+on inventory click:
+	if inventory name is "&d&l식물상점":
+		if clicked raw slot is smaller than 36:
+			cancel event
+		if click type is left mouse button:
+			if clicked slot is 12:
+				set {_lore} to uncolored line 2 of lore of clicked item
+				replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+				set {_lore} to {_lore} parsed as integer
+				if {돈.%uuid of player%} is smaller than {_lore}:
+					send "&c돈이 부족합니다" to player
+					play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+				else:
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has enough space for {_item}:
+						give {_item} to player
+						send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+						subtract {_lore} from {돈.%uuid of player%}
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+					else:
+						send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is right mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is pink stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					if player has 1 of {_item}:
+						remove 1 of {_item} from player's inventory
+						add {_lore} to {돈.%uuid of player%}
+						send "&e&l%{_lore}%&a&l원을 벌었습니다!"
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+		else if click type is right mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is pink stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "판매가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					set {_item} to clicked item
+					delete lore of {_item}
+					set {_itemnumber} to amount of {_item} in inventory of player
+					if player has 1 of {_item}:
+						remove {_itemnumber} of {_item} from player's inventory
+						add {_lore}*{_itemnumber} to {돈.%uuid of player%}
+						send "&e&l%{_lore}*{_itemnumber}%&a&l원을 벌었습니다!" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 3 to the player
+					else:
+						send "&c아이템이 부족합니다" to player
+						play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+
+on inventory click:
+	if inventory name is "&5&l블랙마켓 매표소":
+		if clicked raw slot is smaller than 36:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is left mouse button with shift:
+			if clicked raw slot is smaller than 36:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}*64:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for 64 of {_item}:
+							give player 64 of {_item}
+							send "&e&l%{_lore}*64%&c&l원을 사용했습니다!" to player
+							subtract {_lore}*64 from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+on inventory click:
+	if inventory name is "&9&l형판상점":
+		if clicked raw slot is smaller than 45:
+			cancel event
+		if click type is left mouse button:
+			if clicked raw slot is smaller than 45:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for {_item}:
+							give {_item} to player
+							send "&e&l%{_lore}%&c&l원을 사용했습니다!" to player
+							subtract {_lore} from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+		else if click type is left mouse button with shift:
+			if clicked raw slot is smaller than 45:
+				if clicked item is orange stained glass pane or black stained glass pane:
+					cancel event
+				else:
+					set {_lore} to uncolored line 1 of lore of clicked item
+					replace all "가격 " and ":" and " " and "원" with "" in {_lore}
+					set {_lore} to {_lore} parsed as integer
+					if {돈.%uuid of player%} is smaller than {_lore}*64:
+						send "&c돈이 부족합니다" to player
+						play sound "entity_experience_orb_pickup" with volume 0.5 and pitch 1 to the player
+					else:
+						set {_item} to clicked item
+						delete lore of {_item}
+						if player has enough space for 64 of {_item}:
+							give player 64 of {_item}
+							send "&e&l%{_lore}*64%&c&l원을 사용했습니다!" to player
+							subtract {_lore}*64 from {돈.%uuid of player%}
+							play sound "ui_button_click" with volume 0.3 and pitch 3 to the player
+						else:
+							send "&c인벤토리에 충분한 공간이 없습니다!" to player
+				
+on rightclick with echo shard:
+	if name of player's tool contains "&5&l블랙마켓 입장권":
+		cancel event
+		remove 1 echo shard from player's tool
+		teleport player to location 362.488, 65, 648.568
+			

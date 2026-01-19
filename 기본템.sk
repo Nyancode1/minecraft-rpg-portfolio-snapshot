@@ -1,0 +1,314 @@
+#플레이어가 처음 들어왔을 때 메세지
+on first join:
+	set join message to "&e%player%&a님 서버에 오신 것을 환영합니다!"
+	set {직업.%player%} to "초보자"
+	set {결.%player%} to  true
+	set {수표개수.%player%} to true
+	set {들어감.%player%} to false
+	set {출입 변수.%player%} to true
+	set {출입 변수1.%player%} to true
+	set {출입 변수2.%player%} to true
+	set {출입 변수3.%player%} to true
+	set {초 세기.%player%} to 3.0
+	set {강화횟수.%player%} to 0
+	delete {나무등급업.%player%}
+	delete {돌등급업.%player%}
+	delete {철등급업.%player%}
+	delete {다이아등급업.%player%}
+	delete {대검차징.%player%}
+	set {튜토완.%player%} to false
+	set {튜토완1.%player%} to false
+	set {튜토대화.%player%} to false
+	delete {튜토대화1.%player%}
+	delete {튜토대화2.%player%}
+	delete {튜토대화3.%player%}
+	delete {닉넴.%player%}
+	delete {이동.%player%}
+	delete {이동x.%player%}
+	delete {move.%player%}
+	set {안가.%player%} to 0
+#서버 접속 메세지
+on join:
+	set title of player's scoreboard to "&6&l내 정보"
+	set {결.%uuid of player%} to true
+	set {내 정보.%player%} to true
+	set {들어감.%player%} to false
+	set {출입 변수.%player%} to true
+	set {출입 변수1.%player%} to true
+	set {출입 변수2.%player%} to true
+	set {출입 변수3.%player%} to true
+	set {초 세기.%player%} to 3.0
+	set {강화횟수.%player%} to 0
+	delete {나무등급업.%player%}
+	delete {돌등급업.%player%}
+	delete {철등급업.%player%}
+	delete {다이아등급업.%player%}
+	delete {대검차징.%player%}
+	if player is op:
+		set join message to ""
+	else:
+		set join message to "&e%player%&a님이 서버에 들어왔습니다."
+#서버 퇴장 메세지
+on quit:
+	if player is op:
+		set quit message to ""
+	else:
+		set quit message to "&e%player%&c님이 서버에서 나갔습니다."
+		
+on script load:
+	set {결.%uuid of all players%} to  true
+	set {내 정보.%all players%} to true
+	set {들어감.%all players%} to false
+	set {출입 변수.%all players%} to true
+	set {출입 변수1.%all players%} to true
+	set {출입 변수2.%all players%} to true
+	set {출입 변수3.%all players%} to true
+	set {초 세기.%all players%} to 3.0
+	set {강화횟수.%all players%} to 0
+	delete {나무등급업.%all players%}
+	delete {돌등급업.%all players%}
+	delete {철등급업.%all players%}
+	delete {다이아등급업.%all players%}
+	set {튜토완.%all players%} to false
+	set {튜토완1.%all players%} to false
+	set {튜토대화.%all players%} to false
+	delete {튜토대화1.%all players%}
+	delete {튜토대화2.%all players%}
+	delete {튜토대화3.%all players%}
+	delete {닉넴.%all players%}
+	delete {이동.%all players%}
+	delete {이동x.%all players%}
+	delete {move.%all players%}
+	set {안가.%all players%} to 0
+
+
+variables:
+	{내 정보.%player%} = true
+	{들어감.%player%} = false
+	{출입 변수.%player%} = true
+	{출입 변수1.%player%} = true
+	{출입 변수2.%player%} = true
+	{초 세기.%player%} = 3.0
+	
+on death:
+	if {직업.%victim%} is "초보자":
+		clear drops
+		keep the inventory
+		
+command /공지 [<string>]:
+	permission: 어드민
+	trigger:
+		if arg-1 is not set:
+			send "공지를 써주세요" to player
+		else:
+			send "&b&l<공지> &f%arg-1%" to all players
+			play sound "item_goat_horn_sound_1" with volume 1 and pitch 2 to all players
+	
+command /내정보끄기:
+	permission: 유저
+	trigger:
+		set {내 정보.%player%} to false
+
+command /내정보켜기:
+	permission: 유저
+	trigger:
+		set {내 정보.%player%} to true
+
+every 1 second:
+	loop all players:
+		if {내 정보.%loop-player%} is true:
+			set line 7 of loop-player's scoreboard to "&9======================"
+			set line 6 of loop-player's scoreboard to "&d&l직업 &f&l: &e&l[&a&l%{직업.%loop-player%}%&e&l]"
+			set line 5 of loop-player's scoreboard to "&a&l닉네임 &f&l: &e&l%loop-player%"
+			set line 4 of loop-player's scoreboard to "&6&l소지금 &f&l: &e&l%{돈.%uuid of loop-player%}%&6&l원"
+			set line 3 of loop-player's scoreboard to "&c&l현상금 &f&l: &e&l%{현상금.%loop-player%}%&6&l원"
+			set line 2 of loop-player's scoreboard to "&7&l현재시각 &7%now%"
+			set line 1 of loop-player's scoreboard to "&9======================"
+			wait 1 ticks
+		else if {내 정보.%loop-player%} is false:
+			delete line 7 of loop-player's scoreboard
+			delete line 6 of loop-player's scoreboard
+			delete line 5 of loop-player's scoreboard
+			delete line 4 of loop-player's scoreboard
+			delete line 3 of loop-player's scoreboard
+			delete line 2 of loop-player's scoreboard
+			delete line 1 of loop-player's scoreboard
+
+on enter "spawn":
+	play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+	send "&a&l이곳은 스폰지역입니다! pvp가 불가능하고 데미지를 받지 않습니다!" to player
+	
+on exit "spawn":
+	play sound "entity_experience_orb_pickup" with volume 0.4 and pitch 2 at player
+	send "&c&l이곳은 야생지역입니다! pvp가 가능하고 데미지를 받습니다!" to player
+	
+on enter "vi_en1":
+	play sound "entity_player_levelup" with volume 0.4 and pitch 1 at player
+	send title "&d&l[&a&l시자기마을&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+
+#상점가
+on enter "shop1":
+	if {들어감.%player%} is false:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l상점가&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+		set {들어감.%player%} to true
+	else:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l광장&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+
+on enter "shop2":
+	set {들어감.%player%} to false
+
+on enter "shop3":
+	set {들어감.%player%} to true
+
+#항구
+on enter "harbor1":
+	if {들어감.%player%} is false:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l항구&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+		set {들어감.%player%} to true
+	else:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l광장&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+
+#법원
+on enter "harbor2":
+	set {들어감.%player%} to false
+
+on enter "harbor3":
+	set {들어감.%player%} to true
+
+on enter "court1":
+	if {들어감.%player%} is false:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l재판소&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+		set {들어감.%player%} to true
+	else:
+		play sound "entity_player_levelup" with volume 0.6 and pitch 1 at player
+		send title "&d&l[&a&l광장&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+
+on enter "court2":
+	set {들어감.%player%} to false
+
+on enter "court3":
+	set {들어감.%player%} to true
+
+on enter "gambling1":
+	play sound "entity_player_levelup" with volume 0.4 and pitch 1 at player
+	send title "&d&l[&c&l도박장&d&l]" to player for 1 seconds and 1 ticks and 1 ticks
+	broadcast "&e&l%player%&c&l&f&l님이 &d&l[&c&l도박장&d&l]&f&l에 들어갔습니다"
+on exit "gambling1":
+	play sound "entity_player_levelup" with volume 0.4 and pitch 1 at player
+	broadcast "&e&l%player%&c&l&f&l님이 &d&l[&c&l도박장&d&l]&f&l에서 나가셨습니다"
+		
+
+variables:
+	{기본템.%player%} = false
+	{왈도업적.%player%} = false
+	{마켓업적.%player%} = false
+	{현상금업적.%player%} = false
+command /기본템:
+	permission: 유저
+	trigger:
+		if {기본템.%player%} is false:
+			give 1 iron pickaxe of unbreaking 2 named "&c[&d기본 곡괭이&c]" with lore "&a처음으로 지급되는 곡괭이" to player
+			give 1 iron axe of unbreaking 2 named "&c[&d기본 도끼&c]" with lore "&a처음으로 지급되는 도끼" to player
+			give 1 iron shovel of unbreaking 2 named "&c[&d기본 삽&c]" with lore "&a처음으로 지급되는 삽" to player
+			give 1 iron hoe of unbreaking 2 named "&c[&d기본 괭이&c]" with lore "&a처음으로 지급되는 괭이" to player
+			set {기본템.%player%} to true
+			send "&a기본템 지급 완료!" to player
+		else:
+			send "&c이미 지급 받으셨습니다"
+command /기본템리셋 [<player>]:
+	permission: 어드민
+	trigger:
+		if arg-1 is "%player%":
+			set {기본템.%player%} to false
+			send "&e%player%&a님의 기본템 명령어를 초기화 했습니다" to player
+
+command /도움말 [<string>]:
+	trigger:
+		if arg-1 is not set:
+			send "도움말 명령어을 쳐보세요." to player
+		if arg-1 is "명령어":
+			if player is op:
+				send " &e---------- &r명령어 창 (1/2) &e----------------------" to player
+				send " &7/도움말 &n해당 명령어&r&7를 치면 해당 명령어의 세부 사항을 띄웁니다." to player
+				send " &7/도움말 관리자[n]를 치면 서버의 op 명령어 띄웁니다." to player
+				send " &6/기본템: &r1회 한해 장비를 얻습니다." to player
+				send " &6/메뉴: &r GUI메뉴를 엽니다." to player
+				send " &6/spawn: &r스폰으로 이동합니다." to player
+				send " &6/돈: &r플레이어가 가지고 있는 돈을 봅니다." to player
+				send " &6/업적: &r해금된 업적을 확인합니다." to player
+				send " &6/수표: &r유저 또는 NPC에게 사용 할 수 있는 아이템을 얻습니다." to player
+				send " &6/현상금: &r유저가 가진 현상금을 보거나 유저에게 현상금을 겁니다." to player
+			else:
+				send " &e---------- &r명령어 창 (1/1) &e----------------------" to player
+				send " &7/도움말 &6&n해당 명령어&r&7를 치면 해당 명령어의 세부 사항을 띄웁니다." to player
+				send " &6/기본템: &r1회 한해 장비를 얻습니다." to player
+				send " &6/메뉴: &r GUI메뉴를 엽니다." to player
+				send " &6/spawn: &r스폰으로 이동합니다." to player
+				send " &6/돈: &r플레이어가 가지고 있는 돈을 봅니다." to player
+				send " &6/업적: &r해금된 업적을 확인합니다." to player
+				send " &6/가방: &r죽어도 잃지않는 인벤토리 창을 엽니다." to player
+				send " &6/수표: &r유저 또는 NPC에게 사용 할 수 있는 아이템을 얻습니다." to player
+				send " &6/현상금: &r유저가 가진 현상금을 보거나 유저에게 현상금을 겁니다." to player
+		if arg-1 is "명령어2":
+			if player is op:
+				send " &e---------- &r명령어 창 (2/2) &e----------------------" to player
+				send " &6/가방: &r죽어도 잃지않는 인벤토리 창을 엽니다." to player
+			else:
+				send "&c당신은 권한이 없습니다"
+
+		if arg-1 is "관리자1":
+			if player is op:
+				send " &e---------- &관리자 창 (1/3) &e----------------------" to player
+				send " &7/도움말 &6&n해당 명령어&r&7를 치면 해당 명령어의 세부 사항을 띄웁니다." to player
+				send " &7/도움말 관리자[n]를 치면 서버의 op 명령어 띄웁니다." to player
+				send " &6/sp: &r설명" to player
+				send " &6/기본템 리셋: &r설명" to player
+				send " &6/chatO: &r설명" to player
+				send " &6/chatX: &r설명" to player
+				send " &6/돈주기: &r설명" to player
+				send " &6/모든돈회수: &r설명" to player
+				send " &6/현상금추가: &r설명" to player
+			else:
+				send "&c당신은 권한이 없습니다"
+		if arg-1 is "관리자2":
+			if player is op:
+				send " &e---------- &관리자 창 (2/3) &e----------------------" to player
+				send " &7/도움말 &6&n해당 명령어&r&7를 치면 해당 명령어의 세부 사항을 띄웁니다." to player
+				send " &7/도움말 관리자[n]를 치면 서버의 op 명령어 띄웁니다." to player
+				send " &6/업적변수x: &r설명" to player
+				send " &6/돈회수: &r설명" to player
+				send " &6/가방권: &r설명" to player
+				send " &6/왈도: &r설명" to player
+				send " &6/npn: &r설명" to player
+				send " &6/대초: &r설명" to player
+				send " &6/히든: &r설명" to player
+			else:
+				send "&c당신은 권한이 없습니다"
+		if arg-1 is "관리자3":
+			if player is op:
+				send " &e---------- &관리자 창 (3/3) &e----------------------" to player
+				send " &7/도움말 &6&n해당 명령어&r&7를 치면 해당 명령어의 세부 사항을 띄웁니다." to player
+				send " &7/도움말 관리자[n]를 치면 서버의 op 명령어 띄웁니다." to player
+				send " &6/namepu: &r설명" to player
+				send " &6/히든권o: &r설명" to player
+				send " &6/히든권x: &r설명" to player
+				send " &6/상자: &r설명" to player
+				send " &6/로얄상자: &r설명" to player
+				send " &6/신: &r설명" to player
+			else:
+				send "&c당신은 권한이 없습니다"
+			
+command /sp:
+	permission: 어드민
+	trigger:
+		if player is op:
+			set {출입 변수.%player%} to true
+			{초 세기.%player%} = 3.0
+		else:
+			send "&c당신은 권한이 없습니다"
+				
